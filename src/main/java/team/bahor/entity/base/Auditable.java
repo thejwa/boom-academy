@@ -7,7 +7,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import team.bahor.entity.base.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class Auditable implements BaseEntity {
+public class Auditable implements BaseGenericEntity {
     @Id
     @Column(unique = true)
     private String id;

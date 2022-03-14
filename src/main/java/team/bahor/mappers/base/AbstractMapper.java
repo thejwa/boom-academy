@@ -2,6 +2,7 @@ package team.bahor.mappers.base;
 
 import team.bahor.dto.BaseGenericDto;
 import team.bahor.dto.GenericDto;
+import team.bahor.entity.base.BaseGenericEntity;
 
 import java.util.List;
 
