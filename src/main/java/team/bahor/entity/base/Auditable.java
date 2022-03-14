@@ -32,8 +32,8 @@ public class Auditable implements BaseGenericEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "is_deleted")
     private boolean deleted;
 
-    @Column(name = "is_deleted")
     private int status;
 }
