@@ -1,6 +1,5 @@
 package team.bahor.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
 import team.bahor.sercices.CourseService;
 
 
