@@ -15,8 +15,8 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor
 public class NotesToLessons extends Auditable {
-    @Column(nullable = false)
-    private String userId;
+    @Column(name = "created_by",nullable = false)
+    private String createdBy;
 
     @Column(nullable = false)
     private String title;

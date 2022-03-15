@@ -36,14 +36,54 @@ Courses:
     -certificated
   
   
-
 Section_of_course:
     -audit
     -courser_id
     -title
     -position
     -created_by
- 
+    -quizzed
+
+
+quiz_for_section:
+    -audit
+    -section_id
+    -duration
+    -question_count
+    -max_mark
+    -title
+    -description
+
+
+questions_of_quiz:
+    -audit
+    -quiz_id
+    -title
+    -type (ochiq/yopiq)
+    -mark
+
+
+answers_to_quiz_question:
+    -id (string)
+    -question_of_quiz_id
+    -title
+    -is_correct
+
+
+quizzes_users:
+    -audit
+    -user_id
+    -quiz_id
+    -mark
+    -percentage
+    -finishing_time
+
+
+user_quiz_questions:
+    -quiz_id
+    -is_correctly_solved
+    -quiz_question_id
+
 
 Lessons:
     -audit
@@ -233,14 +273,22 @@ roles:
 permissions:
     -name
     -id (string)
-    
-  
+
+
+question_types:
+    -id (string)
+    -name
+
+
 feedback_types:
     -name
-    -id (string)  
+    -id (string)
 
-    
-    
+
+category:
+    -name
+    -id (string)
+
     
     
     

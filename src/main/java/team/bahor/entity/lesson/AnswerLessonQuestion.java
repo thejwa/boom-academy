@@ -24,6 +24,6 @@ public class AnswerLessonQuestion extends Auditable {
     @Column(name = "created_by", nullable = false)
     private String createdBy;
 
-    @Column(name = "like_count", columnDefinition = "int2 default 0")
-    private short likeCount;
+    @Column(columnDefinition = "integer default 0")
+    private int likeCount;
 }
