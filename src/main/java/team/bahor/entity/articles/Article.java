@@ -18,15 +18,15 @@ public class Article extends Auditable {
     @Column(nullable = false)
     private String body;
 
-    @Column(columnDefinition = "int2 default 0")
-    private short likeCount;
+    @Column(columnDefinition = "integer default 0")
+    private int likeCount;
 
-    @Column(columnDefinition = "int2 default 0")
-    private short dislikeCount;
+    @Column(columnDefinition = "integer default 0")
+    private int dislikeCount;
 
     @Column(nullable = false)
     private String createdBy;
 
-    @Column(columnDefinition = "int2 default 0")
-    private short readCount;
+    @Column(columnDefinition = "integer default 0")
+    private int readCount;
 }

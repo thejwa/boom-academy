@@ -1,13 +1,15 @@
 package team.bahor;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
+import team.bahor.property.OpenApiProperty;
 
 @SpringBootApplication
+@EnableConfigurationProperties({
+        OpenApiProperty.class
+})
 @OpenAPIDefinition
 public class BoomAcademyApplication {
 

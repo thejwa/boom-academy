@@ -14,7 +14,6 @@ import team.bahor.property.OpenApiProperty;
 import java.util.List;
 
 @Configuration
-
 @ConditionalOnProperty(name = "springdoc.swagger-ui.enabled", havingValue = "true", matchIfMissing = true)
 public class OpenApiConfigurer {
 

@@ -21,17 +21,17 @@ public class Course extends Auditable {
 
     private String description;
 
-    private Integer purchase_count;
+    private Integer purchaseCount;
 
     @Column(nullable = false)
     private Double price;
 
     private Integer rating;
 
-    private Integer rating_count;
+    private Integer ratingCount;
 
     @Column(nullable = false)
-    private String created_by;
+    private String createdBy;
 
     @Column(nullable = false)
     private String category;
