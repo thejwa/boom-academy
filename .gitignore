@@ -32,10 +32,10 @@ build/
 ### VS Code ###
 .vscode/
 ### Java template
-# Compiled class file
+# Compiled class team.bahor.files
 *.class
 
-# Log file
+# Log team.bahor.files
 *.log
 
 # BlueJ files
@@ -115,7 +115,7 @@ cmake-build-*/
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
 
-# File-based project format
+# UploadFile-based project format
 *.iws
 
 # IntelliJ
@@ -139,6 +139,6 @@ fabric.properties
 # Editor-based Rest Client
 .idea/httpRequests
 
-# Android studio 3.1+ serialized cache file
+# Android studio 3.1+ serialized cache team.bahor.files
 .idea/caches/build_file_checksums.ser
 
