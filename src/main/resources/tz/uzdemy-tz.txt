@@ -172,7 +172,8 @@ rating_of_course:
 Comments (to courses):
     -audit
     -title
-    -created_at
+    -created_by
+    -comment_type
     -nimadir_id
     
     

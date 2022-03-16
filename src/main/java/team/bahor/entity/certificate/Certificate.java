@@ -1,4 +1,4 @@
-package team.bahor.entity.courses;
+package team.bahor.entity.certificate;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,11 +8,11 @@ import team.bahor.entity.base.Auditable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-public class RatingOfCourse extends Auditable {
+public class Certificate extends Auditable {
     @Column(nullable = false)
     private String courseId;
 
@@ -20,5 +20,6 @@ public class RatingOfCourse extends Auditable {
     private String userId;
 
     @Column(nullable = false)
-    private String rating;
+    private Double percentage;
+
 }

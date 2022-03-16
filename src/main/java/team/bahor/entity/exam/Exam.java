@@ -1,4 +1,4 @@
-package team.bahor.entity.quiz;
+package team.bahor.entity.exam;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,16 +7,19 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
+@Entity
 @Getter
 @Setter
-@Table(name = "quizzes")
-@Entity
 @NoArgsConstructor
-public class Quiz extends Auditable {
-    @Column(nullable = false)
-    private String sectionId;
+@Table(indexes = {
+        @Index(name = "title_exam_index", columnList = "title"),
+        @Index(name = "exam_course_id_index", columnList = "course_id")})
+public class Exam extends Auditable {
+    @Column(name = "course_id", nullable = false)
+    private String courseId;
 
     @Column(nullable = false)
     private Long duration; //milliseconds
@@ -31,7 +34,5 @@ public class Quiz extends Auditable {
     private String title;
 
     private String description;
+
 }
-
-
-

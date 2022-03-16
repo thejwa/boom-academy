@@ -7,23 +7,22 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-public class Section extends Auditable {
-
-    @Column(nullable = false,name = "course_id")
+public class CoursePurchaseHistory extends Auditable {
+    @Column(nullable = false)
     private String courseId;
 
     @Column(nullable = false)
-    private String title;
+    private String userId;
 
     @Column(nullable = false)
-    private Short position;
+    private Double payment_amount;
 
-    @Column(nullable = false)
-    private String createdBy;
+    private String coupon;
+
+    private Double discount; // -> discount will be given in percentages, if this field is null or equals to zero then there is no discount
 }

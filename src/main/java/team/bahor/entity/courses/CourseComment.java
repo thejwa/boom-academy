@@ -4,26 +4,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import team.bahor.entity.base.Auditable;
+import team.bahor.enums.types.CommentType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-public class Section extends Auditable {
-
-    @Column(nullable = false,name = "course_id")
-    private String courseId;
-
+public class CourseComment extends Auditable {
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private Short position;
+    private String createdBy;
 
     @Column(nullable = false)
-    private String createdBy;
+    private String somethingId; //this might be courseId or commentId
+
+    @Enumerated(EnumType.STRING)
+    private CommentType type;
 }

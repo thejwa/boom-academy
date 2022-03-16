@@ -1,4 +1,4 @@
-package team.bahor.entity.discount;
+package team.bahor.entity.exam;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,17 +9,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-public class Discount extends Auditable {
+public class ExamUser extends Auditable {
     @Column(nullable = false)
-    private String courseId;
+    private String userId;
+
+    @Column(nullable = false)
+    private String examId;
+
+    private Short mark;
 
     private Double percentage;
 
-    private Double amount;
-
-    private LocalDateTime dueDate;
+    private LocalDateTime finishingTime;
 }

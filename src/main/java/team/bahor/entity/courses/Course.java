@@ -40,4 +40,5 @@ public class Course extends Auditable {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean certificated;
 
+
 }
