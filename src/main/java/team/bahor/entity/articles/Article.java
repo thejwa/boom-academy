@@ -19,14 +19,14 @@ public class Article extends Auditable {
     private String body;
 
     @Column(columnDefinition = "integer default 0")
-    private int likeCount;
+    private Integer likeCount;
 
     @Column(columnDefinition = "integer default 0")
-    private int dislikeCount;
+    private Integer dislikeCount;
 
     @Column(nullable = false)
     private String createdBy;
 
     @Column(columnDefinition = "integer default 0")
-    private int readCount;
+    private Integer readCount;
 }

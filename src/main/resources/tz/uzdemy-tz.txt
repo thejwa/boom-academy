@@ -169,14 +169,15 @@ rating_of_course:
     -rating/baho
     
 
-Comments:
+Comments (to courses):
     -audit
-    -body
+    -title
+    -created_at
     -nimadir_id
     
     
 user_course:
-    -autdit
+    -audit
     -user_id
     -course_id
     -is_started
@@ -253,7 +254,13 @@ feedbacks:
     -title/message
 
 
-
+course_purchase_history:
+    -audit
+    -course_id
+    -user_id
+    -payment_amount
+    -coupon
+    -discount (percentage)
 
 
 =====================
@@ -290,8 +297,19 @@ category:
     -id (string)
 
     
-    
-    
+
+
+=======================
+Permissions -> version 2
+
+Roles:
+    -SUPER_ADMIN
+    -ADMIN
+    -ACCOUNTANT
+    -MANAGER
+    -SUPPORT
+    -USER
+
     
     
     

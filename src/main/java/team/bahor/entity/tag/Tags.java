@@ -1,4 +1,4 @@
-package team.bahor.entity.courses;
+package team.bahor.entity.tag;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,19 +7,18 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Getter
 @Setter
-@Table(name = "saved_courses")
 @Entity
 @NoArgsConstructor
-public class SavedCourse extends Auditable {
+public class Tags extends Auditable {
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private String courseId;
 
     @Column(nullable = false)
-    private String userId;
-
+    private String articleId;
 }

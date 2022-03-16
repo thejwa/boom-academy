@@ -1,4 +1,4 @@
-package team.bahor.entity.lesson;
+package team.bahor.entity.courses;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,19 +11,20 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@Table(name = "lesson_questions")
+@Table(name = "section_of_courses")
 @Entity
 @NoArgsConstructor
-public class LessonQuestion extends Auditable {
-    @Column(nullable = false)
-    private String lessonId;
+public class Section extends Auditable {
 
-    @Column(nullable =false)
+    @Column(nullable = false,name = "course_id")
+    private String courseId;
+
+    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private String createdBy;
+    private Short position;
 
-    @Column(columnDefinition = "integer default 0")
-    private Integer likeCount;
+    @Column(nullable = false)
+    private String createdBy;
 }
