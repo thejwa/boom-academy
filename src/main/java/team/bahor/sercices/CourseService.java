@@ -1,5 +1,6 @@
 package team.bahor.sercices;
 
+import org.springframework.stereotype.Service;
 import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
@@ -11,6 +12,7 @@ import team.bahor.validators.CourseValidator;
 
 import java.util.List;
 
+@Service
 public class CourseService extends AbstractService<
         CourseRepository,
         CourseMapper,

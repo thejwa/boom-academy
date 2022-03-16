@@ -35,7 +35,6 @@ public class OpenApiConfigurer {
                 .info(info());
 
     }
-
     private List<SecurityRequirement> getSecurityRequirement() {
         SecurityRequirement securityRequirement = new SecurityRequirement();
         securityRequirement.addList(SECURITY_SCHEME);
