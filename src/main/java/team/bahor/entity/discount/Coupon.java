@@ -1,4 +1,4 @@
-package team.bahor.entity.coupon;
+package team.bahor.entity.discount;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,18 +16,18 @@ import java.time.LocalDate;
 public class Coupon extends Auditable {
 
     @Column(nullable = false)
-    private String course_id;
+    private String courseId;
 
     @Column(nullable = false)
     private String code;
 
-    private LocalDate due_date;
+    private LocalDate dueDate;
 
-    private Integer limit_size;
+    private Integer limitSize;
 
-    private Integer discount_amount;
+    private Double discountAmount;
 
-    private Integer discount_percentage;
+    private Double discountPercentage;
 
 }
 

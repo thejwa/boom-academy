@@ -19,7 +19,7 @@ public class Lesson extends Auditable {
     private String sectionId;
 
     @Column(nullable = false)
-    private short position;
+    private Short position;
 
     @Column(nullable = false)
     private String content;

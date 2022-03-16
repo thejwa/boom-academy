@@ -1,4 +1,4 @@
-package team.bahor.entity.courses;
+package team.bahor.entity.discount;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,19 +7,19 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Table(name = "saved_courses")
 @Entity
 @NoArgsConstructor
-public class SavedCourse extends Auditable {
-
+public class Discount extends Auditable {
     @Column(nullable = false)
     private String courseId;
 
-    @Column(nullable = false)
-    private String userId;
+    private Double percentage;
 
+    private Double amount;
+
+    private LocalDateTime dueDate;
 }

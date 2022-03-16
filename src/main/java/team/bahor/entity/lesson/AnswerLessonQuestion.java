@@ -25,5 +25,5 @@ public class AnswerLessonQuestion extends Auditable {
     private String createdBy;
 
     @Column(columnDefinition = "integer default 0")
-    private int likeCount;
+    private Integer likeCount;
 }
