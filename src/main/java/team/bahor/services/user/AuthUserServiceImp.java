@@ -39,6 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @Service
@@ -50,7 +51,6 @@ public class AuthUserServiceImp extends AbstractService<
     private final JavaMailSender javaMailSender;
     private final ServerProperties serverProperties;
     private final ObjectMapper objectMapper;
-    private final AuthUserValidator validator;
 
     @Autowired
     public AuthUserServiceImp(@Lazy AuthUserMapper mapper,
@@ -58,13 +58,11 @@ public class AuthUserServiceImp extends AbstractService<
                               AuthUserRepository repository,
                               JavaMailSender javaMailSender,
                               ServerProperties serverProperties,
-                              ObjectMapper objectMapper,
-                              AuthUserValidator validator1) {
+                              ObjectMapper objectMapper) {
         super(mapper, validator, repository);
         this.javaMailSender = javaMailSender;
         this.serverProperties = serverProperties;
         this.objectMapper = objectMapper;
-        this.validator = validator1;
     }
 
     public ResponseEntity<DataDto<SessionDto>> getToken(AuthUserDto dto) {
@@ -126,9 +124,9 @@ public class AuthUserServiceImp extends AbstractService<
     @Override
     public String create(UserCreateDto createDto) {
 
-        boolean existsByEmail = repository.existsByEmail(createDto.getEmail());
-        if (existsByEmail)
-            throw new AuthUserEmailAlreadyTakenExeption("This email already taken");
+        AuthUser authUser = repository.existsByEmailOrUsername(createDto.getEmail(), createDto.getUsername());
+        if (Objects.nonNull(authUser))
+            throw new AuthUserEmailAlreadyTakenExeption("Bad request !!!");
 
         Random random = new Random();
         int ints = random.nextInt(10001, 99999);
