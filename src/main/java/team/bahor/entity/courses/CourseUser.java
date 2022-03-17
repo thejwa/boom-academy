@@ -8,26 +8,24 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-public class Section extends Auditable {
+public class CourseUser extends Auditable {
+    @Column(nullable = false)
+    private String userId;
 
-    @Column(nullable = false, name = "course_id")
+    @Column(nullable = false)
     private String courseId;
 
-    @Column(nullable = false)
-    private String title;
+    @Column(name = "is_started", columnDefinition = "NUMERIC default 0")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean started;
 
-    private String description;
-
-    @Column(nullable = false)
-    private Short position;
-
-    @Column(nullable = false)
-    private String createdBy;
+    private LocalDateTime startedAt;
 
     @Column(name = "is_completed", columnDefinition = "NUMERIC default 0")
     @Type(type = "org.hibernate.type.NumericBooleanType")

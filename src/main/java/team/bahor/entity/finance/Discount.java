@@ -1,4 +1,4 @@
-package team.bahor.entity.discount;
+package team.bahor.entity.finance;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

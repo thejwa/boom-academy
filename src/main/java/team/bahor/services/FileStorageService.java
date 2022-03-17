@@ -15,8 +15,8 @@ import team.bahor.exeptions.fileStore.StorageFileNotFoundException;
 import team.bahor.mappers.file.FileStorageMapper;
 import team.bahor.properties.FileStorageProperties;
 import team.bahor.repositories.FileStorageRepository;
-import team.bahor.sercices.base.AbstractService;
-import team.bahor.sercices.base.GenericCrudService;
+import team.bahor.services.base.AbstractService;
+import team.bahor.services.base.GenericCrudService;
 import team.bahor.validators.FileStorageValidator;
 
 import java.io.IOException;
@@ -37,10 +37,10 @@ public class FileStorageService extends AbstractService<
         FileStorageMapper,
         FileStorageValidator>
         implements GenericCrudService<
-        FileStorageDto,
-        FileStorageCreateDto,
-        FileStorageUpdateDto,
-        String> {
+            FileStorageDto,
+            FileStorageCreateDto,
+            FileStorageUpdateDto,
+            String> {
 
     private final Path rootLocation;
 

@@ -1,4 +1,4 @@
-package team.bahor.sercices.user;
+package team.bahor.services.user;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +9,7 @@ import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -30,7 +31,7 @@ import team.bahor.exeptions.user.AuthUserEmailAlreadyTakenExeption;
 import team.bahor.mappers.user.AuthUserMapper;
 import team.bahor.properties.ServerProperties;
 import team.bahor.repositories.auth.AuthUserRepository;
-import team.bahor.sercices.base.AbstractService;
+import team.bahor.services.base.AbstractService;
 import team.bahor.validators.user.AuthUserValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,23 +48,23 @@ public class AuthUserServiceImp extends AbstractService<
         AuthUserValidator> implements AuthUserService, UserDetailsService {
 
     private final JavaMailSender javaMailSender;
-    private final AuthUserRepository authUserRepository;
     private final ServerProperties serverProperties;
     private final ObjectMapper objectMapper;
+    private final AuthUserValidator validator;
 
     @Autowired
-    public AuthUserServiceImp(AuthUserMapper mapper,
+    public AuthUserServiceImp(@Lazy AuthUserMapper mapper,
                               AuthUserValidator validator,
                               AuthUserRepository repository,
                               JavaMailSender javaMailSender,
-                              AuthUserRepository authUserRepository,
                               ServerProperties serverProperties,
-                              ObjectMapper objectMapper) {
+                              ObjectMapper objectMapper,
+                              AuthUserValidator validator1) {
         super(mapper, validator, repository);
         this.javaMailSender = javaMailSender;
-        this.authUserRepository = authUserRepository;
         this.serverProperties = serverProperties;
         this.objectMapper = objectMapper;
+        this.validator = validator1;
     }
 
     public ResponseEntity<DataDto<SessionDto>> getToken(AuthUserDto dto) {
@@ -103,7 +104,7 @@ public class AuthUserServiceImp extends AbstractService<
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AuthUser user = authUserRepository.findByUsernameAndDeletedFalse(username).orElseThrow(() -> {
+        AuthUser user = repository.findByUsernameAndDeletedFalse(username).orElseThrow(() -> {
             throw new UsernameNotFoundException("User not found");
         });
         return User.builder()
@@ -119,13 +120,13 @@ public class AuthUserServiceImp extends AbstractService<
 
 
     public void blocked(String id) {
-        authUserRepository.blocked(id);
+        repository.blocked(id);
     }
 
     @Override
     public String create(UserCreateDto createDto) {
 
-        boolean existsByEmail = authUserRepository.existsByEmail(createDto.getEmail());
+        boolean existsByEmail = repository.existsByEmail(createDto.getEmail());
         if (existsByEmail)
             throw new AuthUserEmailAlreadyTakenExeption("This email already taken");
 
@@ -142,7 +143,7 @@ public class AuthUserServiceImp extends AbstractService<
 
     @Override
     public void delete(String id) {
-        authUserRepository.deleted(id);
+        repository.deleted(id);
     }
 
     @Override

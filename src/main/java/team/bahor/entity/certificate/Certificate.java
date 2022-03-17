@@ -1,4 +1,4 @@
-package team.bahor.entity.articles;
+package team.bahor.entity.certificate;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,19 +10,22 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
+@Entity
 @Getter
 @Setter
-@Table(name = "saved_articles", indexes = {
-        @Index(name = "alkfjalsdjflaksajlsjdfladsjflkd", columnList = "articleId"),
-        @Index(name = "dsd2o4rfhajklqw", columnList = "userId")
-})
-@Entity
 @NoArgsConstructor
-public class SavedArticle extends Auditable {
+@Table(indexes = {
+        @Index(name = "alksdfhrh2jdjs", columnList = "courseId"),
+        @Index(name = "ehfaorwaksj", columnList = "courseId")
+})
+public class Certificate extends Auditable {
     @Column(nullable = false)
-    private String articleId;
+    private String courseId;
 
     @Column(nullable = false)
     private String userId;
+
+    @Column(nullable = false)
+    private Double percentage;
 
 }

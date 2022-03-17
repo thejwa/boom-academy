@@ -7,7 +7,7 @@ import team.bahor.controller.AbstractController;
 import team.bahor.dto.auth.AuthUserDto;
 import team.bahor.dto.auth.SessionDto;
 import team.bahor.dto.responce.DataDto;
-import team.bahor.sercices.user.AuthUserServiceImp;
+import team.bahor.services.user.AuthUserServiceImp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -3,7 +3,6 @@ package team.bahor.entity.courses;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 import team.bahor.entity.base.Auditable;
 import team.bahor.enums.CourseCategory;
 
@@ -11,7 +10,11 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@Table(name = "courses")
+@Table(name = "courses", indexes = {
+        @Index(name = "indexjdlfsdfjdklsfjvksadfbkds", columnList = "name"),
+        @Index(name = "laskdfhelkjsd", columnList = "createdBy"),
+        @Index(name = "lasdkjadsflal", columnList = "category")
+})
 @Entity
 @NoArgsConstructor
 public class Course extends Auditable {
@@ -36,8 +39,6 @@ public class Course extends Auditable {
     @Enumerated(EnumType.STRING)
     private CourseCategory category;
 
-    @Column(name = "is_certificated", columnDefinition = "NUMERIC default 0")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean certificated;
+    private Short duration; // -> sertifikat olish uchun muddat
 
 }
