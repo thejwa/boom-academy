@@ -1,19 +1,18 @@
 package team.bahor.entity.user;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import team.bahor.entity.base.Auditable;
+import team.bahor.enums.Role;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.Valid;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
+
 @Table(name = "auth_users")
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class AuthUser extends Auditable {
 
@@ -22,11 +21,13 @@ public class AuthUser extends Auditable {
     @Column(nullable = false,unique = true)
     private String username;
 
+
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private String role_id;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     private Double balance;
 
@@ -37,4 +38,17 @@ public class AuthUser extends Auditable {
 
     @Column(nullable = false)
     private String phone;
+
+    @Builder(builderMethodName = "childBuilder")
+    public AuthUser(String id, LocalDateTime createdAt, LocalDateTime updatedAt, boolean deleted, int status, String fullName, String username, String password, Role role, Double balance, String photo_url, String email, String phone) {
+        super(id, createdAt, updatedAt, deleted, status);
+        this.fullName = fullName;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.balance = balance;
+        this.photo_url = photo_url;
+        this.email = email;
+        this.phone = phone;
+    }
 }

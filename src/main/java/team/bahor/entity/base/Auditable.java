@@ -1,7 +1,6 @@
 package team.bahor.entity.base;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,8 +11,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class Auditable implements BaseGenericEntity {

@@ -82,7 +82,7 @@ public class AuthUserService implements BaseGenericService, UserDetailsService {
         return User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-//                .authorities(user.getAuthority())
+                .authorities("ROLE_"+user.getRole())
                 .accountLocked(false)
                 .accountExpired(false)
                 .disabled(false)

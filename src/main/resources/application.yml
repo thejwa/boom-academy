@@ -8,7 +8,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/boom_academy?currentSchema=main
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -17,7 +17,7 @@ spring:
 
 springdoc:
   swagger-ui:
-    path: /sw
+    path: /swagger-ui
   api-docs:
     path: /api-docs
 
