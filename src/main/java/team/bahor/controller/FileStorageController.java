@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.bahor.dto.file.FileStorageCreateDto;
 import team.bahor.dto.file.FileStorageDto;
-import team.bahor.services.FileStorageService;
+import team.bahor.sercices.FileStorageService;
 
-import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/file/")

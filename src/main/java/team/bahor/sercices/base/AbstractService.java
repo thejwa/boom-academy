@@ -1,4 +1,4 @@
-package team.bahor.services.base;
+package team.bahor.sercices.base;
 
 import team.bahor.mappers.base.BaseGenericMapper;
 import team.bahor.repositories.base.BaseGenericRepository;

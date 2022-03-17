@@ -1,6 +1,6 @@
 package team.bahor.controller;
 
-import team.bahor.services.base.BaseGenericService;
+import team.bahor.sercices.base.BaseGenericService;
 
 public abstract class AbstractController<S extends BaseGenericService> {
     protected final S service;
