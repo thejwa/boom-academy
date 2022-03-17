@@ -89,4 +89,12 @@ public class AuthUserService implements BaseGenericService, UserDetailsService {
                 .credentialsExpired(false)
                 .build();
     }
+
+    public void deleted(String id) {
+        authUserRepository.deleted(id);
+    }
+
+    public void blocked(String id) {
+        authUserRepository.blocked(id);
+    }
 }

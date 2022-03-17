@@ -1,5 +1,5 @@
 server:
-  port: 2022
+  port: 8080
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -35,3 +35,9 @@ api:
 storage:
   location: /Users/macbookair/Documents/FileStorage/
 
+service:
+  prop:
+    protocol: http
+    ip: localhost
+    port: 8080
+    url: boom.uz

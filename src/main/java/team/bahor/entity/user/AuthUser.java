@@ -40,7 +40,8 @@ public class AuthUser extends Auditable {
     private String phone;
 
     @Builder(builderMethodName = "childBuilder")
-    public AuthUser(String id, LocalDateTime createdAt, LocalDateTime updatedAt, boolean deleted, int status, String fullName, String username, String password, Role role, Double balance, String photo_url, String email, String phone) {
+
+    public AuthUser(String id, LocalDateTime createdAt, LocalDateTime updatedAt, boolean deleted, Short status, String fullName, String username, String password, Role role, Double balance, String photo_url, String email, String phone) {
         super(id, createdAt, updatedAt, deleted, status);
         this.fullName = fullName;
         this.username = username;
