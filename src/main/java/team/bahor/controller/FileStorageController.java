@@ -8,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.bahor.dto.file.FileStorageCreateDto;
+import team.bahor.dto.file.FileStorageDto;
 import team.bahor.services.FileStorageService;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 @RestController
@@ -21,40 +23,41 @@ public class FileStorageController extends AbstractController<FileStorageService
         super(service);
     }
 
-    @PostMapping(value = "upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void store(@RequestBody FileStorageCreateDto dto) {
+    @PostMapping(value = "upload/{lessonId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void store(@PathVariable(name = "lessonId") String lessonId, @RequestBody MultipartFile multipartFile) {
 
-        String path = service.upload(dto);
+        FileStorageCreateDto dto = new FileStorageCreateDto();
+        dto.setFile(multipartFile);
+        dto.setLessonId(lessonId);
+        String fileId = service.create(dto);
 
-        System.out.print(path);
+        System.out.print(fileId);
     }
 
-    @GetMapping(value = "load/{filename:.+}")
-    public ResponseEntity<Path> getFile(@PathVariable String filename) {
-        Path path = service.load(filename);
-        return ResponseEntity.ok(path);
-    }
-
-    @GetMapping(value = "loadAsResource/{filename:.+}")
-    public ResponseEntity<Resource> getFileAsResource(@PathVariable String filename) {
-        Resource file = service.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    @GetMapping(value = "load/{id}")
+    public ResponseEntity<FileStorageDto> getFile(@PathVariable(name = "id") String id) {
+        FileStorageDto dto = service.get(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping(value = "loadAll")
-    public ResponseEntity<Stream<Path>> getAllFile() {
-        return ResponseEntity.ok(service.loadAll());
+    public ResponseEntity<List<FileStorageDto>> getAllFile() {
+        return ResponseEntity.ok(service.getAll());
     }
 
-    @GetMapping(value = "loadAllAsResource")
-    public ResponseEntity<Stream<Resource>> getAllFileAsResource() {
-        return ResponseEntity.ok(service.loadAllAsResource());
+    @GetMapping(value = "loadAsResource/{id}")
+    public ResponseEntity<Resource> getFileAsResource(@PathVariable(name = "id") String id) {
+
+        FileStorageDto fileStorageDto = service.getAsResource(id);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + fileStorageDto.getOriginalName() + "\"").body(fileStorageDto.getFile());
     }
 
-    @DeleteMapping(value = "deleteAll")
-    public void deleteAll() {
-        service.deleteAll();
+    @DeleteMapping(value = "delete/{id}")
+    public void deleteAll(@PathVariable(name = "id") String id) {
+        service.delete(id);
     }
 
 }
