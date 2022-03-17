@@ -7,24 +7,18 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Getter
 @Setter
-@Table(name = "section_of_courses")
 @Entity
 @NoArgsConstructor
-public class SectionOfCourse extends Auditable {
-
-    @Column(nullable = false,name = "course_id")
+public class RatingOfCourse extends Auditable {
+    @Column(nullable = false)
     private String courseId;
 
     @Column(nullable = false)
-    private String title;
+    private String userId;
 
     @Column(nullable = false)
-    private short position;
-
-    @Column(nullable = false)
-    private String created_by;
+    private String rating;
 }

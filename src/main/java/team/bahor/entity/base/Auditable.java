@@ -8,7 +8,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -37,5 +40,5 @@ public class Auditable implements BaseGenericEntity {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean deleted;
 
-    private int status;
+    private Short status;
 }

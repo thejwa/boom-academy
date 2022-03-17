@@ -1,9 +1,13 @@
 package team.bahor.validators;
 
+import org.springframework.stereotype.Component;
 import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseUpdateDto;
 import team.bahor.exeptions.ValidationException;
 
+import javax.validation.Valid;
+
+@Component
 public class CourseValidator extends AbstractValidator<
         CourseCreateDto,
         CourseUpdateDto,
