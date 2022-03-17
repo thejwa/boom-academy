@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import team.bahor.config.security.filters.CustomAuthenticationFilter;
 import team.bahor.config.security.filters.CustomAuthorizationFilter;
-import team.bahor.sercices.user.AuthUserService;
+import team.bahor.sercices.user.AuthUserServiceImp;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             "/api-docs/**",
     };
-    private final AuthUserService userService;
+    private final AuthUserServiceImp userService;
     private final PasswordEncoder passwordEncoder;
 
     @Override

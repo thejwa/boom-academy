@@ -2,22 +2,21 @@ package team.bahor.controller.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import team.bahor.controller.AbstractController;
 import team.bahor.dto.auth.AuthUserDto;
 import team.bahor.dto.auth.SessionDto;
 import team.bahor.dto.responce.DataDto;
-import team.bahor.sercices.user.AuthUserService;
+import team.bahor.sercices.user.AuthUserServiceImp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
-public class AuthUserController extends AbstractController<AuthUserService> {
+public class AuthUserController extends AbstractController<AuthUserServiceImp> {
 
-    public AuthUserController(AuthUserService service) {
+    public AuthUserController(AuthUserServiceImp service) {
         super(service);
     }
 
@@ -33,7 +32,7 @@ public class AuthUserController extends AbstractController<AuthUserService> {
 
     @RequestMapping(value = PATH+"/auth/deleted/{id}",method = RequestMethod.GET)
     public ResponseEntity<Void> deleted(@PathVariable String id){
-        service.deleted(id);
+        service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
