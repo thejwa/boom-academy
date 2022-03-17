@@ -25,5 +25,8 @@ public class QuizQuestion extends Auditable {
     private QuestionType type;
 
     @Column(nullable = false)
+    private Short position;
+
+    @Column(nullable = false)
     private Short mark;
 }

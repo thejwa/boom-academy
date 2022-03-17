@@ -22,7 +22,7 @@ public class CoursePurchaseHistory extends Auditable {
     @Column(nullable = false)
     private Double payment_amount;
 
-    private String coupon;
+    private String couponId;
 
     private Double discount; // -> discount will be given in percentages, if this field is null or equals to zero then there is no discount
 }

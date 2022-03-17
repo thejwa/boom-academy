@@ -11,7 +11,11 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@Table(name = "courses")
+@Table(name = "courses", indexes = {
+        @Index(name = "indexjdlfsdfjdklsfjvksadfbkds", columnList = "name"),
+        @Index(name = "laskdfhelkjsd", columnList = "createdBy"),
+        @Index(name = "lasdkjadsflal", columnList = "category")
+})
 @Entity
 @NoArgsConstructor
 public class Course extends Auditable {

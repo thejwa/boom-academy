@@ -6,15 +6,18 @@ import lombok.Setter;
 import team.bahor.entity.base.Auditable;
 import team.bahor.enums.types.CommentType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "course_comment_type_index", columnList = "type"),
+        @Index(name = "course_comment_created_by_index", columnList = "createdBy"),
+        @Index(name = "course_comment_parent_id_index", columnList = "parentId"),
+        @Index(name = "course_comment_course_id_index", columnList = "courseId")
+})
 public class CourseComment extends Auditable {
     @Column(nullable = false)
     private String title;
@@ -22,8 +25,11 @@ public class CourseComment extends Auditable {
     @Column(nullable = false)
     private String createdBy;
 
+    @Column(nullable = true)
+    private String parentId; //this might be courseId or commentId
+
     @Column(nullable = false)
-    private String somethingId; //this might be courseId or commentId
+    private String courseId;
 
     @Enumerated(EnumType.STRING)
     private CommentType type;
