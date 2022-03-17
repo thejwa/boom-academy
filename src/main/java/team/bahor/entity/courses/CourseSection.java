@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Section extends Auditable {
+public class CourseSection extends Auditable {
 
     @Column(nullable = false, name = "course_id")
     private String courseId;

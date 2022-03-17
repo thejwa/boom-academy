@@ -1,4 +1,4 @@
-package team.bahor.sercices;
+package team.bahor.services.file;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -14,7 +14,7 @@ import team.bahor.exeptions.fileStore.FileStorageException;
 import team.bahor.exeptions.fileStore.StorageFileNotFoundException;
 import team.bahor.mappers.file.FileStorageMapper;
 import team.bahor.properties.FileStorageProperties;
-import team.bahor.repositories.FileStorageRepository;
+import team.bahor.repositories.file.FileStorageRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.services.base.GenericCrudService;
 import team.bahor.validators.FileStorageValidator;
