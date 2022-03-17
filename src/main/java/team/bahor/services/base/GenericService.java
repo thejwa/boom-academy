@@ -1,4 +1,4 @@
-package team.bahor.sercices.base;
+package team.bahor.services.base;
 
 import team.bahor.dto.BaseGenericDto;
 
@@ -12,5 +12,5 @@ public interface GenericService <
 
     D get(K id);
 
-    List<D> getAll(K id);
+    List<D> getAll();
 }

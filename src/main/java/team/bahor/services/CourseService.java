@@ -1,4 +1,4 @@
-package team.bahor.sercices;
+package team.bahor.services;
 
 import org.springframework.stereotype.Service;
 import team.bahor.dto.course.CourseCreateDto;
@@ -6,8 +6,8 @@ import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
 import team.bahor.mappers.CourseMapper;
 import team.bahor.repositories.CourseRepository;
-import team.bahor.sercices.base.AbstractService;
-import team.bahor.sercices.base.GenericCrudService;
+import team.bahor.services.base.AbstractService;
+import team.bahor.services.base.GenericCrudService;
 import team.bahor.validators.CourseValidator;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class CourseService extends AbstractService<
     }
 
     @Override
-    public List<CourseDto> getAll(String id) {
+    public List<CourseDto> getAll() {
         return null;
     }
 }

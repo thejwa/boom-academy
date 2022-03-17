@@ -9,9 +9,12 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import team.bahor.property.OpenApiProperty;
 
 import java.util.List;
+import java.util.Properties;
 
 @Configuration
 @ConditionalOnProperty(name = "springdoc.swagger-ui.enabled", havingValue = "true", matchIfMissing = true)
@@ -65,6 +68,21 @@ public class OpenApiConfigurer {
                         .name(openApiProperty.getLicenseName())
                         .url(openApiProperty.getLicenseUrl())
                 );
+    }
+    @Bean
+    public JavaMailSender getJavaMailSender(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("dilshodbeka404@gmail.com");
+        mailSender.setPassword("@Qwertyu77");
+        Properties properties = mailSender.getJavaMailProperties();
+        properties.put("mail.transport.protocol", "smtp");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.debug", "true");
+        return mailSender;
+
     }
 
 }
