@@ -12,8 +12,8 @@ import team.bahor.dto.file.FileStorageUpdateDto;
 import team.bahor.entity.file.FileStorage;
 import team.bahor.exeptions.fileStore.FileStorageException;
 import team.bahor.exeptions.fileStore.StorageFileNotFoundException;
-import team.bahor.mappers.FileStorageMapper;
-import team.bahor.property.FileStorageProperties;
+import team.bahor.mappers.file.FileStorageMapper;
+import team.bahor.properties.FileStorageProperties;
 import team.bahor.repositories.FileStorageRepository;
 import team.bahor.sercices.base.AbstractService;
 import team.bahor.sercices.base.GenericCrudService;
@@ -53,7 +53,7 @@ public class FileStorageService extends AbstractService<
     public String create(FileStorageCreateDto createDto) {
 
         FileStorage fileStorage = mapper.fromCreateDto(createDto);
-        fileStorage = uploadFile(createDto.getFile(), fileStorage);
+        fileStorage = uploadAnyFile(createDto.getFile(), fileStorage);
         fileStorage.setId(UUID.randomUUID().toString().replace("-", ""));
         repository.save(fileStorage);
 
@@ -119,12 +119,23 @@ public class FileStorageService extends AbstractService<
         return mapper.toDto(fileStorages);
     }
 
-    public FileStorage uploadFile(MultipartFile file, FileStorage fileStorage) {
+    public String uploadVideoFile(MultipartFile multipartFile, String lessonId) {
+
+        validator.checkVideoFile(multipartFile);
+        FileStorage fileStorage = uploadAnyFile(multipartFile, new FileStorage());
+        fileStorage.setId(UUID.randomUUID().toString().replace("-", ""));
+        fileStorage.setLessonId(lessonId);
+        repository.save(fileStorage);
+
+        return fileStorage.getPath();
+
+    }
+
+    public FileStorage uploadAnyFile(MultipartFile file, FileStorage fileStorage) {
 
         String format = StringUtils.getFilenameExtension(file.getOriginalFilename());
         String generatedName = UUID.randomUUID().toString().replace("-", "") + "." + format;
-        String filePath = rootLocation.toString() + "/" + generatedName;
-        Path path = Paths.get(filePath);
+        Path path = Paths.get(rootLocation.toString(), generatedName);
 
         try {
             Files.copy(file.getInputStream(), path);
@@ -135,7 +146,7 @@ public class FileStorageService extends AbstractService<
         fileStorage.setGeneratedName(generatedName);
         fileStorage.setOriginalName(file.getOriginalFilename());
         fileStorage.setType(file.getContentType());
-        fileStorage.setPath(filePath);
+        fileStorage.setPath(path.toString());
 
         return fileStorage;
     }

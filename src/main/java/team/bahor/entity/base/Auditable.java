@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+//@Builder
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class Auditable implements BaseGenericEntity {

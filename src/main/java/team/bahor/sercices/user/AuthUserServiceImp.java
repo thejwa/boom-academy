@@ -156,7 +156,7 @@ public class AuthUserServiceImp extends AbstractService<
     }
 
     @Override
-    public List<UserDto> getAll(String id) {
+    public List<UserDto> getAll() {
         return null;
     }
 

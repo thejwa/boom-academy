@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import team.bahor.property.OpenApiProperty;
+import team.bahor.properties.OpenApiProperty;
 
 import java.util.List;
 import java.util.Properties;

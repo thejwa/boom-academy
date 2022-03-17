@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
-@Table(name = "auth_users")
+@Table(schema = "auth_users")
 @Entity
 @Getter
 @Setter
