@@ -1,10 +1,22 @@
 package team.bahor.dto.file;
 
-import org.springframework.web.multipart.MultipartFile;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.core.io.Resource;
+import team.bahor.dto.GenericDto;
 
-public class FileStorageDto {
+@Getter
+@Setter
+public class FileStorageDto extends GenericDto {
 
     String lessonId;
-    MultipartFile file;
+
+    Resource file;
+
+    String path;
+
+    String originalName;
+
+    String type;
 
 }

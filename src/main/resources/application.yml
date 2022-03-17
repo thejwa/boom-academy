@@ -33,7 +33,7 @@ api:
     contact-url: https://boom.uz, https://boom-academy.uz
 
 storage:
-  location: /Users/macbookair/Documents/FileStorage/
+  location: /Users/macbookair/Documents/FileStorage/resource/
 
 service:
   prop:

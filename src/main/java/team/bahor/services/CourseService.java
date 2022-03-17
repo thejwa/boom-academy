@@ -48,7 +48,7 @@ public class CourseService extends AbstractService<
     }
 
     @Override
-    public List<CourseDto> getAll(String id) {
+    public List<CourseDto> getAll() {
         return null;
     }
 }
