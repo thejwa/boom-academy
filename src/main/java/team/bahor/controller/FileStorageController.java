@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import team.bahor.sercices.FileStorageService;
+import team.bahor.services.FileStorageService;
 
 import java.nio.file.Path;
 import java.util.stream.Stream;

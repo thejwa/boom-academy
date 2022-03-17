@@ -1,6 +1,5 @@
-package team.bahor.sercices;
+package team.bahor.services;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import team.bahor.exeptions.fileStore.FileStorageException;
 import team.bahor.exeptions.fileStore.StorageFileNotFoundException;
 import team.bahor.property.FileStorageProperties;
-import team.bahor.sercices.base.BaseGenericService;
+import team.bahor.services.base.BaseGenericService;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

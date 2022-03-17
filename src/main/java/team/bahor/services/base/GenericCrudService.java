@@ -1,4 +1,4 @@
-package team.bahor.sercices.base;
+package team.bahor.services.base;
 
 import team.bahor.dto.BaseGenericDto;
 import team.bahor.dto.GenericDto;

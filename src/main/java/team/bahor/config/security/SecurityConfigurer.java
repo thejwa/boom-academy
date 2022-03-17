@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import team.bahor.config.security.filters.CustomAuthenticationFilter;
 import team.bahor.config.security.filters.CustomAuthorizationFilter;
-import team.bahor.sercices.user.AuthUserServiceImp;
+import team.bahor.services.user.AuthUserServiceImp;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
