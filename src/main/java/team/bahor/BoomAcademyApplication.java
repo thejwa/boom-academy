@@ -18,5 +18,4 @@ public class BoomAcademyApplication {
         SpringApplication.run(BoomAcademyApplication.class, args);
     }
 
-
 }

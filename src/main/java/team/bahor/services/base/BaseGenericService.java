@@ -1,4 +1,4 @@
-package team.bahor.sercices.base;
+package team.bahor.services.base;
 
 public interface BaseGenericService {
 }

@@ -1,22 +1,28 @@
-package team.bahor.sercices;
+package team.bahor.services;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import team.bahor.dto.file.FileStorageCreateDto;
+import team.bahor.entity.lesson.Lesson;
 import team.bahor.exeptions.fileStore.FileStorageException;
 import team.bahor.exeptions.fileStore.StorageFileNotFoundException;
 import team.bahor.property.FileStorageProperties;
-import team.bahor.sercices.base.BaseGenericService;
+import team.bahor.repositories.LessonRepository;
+import team.bahor.services.base.BaseGenericService;
+import team.bahor.validators.LessonValidator;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -42,9 +48,9 @@ public class FileStorageService implements BaseGenericService {
         return filePath;
     }
 
-    public Stream<Path> loadAll() {
+    public Stream<Path>loadAll() {
         try {
-            return Files.walk(this.rootLocation, 1)
+            return Files.walk(this.rootLocation)
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(path -> this.rootLocation.relativize(path));
         } catch (IOException e) {
@@ -54,6 +60,22 @@ public class FileStorageService implements BaseGenericService {
 
     public Path load(String filename) {
         return rootLocation.resolve(filename);
+    }
+
+    public Stream<Resource> loadAllAsResource() {
+        List<Resource> resources = new ArrayList<>();
+        Stream<Path> pathStream = loadAll();
+        pathStream.forEach(path -> {
+            try {
+                Resource resource = new UrlResource(path.toUri());
+                resources.add(resource);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return resources.stream();
+
     }
 
     public Resource loadAsResource(String filename) {
