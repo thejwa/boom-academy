@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,10 +28,13 @@ import team.bahor.dto.user.UserCreateDto;
 import team.bahor.dto.user.UserDto;
 import team.bahor.dto.user.UserUpdateDto;
 import team.bahor.entity.user.AuthUser;
+import team.bahor.entity.user.UserActivationCode;
+import team.bahor.enums.Role;
 import team.bahor.exeptions.user.AuthUserEmailAlreadyTakenExeption;
 import team.bahor.mappers.user.AuthUserMapper;
 import team.bahor.properties.ServerProperties;
 import team.bahor.repositories.auth.AuthUserRepository;
+import team.bahor.repositories.auth.UserActivationCodeRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.validators.user.AuthUserValidator;
 
@@ -40,7 +44,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class AuthUserServiceImp extends AbstractService<
@@ -51,6 +55,7 @@ public class AuthUserServiceImp extends AbstractService<
     private final JavaMailSender javaMailSender;
     private final ServerProperties serverProperties;
     private final ObjectMapper objectMapper;
+    private final UserActivationCodeRepository userActivationCodeRepository;
 
     @Autowired
     public AuthUserServiceImp(@Lazy AuthUserMapper mapper,
@@ -58,11 +63,12 @@ public class AuthUserServiceImp extends AbstractService<
                               AuthUserRepository repository,
                               JavaMailSender javaMailSender,
                               ServerProperties serverProperties,
-                              ObjectMapper objectMapper) {
+                              ObjectMapper objectMapper, UserActivationCodeRepository userActivationCodeRepository) {
         super(mapper, validator, repository);
         this.javaMailSender = javaMailSender;
         this.serverProperties = serverProperties;
         this.objectMapper = objectMapper;
+        this.userActivationCodeRepository = userActivationCodeRepository;
     }
 
     public ResponseEntity<DataDto<SessionDto>> getToken(AuthUserDto dto) {
@@ -125,18 +131,23 @@ public class AuthUserServiceImp extends AbstractService<
     public String create(UserCreateDto createDto) {
 
         AuthUser authUser = repository.existsByEmailOrUsername(createDto.getEmail(), createDto.getUsername());
+
         if (Objects.nonNull(authUser))
             throw new AuthUserEmailAlreadyTakenExeption("Bad request !!!");
 
-        Random random = new Random();
-        int ints = random.nextInt(10001, 99999);
-        System.out.println("random = " + ints);
+        String random = UUID.randomUUID().toString();
 
-        Boolean sendEmail = sendEmail(createDto.getEmail(), random.toString());
+        authUser = mapper.fromCreateDto(createDto);
+        authUser.setRole(Role.USER);
+        authUser.setStatus((short) 110);
+        AuthUser save = repository.save(authUser);
 
-        if (sendEmail)
-            return "Account created. You can activated account with email !!!";
-        return "Email no Created";
+        UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail());
+        userActivationCodeRepository.save(userActivationCode);
+
+        sendEmail(createDto.getEmail(), random);
+
+        return "Account created. You can activated account with email !!!";
     }
 
     @Override
@@ -159,13 +170,26 @@ public class AuthUserServiceImp extends AbstractService<
         return null;
     }
 
-    public Boolean sendEmail(String sendingEmail, String key) {
+    public String verifyEmail(String activationCode, String email){
+        //Todo checked time
+        UserActivationCode userActivationCode = userActivationCodeRepository.checkingCode(activationCode, email);
+
+        if (Objects.isNull(userActivationCode))
+            return "No Activation";
+
+        repository.changeStatus(userActivationCode.getUserId());
+        return "Activation";
+    }
+
+    @Async
+    public boolean sendEmail(String sendingEmail, String key) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("boom_academy@gmail.com");
             message.setTo(sendingEmail);
-            message.setSubject("SECRET REGISTRATION KEY");
-            message.setText(key + " this is the secret key for you to register from the system please do not give it to anyone");
+            message.setSubject("SECURITY REGISTRATION");
+            message.setText("<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + key + "&email=" + sendingEmail + "'>Confirmation</a>");
+            System.out.println("message = " + "<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + key + "&email=" + sendingEmail + "'>Confirmation</a>");
             javaMailSender.send(message);
             return true;
         } catch (Exception e) {

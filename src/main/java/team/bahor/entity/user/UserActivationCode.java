@@ -30,7 +30,7 @@ public class UserActivationCode implements BaseGenericEntity {
 
     @CreatedDate
     @CreationTimestamp
-    @Column(name = "active_time", columnDefinition = "timestamp default now()")
+    @Column(name = "active_time", columnDefinition = "timestamp default (now()+ interval '2 hour')")
     private LocalDateTime activeTime;
 
     @Column(name = "user_id", nullable = false)
@@ -46,4 +46,9 @@ public class UserActivationCode implements BaseGenericEntity {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean usedCode;
 
+    public UserActivationCode(String userId, String activationCode, String email) {
+        this.userId = userId;
+        this.activationCode = activationCode;
+        this.email = email;
+    }
 }
