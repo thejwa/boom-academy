@@ -7,11 +7,15 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Getter
 @Setter
-@Table(name = "quizzes")
+@Table(name = "quizzes", indexes = {
+        @Index(name = "quiz_status_index", columnList = "status"),
+        @Index(name = "quiz_section_id_index", columnList = "sectionId")
+})
 @Entity
 @NoArgsConstructor
 public class Quiz extends Auditable {

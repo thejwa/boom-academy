@@ -7,13 +7,18 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Getter
 @Setter
-@Table(name = "lesson_questions")
 @Entity
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "lesson_question_status_index", columnList = "status"),
+        @Index(name = "lesson_question_lesson_id_index", columnList = "lessonId"),
+        @Index(name = "lesson_question_created_by_index", columnList = "createdBy")
+})
 public class LessonQuestion extends Auditable {
     @Column(nullable = false)
     private String lessonId;

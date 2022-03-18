@@ -12,7 +12,10 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@Table(name = "articles", indexes = @Index(name = "articleuserindexsjs", columnList = "created_by"))
+@Table(name = "articles", indexes = {
+        @Index(name = "article_created_by_index", columnList = "created_by"),
+        @Index(name = "article_status_index", columnList = "status")
+})
 @Entity
 @NoArgsConstructor
 public class Article extends Auditable {

@@ -1,4 +1,4 @@
-package team.bahor.controller;
+package team.bahor.controller.file;
 
 
 import org.springframework.core.io.Resource;
@@ -7,9 +7,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import team.bahor.controller.AbstractController;
 import team.bahor.dto.file.FileStorageCreateDto;
 import team.bahor.dto.file.FileStorageDto;
-import team.bahor.sercices.FileStorageService;
+import team.bahor.services.file.FileStorageService;
 
 import java.util.List;
 

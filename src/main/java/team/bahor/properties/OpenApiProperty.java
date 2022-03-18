@@ -1,4 +1,4 @@
-package team.bahor.property;
+package team.bahor.properties;
 
 import lombok.Getter;
 import lombok.Setter;

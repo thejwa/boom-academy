@@ -11,9 +11,12 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@Table(name = "lessons")
 @Entity
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "quiz_question_status_index", columnList = "status"),
+        @Index(name = "quiz_question_quiz_id_index", columnList = "quizId")
+})
 public class QuizQuestion extends Auditable {
     @Column(nullable = false)
     private String quizId;
