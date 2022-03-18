@@ -74,7 +74,7 @@ public class OpenApiConfigurer {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("dilshodbeka404@gmail.com");
+        mailSender.setUsername("dilshooodbek99akhmedov7604@gmail.com");
         mailSender.setPassword("@Qwertyu77");
         Properties properties = mailSender.getJavaMailProperties();
         properties.put("mail.transport.protocol", "smtp");

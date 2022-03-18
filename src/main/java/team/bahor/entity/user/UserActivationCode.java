@@ -4,16 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import org.springframework.data.annotation.CreatedDate;
 import team.bahor.entity.base.BaseGenericEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Getter
@@ -23,14 +20,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserActivationCode implements BaseGenericEntity {
-
     @Id
-    @Column(unique = true)
-    private String id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
-    @CreatedDate
-    @CreationTimestamp
-    @Column(name = "active_time", columnDefinition = "timestamp default now()")
+    @Column(name = "active_time", columnDefinition = "timestamp default now() + interval '2 hours'")
     private LocalDateTime activeTime;
 
     @Column(name = "user_id", nullable = false)
@@ -46,4 +45,9 @@ public class UserActivationCode implements BaseGenericEntity {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean usedCode;
 
+    public UserActivationCode(String userId, String activationCode, String email) {
+        this.userId = userId;
+        this.activationCode = activationCode;
+        this.email = email;
+    }
 }

@@ -22,8 +22,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/api/login",
             "/api/v1/refresh-token",
             "/api/v1/auth/token",
+            "/api/v1/auth/register",
+            "/api/auth/verifyEmail",
             "/swagger-ui/**",
-            "/api-docs/**",
+            "/api-docs/**"
     };
     private final AuthUserServiceImp userService;
     private final PasswordEncoder passwordEncoder;

@@ -20,6 +20,7 @@ import javax.persistence.Table;
         @Index(name = "notes_to_lessons_lesson_id_index", columnList = "lessonId"),
 })
 public class NotesToLessons extends Auditable {
+
     @Column(name = "created_by",nullable = false)
     private String createdBy;
 
