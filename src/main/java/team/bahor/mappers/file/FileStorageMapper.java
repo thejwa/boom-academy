@@ -1,4 +1,4 @@
-package team.bahor.mappers;
+package team.bahor.mappers.file;
 
 import org.mapstruct.Mapper;
 import team.bahor.dto.file.FileStorageCreateDto;

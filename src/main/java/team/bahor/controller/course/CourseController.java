@@ -1,10 +1,11 @@
-package team.bahor.controller;
+package team.bahor.controller.course;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import team.bahor.controller.AbstractController;
 import team.bahor.dto.course.CourseDto;
-import team.bahor.services.CourseService;
+import team.bahor.services.course.CourseService;
 
 @RestController(value = "/course/")
 public class CourseController extends AbstractController<CourseService> {

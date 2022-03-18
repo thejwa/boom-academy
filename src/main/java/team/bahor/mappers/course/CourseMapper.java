@@ -1,4 +1,4 @@
-package team.bahor.mappers;
+package team.bahor.mappers.course;
 
 import org.mapstruct.Mapper;
 import team.bahor.dto.course.CourseCreateDto;

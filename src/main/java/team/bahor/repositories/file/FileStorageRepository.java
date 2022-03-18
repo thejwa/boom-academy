@@ -1,4 +1,4 @@
-package team.bahor.repositories;
+package team.bahor.repositories.file;
 
 import org.springframework.stereotype.Repository;
 import team.bahor.entity.file.FileStorage;

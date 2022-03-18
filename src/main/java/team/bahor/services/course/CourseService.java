@@ -1,11 +1,11 @@
-package team.bahor.services;
+package team.bahor.services.course;
 
 import org.springframework.stereotype.Service;
 import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
-import team.bahor.mappers.CourseMapper;
-import team.bahor.repositories.CourseRepository;
+import team.bahor.mappers.course.CourseMapper;
+import team.bahor.repositories.course.CourseRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.services.base.GenericCrudService;
 import team.bahor.validators.CourseValidator;
