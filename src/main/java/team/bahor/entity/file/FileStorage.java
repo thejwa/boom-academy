@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Setter
-@Table(schema = "lessons")
 public class FileStorage extends Auditable {
 
     @Column(nullable = false)
