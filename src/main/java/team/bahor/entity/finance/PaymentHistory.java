@@ -7,15 +7,17 @@ import team.bahor.entity.base.Auditable;
 import team.bahor.enums.Currency;
 import team.bahor.enums.types.PaymentType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "payment_history_status_index", columnList = "status"),
+        @Index(name = "payment_history_user_id_index", columnList = "userId"),
+        @Index(name = "payment_history_type_index", columnList = "type")
+})
 public class PaymentHistory extends Auditable {
     @Column(nullable = false)
     private String userId;

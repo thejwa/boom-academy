@@ -5,18 +5,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import team.bahor.entity.base.BaseGenericEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
-@Table(name = "user_data")
+@Table(name = "user_data", indexes = {
+        @Index(name = "user_date_user_id_index", columnList = "userId")
+})
 @Entity
 @NoArgsConstructor
 public class UserData implements BaseGenericEntity {
     @Id
+    @Column(unique = true)
     private String id;
 
     @Column(nullable = false)

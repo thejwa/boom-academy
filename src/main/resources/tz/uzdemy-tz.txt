@@ -38,7 +38,7 @@ Courses:
   
 Section_of_course:
     -audit
-    -courser_id
+    -course_id
     -title
     -position
     -created_by

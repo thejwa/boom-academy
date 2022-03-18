@@ -13,8 +13,9 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Table(name = "saved_articles", indexes = {
-        @Index(name = "alkfjalsdjflaksajlsjdfladsjflkd", columnList = "articleId"),
-        @Index(name = "dsd2o4rfhajklqw", columnList = "userId")
+        @Index(name = "saved_article_article_id_index", columnList = "articleId"),
+        @Index(name = "saved_article_user_id_index", columnList = "userId"),
+        @Index(name = "saved_article_status_index", columnList = "status")
 })
 @Entity
 @NoArgsConstructor
