@@ -15,8 +15,10 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 @Table(indexes = {
-        @Index(name = "title_exam_index", columnList = "title"),
-        @Index(name = "exam_course_id_index", columnList = "course_id")})
+        @Index(name = "exam_title_index", columnList = "title"),
+        @Index(name = "exam_course_id_index", columnList = "course_id"),
+        @Index(name = "exam_status_index",columnList = "status")
+})
 public class Exam extends Auditable {
     @Column(name = "course_id", nullable = false)
     private String courseId;

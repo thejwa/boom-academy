@@ -15,8 +15,9 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 @Table(indexes = {
-        @Index(name = "alksdfhrh2jdjs", columnList = "courseId"),
-        @Index(name = "ehfaorwaksj", columnList = "courseId")
+        @Index(name = "certificate_course_id_index", columnList = "courseId"),
+        @Index(name = "certificate_user_id_index", columnList = "courseId"),
+        @Index(name = "certificate_status_index", columnList = "status")
 })
 public class Certificate extends Auditable {
     @Column(nullable = false)

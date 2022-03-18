@@ -6,15 +6,17 @@ import lombok.Setter;
 import team.bahor.entity.base.Auditable;
 import team.bahor.enums.types.QuestionType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "exam_question_status_index", columnList = "status"),
+        @Index(name = "exam_question_exam_id_index", columnList = "examId"),
+        @Index(name = "exam_question_status_index", columnList = "status"),
+})
 public class ExamQuestion extends Auditable {
     @Column(nullable = false)
     private String examId;

@@ -5,14 +5,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "exam_question_user_exam_id_index", columnList = "examId"),
+        @Index(name = "exam_question_user_exam_question_id_index", columnList = "examQuestionId"),
+})
 public class ExamQuestionUser {
     @Id
     @Column(unique = true)

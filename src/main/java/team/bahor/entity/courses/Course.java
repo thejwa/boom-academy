@@ -11,9 +11,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "courses", indexes = {
-        @Index(name = "indexjdlfsdfjdklsfjvksadfbkds", columnList = "name"),
-        @Index(name = "laskdfhelkjsd", columnList = "createdBy"),
-        @Index(name = "lasdkjadsflal", columnList = "category")
+        @Index(name = "course_name_index", columnList = "name"),
+        @Index(name = "course_created_by_index", columnList = "createdBy"),
+        @Index(name = "course_category_index", columnList = "category"),
+        @Index(name = "course_status_index", columnList = "status")
+
 })
 @Entity
 @NoArgsConstructor

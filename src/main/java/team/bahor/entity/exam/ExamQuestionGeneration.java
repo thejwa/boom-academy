@@ -10,7 +10,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(indexes = @Index(name = "exam_id_eqg_index", columnList = "exam_id"))
+@Table(indexes = {
+        @Index(name = "exam_question_generation_exam_id_index", columnList = "exam_id"),
+})
 public class ExamQuestionGeneration {
     @Id
     @Column(unique = true)

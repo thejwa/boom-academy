@@ -7,6 +7,8 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
@@ -17,6 +19,13 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "quiz_user_status_index", columnList = "status"),
+        @Index(name = "quiz_user_user_id_index", columnList = "userId"),
+        @Index(name = "quiz_user_quiz_id_index", columnList = "quizId"),
+        @Index(name = "quiz_user_finishing_time_index", columnList = "finishingTime")
+
+})
 public class QuizUser extends Auditable {
     @Column(nullable = false)
     private String userId;
@@ -30,6 +39,6 @@ public class QuizUser extends Auditable {
     @Column(nullable = false)
     private Double percentage;
 
-    private LocalDateTime finishing_time;
+    private LocalDateTime finishingTime;
 
 }

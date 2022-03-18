@@ -6,15 +6,17 @@ import lombok.Setter;
 import team.bahor.entity.base.Auditable;
 import team.bahor.enums.types.FeedbackType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "feedback_status_index", columnList = "status"),
+        @Index(name = "feedback_userId_index", columnList = "userId"),
+        @Index(name = "feedback_type_index", columnList = "type"),
+})
 public class Feedback extends Auditable {
     @Column(nullable = false)
     private String userId;

@@ -8,7 +8,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
-@Table(name = "auth_users")
+@Table(name = "auth_users", indexes = {
+        @Index(name = "auth_user_status_index", columnList = "status"),
+        @Index(name = "auth_user_email_index", columnList = "email"),
+        @Index(name = "auth_user_phone_index", columnList = "phone")
+})
 @Entity
 @Getter
 @Setter

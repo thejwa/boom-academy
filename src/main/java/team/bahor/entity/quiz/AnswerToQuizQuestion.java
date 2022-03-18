@@ -4,16 +4,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-import team.bahor.entity.base.Auditable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "answer_to_quiz_question_quiz_question_id_index", columnList = "quizQuestionId"),
+})
 public class AnswerToQuizQuestion {
     @Id
     @Column(unique = true)

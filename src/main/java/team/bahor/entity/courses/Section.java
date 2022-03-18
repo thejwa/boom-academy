@@ -8,11 +8,19 @@ import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "section_status_index", columnList = "status"),
+        @Index(name = "section_course_id_index", columnList = "course_id"),
+        @Index(name = "section_position_index", columnList = "position"),
+        @Index(name = "section_status_index", columnList = "status"),
+})
 public class Section extends Auditable {
 
     @Column(nullable = false, name = "course_id")
@@ -29,7 +37,7 @@ public class Section extends Auditable {
     @Column(nullable = false)
     private String createdBy;
 
-    @Column(name = "is_completed", columnDefinition = "NUMERIC default 0")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean completed;
+//    @Column(name = "is_completed", columnDefinition = "NUMERIC default 0")
+//    @Type(type = "org.hibernate.type.NumericBooleanType")
+//    private boolean completed;
 }

@@ -16,7 +16,9 @@ import javax.persistence.*;
         @Index(name = "course_comment_type_index", columnList = "type"),
         @Index(name = "course_comment_created_by_index", columnList = "createdBy"),
         @Index(name = "course_comment_parent_id_index", columnList = "parentId"),
-        @Index(name = "course_comment_course_id_index", columnList = "courseId")
+        @Index(name = "course_comment_course_id_index", columnList = "courseId"),
+        @Index(name = "course_comment_status_index", columnList = "status")
+
 })
 public class CourseComment extends Auditable {
     @Column(nullable = false)
