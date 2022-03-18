@@ -5,13 +5,11 @@ import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseUpdateDto;
 import team.bahor.exeptions.ValidationException;
 
-import javax.validation.Valid;
-
 @Component
 public class CourseValidator extends AbstractValidator<
         CourseCreateDto,
         CourseUpdateDto,
-        String>{
+        String> {
 
     @Override
     public void validateKey(String id) throws ValidationException {
@@ -20,6 +18,7 @@ public class CourseValidator extends AbstractValidator<
 
     @Override
     public void validOnCreate(CourseCreateDto courseCreateDto) throws ValidationException {
+
 
     }
 

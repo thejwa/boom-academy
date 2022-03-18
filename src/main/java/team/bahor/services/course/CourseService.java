@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
+import team.bahor.entity.courses.Course;
 import team.bahor.mappers.course.CourseMapper;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.services.base.AbstractService;
@@ -29,6 +30,8 @@ public class CourseService extends AbstractService<
 
     @Override
     public String create(CourseCreateDto createDto) {
+        validator.validOnCreate(createDto);
+        Course course = mapper.fromCreateDto(createDto);
         return null;
     }
 
