@@ -136,8 +136,8 @@ public class AuthUserServiceImp extends AbstractService<
             throw new AuthUserEmailAlreadyTakenExeption("Bad request !!!");
 
         String random = UUID.randomUUID().toString();
-
         authUser = mapper.fromCreateDto(createDto);
+        authUser.setId(UUID.randomUUID().toString());
         authUser.setRole(Role.USER);
         authUser.setStatus((short) 110);
         AuthUser save = repository.save(authUser);
@@ -170,7 +170,7 @@ public class AuthUserServiceImp extends AbstractService<
         return null;
     }
 
-    public String verifyEmail(String activationCode, String email){
+    public String verifyEmail(String activationCode, String email) {
         //Todo checked time
         UserActivationCode userActivationCode = userActivationCodeRepository.checkingCode(activationCode, email);
 
