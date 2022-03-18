@@ -37,7 +37,7 @@ public class CourseService extends AbstractService<
 
     @Override
     public void delete(String id) {
-
+        System.out.println("Abdumajid branch test");
     }
 
     @Override
