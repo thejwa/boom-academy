@@ -1,16 +1,16 @@
-package team.bahor.dto.course;
+package team.bahor.dto.section;
 
+import lombok.Getter;
+import lombok.Setter;
 import team.bahor.dto.GenericDto;
 
+@Getter
+@Setter
 public class SectionUpdateDto extends GenericDto {
-
-    private String courseId;
 
     private String title;
 
     private String description;
-
-    private String createdBy;
 
     private Short status;
 }

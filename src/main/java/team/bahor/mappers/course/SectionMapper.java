@@ -1,10 +1,12 @@
 package team.bahor.mappers.course;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
-import team.bahor.dto.course.SectionCreateDto;
-import team.bahor.dto.course.SectionDto;
-import team.bahor.dto.course.SectionUpdateDto;
+import team.bahor.dto.section.SectionCreateDto;
+import team.bahor.dto.section.SectionDto;
+import team.bahor.dto.section.SectionPositionUpdateDto;
+import team.bahor.dto.section.SectionUpdateDto;
 import team.bahor.entity.courses.Section;
 import team.bahor.mappers.base.AbstractMapper;
 
@@ -24,4 +26,8 @@ public interface SectionMapper extends AbstractMapper<Section, SectionDto, Secti
 
     @Override
     Section fromUpdateDto(SectionUpdateDto updateDto);
+
+    Section fromUpdateDto(SectionUpdateDto sectionUpdateDto, @MappingTarget Section section);
+
+    Section fromUpdateDto(SectionPositionUpdateDto sectionPositionUpdateDto, @MappingTarget Section section);
 }
