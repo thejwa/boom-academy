@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import team.bahor.controller.AbstractController;
 import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
+import team.bahor.dto.exam.exam.ExamCreateDtoEnd;
 import team.bahor.services.exam.ExamServiceImpl;
 
 @RestController("/exam/*")
@@ -24,7 +25,7 @@ public class ExamController extends AbstractController<ExamServiceImpl> {
     }
 
     @RequestMapping(value = {"create"},method = RequestMethod.GET)
-    public ResponseEntity<String> create(@RequestBody ExamCreateDtoBegin.ExamCreateDtoEnd dto){
+    public ResponseEntity<String> create(@RequestBody ExamCreateDtoEnd dto){
         return new ResponseEntity<>(service.create(dto), HttpStatus.OK);
     }
 
