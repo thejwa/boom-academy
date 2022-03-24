@@ -25,6 +25,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/api/v1/auth/register",
             "/api/auth/verifyEmail",
             "/swagger-ui/**",
+            "/test/exception",
+            "/sw",
             "/api-docs/**"
     };
     private final AuthUserServiceImp userService;
