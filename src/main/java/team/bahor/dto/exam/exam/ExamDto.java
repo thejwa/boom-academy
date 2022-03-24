@@ -1,4 +1,4 @@
-package team.bahor.dto.exam;
+package team.bahor.dto.exam.exam;
 
 import team.bahor.dto.GenericDto;
 

@@ -1,10 +1,9 @@
 package team.bahor.services.exam;
 
 import org.springframework.stereotype.Service;
-import team.bahor.dto.exam.ExamCreateDtoBegin;
-import team.bahor.dto.exam.ExamCreateDtoEnd;
-import team.bahor.dto.exam.ExamDto;
-import team.bahor.dto.exam.ExamUpdateDto;
+import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
+import team.bahor.dto.exam.exam.ExamDto;
+import team.bahor.dto.exam.exam.ExamUpdateDto;
 import team.bahor.entity.exam.Exam;
 import team.bahor.mappers.exam.ExamMapper;
 import team.bahor.repositories.exam.ExamRepository;
@@ -50,7 +49,7 @@ public class ExamServiceImpl extends AbstractService<
         return null;
     }
 
-    public String create(ExamCreateDtoEnd dto) {
+    public String create(ExamCreateDtoBegin.ExamCreateDtoEnd dto) {
         return null;
     }
 }

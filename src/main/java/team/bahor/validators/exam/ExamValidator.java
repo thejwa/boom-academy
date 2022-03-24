@@ -1,7 +1,7 @@
 package team.bahor.validators.exam;
 
-import team.bahor.dto.exam.ExamCreateDtoBegin;
-import team.bahor.dto.exam.ExamUpdateDto;
+import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
+import team.bahor.dto.exam.exam.ExamUpdateDto;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.validators.AbstractValidator;
 
