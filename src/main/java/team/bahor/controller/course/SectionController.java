@@ -4,11 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.bahor.controller.AbstractController;
-import team.bahor.dto.course.SectionCreateDto;
-import team.bahor.dto.course.SectionDto;
-import team.bahor.dto.course.SectionUpdateDto;
 import team.bahor.dto.responce.DataDto;
-import team.bahor.services.course.SectionServiceImp;
+import team.bahor.dto.section.SectionCreateDto;
+import team.bahor.dto.section.SectionDto;
+import team.bahor.dto.section.SectionPositionUpdateDto;
+import team.bahor.dto.section.SectionUpdateDto;
+import team.bahor.services.course.section.SectionServiceImp;
 
 import java.util.List;
 
@@ -51,4 +52,10 @@ public class SectionController extends AbstractController<SectionServiceImp> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/update-position/{id}")
+    public ResponseEntity<Void> updatePosition(@PathVariable String id, @RequestBody SectionPositionUpdateDto dto) {
+        dto.setId(id);
+        service.updatePosition(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
