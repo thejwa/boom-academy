@@ -5,3 +5,8 @@ user-status (100-199)
 
 course-status (200-299)
 
+
+
+exam-status
+300 - exam hali toliq yaratilmagani anglatidi
+
