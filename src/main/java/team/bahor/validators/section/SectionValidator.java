@@ -22,7 +22,6 @@ public class SectionValidator
     private final SectionRepository sectionRepository;
     private final CourseRepository courseRepository;
 
-    //Todo checked actions user course owner?
 
     @Override
     public void validateKey(String id) throws ValidationException {

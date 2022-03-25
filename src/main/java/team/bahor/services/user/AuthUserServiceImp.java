@@ -49,6 +49,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -191,7 +192,7 @@ public class AuthUserServiceImp extends AbstractService<
         authUser.setStatus((short) 110);
         AuthUser save = repository.save(authUser);
 
-        UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail());
+        UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail(), LocalDateTime.now().plusHours(2));
         userActivationCodeRepository.save(userActivationCode);
         System.out.println("message = " + "<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + random + "&email=" + createDto.getEmail() + "'>Confirmation</a>");
 //        sendEmail(createDto.getEmail(), random);
@@ -244,5 +245,6 @@ public class AuthUserServiceImp extends AbstractService<
             return false;
         }
     }
+
 }
 

@@ -31,11 +31,11 @@ public class SectionServiceImp extends AbstractService<
         validator.validOnCreate(createDto);
         Section section = mapper.fromCreateDto(createDto);
 
-        short i = repository.countSectionByCourseId(section.getCourseId());
-        if (i > section.getPosition())
+        short length = repository.countSectionByCourseId(section.getCourseId());
+        if (length > section.getPosition())
             repository.updatePositionSection(section.getCourseId(), section.getPosition(), Utils.getSessionId());
         else
-            section.setPosition((short) (i + 1));
+            section.setPosition((short) (length + 1));
 
         repository.save(section);
         return "Saved section !";
