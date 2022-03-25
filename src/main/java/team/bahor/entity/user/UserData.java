@@ -22,5 +22,5 @@ public class UserData implements BaseGenericEntity {
     @Column(nullable = false)
     private String userId;
 
-    private Integer rating;
+    private Integer rating; // -> this is overall rating of a teacher
 }
