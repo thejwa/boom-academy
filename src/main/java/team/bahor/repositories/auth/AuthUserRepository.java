@@ -30,4 +30,5 @@ public interface AuthUserRepository extends JpaRepository<AuthUser, String>, Bas
 
     @Query(value = "select * from main.auth_users au  where au.email = ?1 or au.username = ?2",nativeQuery = true)
     AuthUser existsByEmailOrUsername (String email, String username);
+
 }

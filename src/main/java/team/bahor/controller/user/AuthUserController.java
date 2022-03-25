@@ -55,5 +55,4 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
 }
