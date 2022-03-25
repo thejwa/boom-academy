@@ -14,7 +14,6 @@ import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -196,7 +193,7 @@ public class AuthUserServiceImp extends AbstractService<
 
         UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail());
         userActivationCodeRepository.save(userActivationCode);
-        System.out.println("message = " + "<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + createDto.getEmail() + "&email=" + random + "'>Confirmation</a>");
+        System.out.println("message = " + "<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + random + "&email=" + createDto.getEmail() + "'>Confirmation</a>");
 //        sendEmail(createDto.getEmail(), random);
         return "Account created. You can activated account with email !!!";
     }
