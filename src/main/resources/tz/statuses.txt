@@ -1,9 +1,11 @@
-user-status (100-199)
+0 - active
+
+#user-status (100-199)
 100 - blocked
 110 - not confirmed
 
 
-course-status (200-299)
+#course-status (200-299)
 
 
 

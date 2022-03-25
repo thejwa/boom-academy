@@ -29,4 +29,6 @@ public class CourseRating extends Auditable {
 
     @Column(nullable = false)
     private String rating;
+
+    private String body; // -> course haqida fikr qoldirmoqchi bo'lsa body'da berib yuboriladi
 }
