@@ -13,6 +13,7 @@ public interface UserActivationCodeRepository extends JpaRepository<UserActivati
     @Query(value = "select * from boom_academy.main.user_activation_code au  where au.activation_code = ?1 and au.email = ?2 and au.used_code = 0 and  au.active_time < current_timestamp", nativeQuery = true)
     UserActivationCode checkingCode(String activationCode, String email);
 
+
     @Transactional
     @Modifying
     @Query(value = "update boom_academy.main.user_activation_code set used_code = 1 where id = ?1", nativeQuery = true)

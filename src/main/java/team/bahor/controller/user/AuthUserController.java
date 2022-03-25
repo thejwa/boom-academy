@@ -39,6 +39,7 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         return service.getToken(dto);
     }
 
+
     @RequestMapping(value = PATH + "/auth/refresh-token", method = RequestMethod.GET)
     public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         return service.refreshToken(request, response);
@@ -49,6 +50,7 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @RequestMapping(value = PATH + "/auth/blocked/{id}", method = RequestMethod.GET)
     public ResponseEntity<Void> blocked(@PathVariable String id) {

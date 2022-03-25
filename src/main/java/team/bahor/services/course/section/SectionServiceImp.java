@@ -48,6 +48,7 @@ public class SectionServiceImp extends AbstractService<
         return mapper.toDto(optionalSection.get());
     }
 
+
     @Override
     public List<SectionDto> getAll() {
 //        List<Section> sectionList = repository.findAllSections();
@@ -60,7 +61,6 @@ public class SectionServiceImp extends AbstractService<
         validator.validOnCreate(id);
         return  mapper.toDto(allCourseSections);
     }
-
 
     @Override
     public void update(SectionUpdateDto updateDto) {

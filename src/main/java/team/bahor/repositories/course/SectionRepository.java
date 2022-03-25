@@ -24,6 +24,7 @@ public interface SectionRepository extends AbstractRepository<Section, String> {
     @Query(value = "select * from boom_academy.main.section s where s.id = ?1 and s.is_deleted = 0 and created_by = ?2", nativeQuery = true)
     Optional<Section> findByNoDeletedSection(String id, String ownerId);
 
+
     @Transactional
     @Modifying
     @Query(value = "update boom_academy.main.section set position = position + 1 where course_id = ?1 and position >= ?2 and is_deleted = 0 and created_by = ?3", nativeQuery = true)
@@ -34,12 +35,14 @@ public interface SectionRepository extends AbstractRepository<Section, String> {
     @Query(value = "update boom_academy.main.section set position = position + 1 where course_id = ?1 and position >= ?2 and is_deleted = 0 and position < ?3 and created_by = ?4", nativeQuery = true)
     void updatePositionRightSection(String courseId, short positionNew, short positionDef, String ownerId);
 
+
     @Transactional
     @Modifying
     @Query(value = "update boom_academy.main.section set position = position - 1 where course_id = ?1 and position =< ?2 and is_deleted = 0 and position > ?3 and created_by = ?4", nativeQuery = true)
     void updatePositionLeftSection(String courseId, short positionNew, short positionDef, String ownerId);
 
     short countSectionByCourseId(String courseId);
+
 
     @Transactional
     @Modifying

@@ -40,7 +40,6 @@ public class AuthUserValidator extends AbstractValidator<UserCreateDto, UserUpda
             throw new ActivationCodeInvalidException("Activation Code Invalid Exception !");
 
         userActivationCodeRepository.updateUsedCode(userActivationCode.getId());
-
         return userActivationCode.getUserId();
     }
 }

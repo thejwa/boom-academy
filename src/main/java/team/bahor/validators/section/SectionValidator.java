@@ -37,6 +37,7 @@ public class SectionValidator
             throw new SectionForbiddenException("Not allowed");
     }
 
+
     public void validOnCreate(String id) {
         if (!courseRepository.existsByIdAndCreatedBy(id, Utils.getSessionId()))
             throw new SectionForbiddenException("Not allowed");
@@ -49,6 +50,7 @@ public class SectionValidator
             throw new SectionNotFoundException("Section not found");
     }
 
+    
     public void validOptionalSection(Optional<Section> optionalSection) {
         if (optionalSection.isEmpty())
             throw new SectionNotFoundException("Section not found");
