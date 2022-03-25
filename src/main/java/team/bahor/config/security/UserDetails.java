@@ -14,7 +14,6 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Getter
     private String id;
-
     private String username;
     private String password;
     private short status;
