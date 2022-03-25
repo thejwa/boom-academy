@@ -58,7 +58,7 @@ public class AuthUserServiceImp extends AbstractService<
     private final UserActivationCodeRepository userActivationCodeRepository;
 
     @Autowired
-    public AuthUserServiceImp(@Lazy AuthUserMapper mapper,
+    public AuthUserServiceImp(AuthUserMapper mapper,
                               AuthUserValidator validator,
                               AuthUserRepository repository,
                               JavaMailSender javaMailSender,
@@ -111,15 +111,16 @@ public class AuthUserServiceImp extends AbstractService<
         AuthUser user = repository.findByUsernameAndDeletedFalse(username).orElseThrow(() -> {
             throw new UsernameNotFoundException("User not found");
         });
-        return User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .authorities("ROLE_" + user.getRole())
-                .accountLocked(false)
-                .accountExpired(false)
-                .disabled(false)
-                .credentialsExpired(false)
-                .build();
+        return new team.bahor.config.security.UserDetails(user);
+//        return User.builder()
+//                .username(user.getUsername())
+//                .password(user.getPassword())
+//                .authorities("ROLE_" + user.getRole())
+//                .accountLocked(false)
+//                .accountExpired(false)
+//                .disabled(false)
+//                .credentialsExpired(false)
+//                .build();
     }
 
 

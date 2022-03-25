@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import team.bahor.controller.AbstractController;
 import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
 import team.bahor.dto.exam.exam.ExamCreateDtoEnd;
-import team.bahor.services.exam.ExamServiceImpl;
+import team.bahor.services.exam.exam.ExamServiceImpl;
 
 @RestController("/exam/*")
 public class ExamController extends AbstractController<ExamServiceImpl> {

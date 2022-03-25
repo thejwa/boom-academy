@@ -1,4 +1,4 @@
-package team.bahor.services.exam;
+package team.bahor.services.exam.exam;
 
 import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
 import team.bahor.dto.exam.exam.ExamDto;
