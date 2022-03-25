@@ -31,6 +31,7 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
     public ResponseEntity<String> verifyEmail(@RequestParam String activationCode, @RequestParam String email) {
         String str = service.verifyEmail(activationCode, email);
         return new ResponseEntity<>(str, HttpStatus.OK);
+        //Todo checked this method
     }
 
     @RequestMapping(value = PATH + "/auth/token", method = RequestMethod.POST)

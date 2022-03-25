@@ -144,8 +144,8 @@ public class AuthUserServiceImp extends AbstractService<
 
         UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail());
         userActivationCodeRepository.save(userActivationCode);
-
-        sendEmail(createDto.getEmail(), random);
+        System.out.println("message = " + "<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + createDto.getEmail() + "&email=" + random + "'>Confirmation</a>");
+//        sendEmail(createDto.getEmail(), random);
 
         return "Account created. You can activated account with email !!!";
     }
@@ -172,15 +172,14 @@ public class AuthUserServiceImp extends AbstractService<
 
     public String verifyEmail(String activationCode, String email) {
         //Todo checked time
+        validator.checksActivationCode(activationCode, email);
         UserActivationCode userActivationCode = userActivationCodeRepository.checkingCode(activationCode, email);
 
-        if (Objects.isNull(userActivationCode))
-            return "No Activation";
-
-        repository.changeStatus(userActivationCode.getUserId());
-        return "Activation";
+        return "Your profile active !";
     }
 
+
+    //Todo ishlatish kerak shuni togolar
     @Async
     public boolean sendEmail(String sendingEmail, String key) {
         try {
