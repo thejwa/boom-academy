@@ -57,6 +57,7 @@ public class SectionServiceImp extends AbstractService<
 
     public List<SectionDto> getCourseSections(String id){
         List<Section> allCourseSections = repository.findAllByCourseIdAAndDelete(id, Utils.getSessionId());
+        validator.validOnCreate(id);
         return  mapper.toDto(allCourseSections);
     }
 
