@@ -14,7 +14,6 @@ import team.bahor.services.course.CourseService;
 @RestController(value = "/course/")
 public class CourseController extends AbstractController<CourseService> {
 
-
     public CourseController(CourseService service) {
         super(service);
     }
