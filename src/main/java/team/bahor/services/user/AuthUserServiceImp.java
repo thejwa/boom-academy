@@ -1,7 +1,12 @@
 package team.bahor.services.user;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -11,15 +16,19 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import team.bahor.config.security.JwtUtils;
 import team.bahor.dto.auth.AuthUserDto;
 import team.bahor.dto.auth.SessionDto;
 import team.bahor.dto.responce.AppErrorDto;
@@ -31,6 +40,7 @@ import team.bahor.entity.user.AuthUser;
 import team.bahor.entity.user.UserActivationCode;
 import team.bahor.enums.Role;
 import team.bahor.exeptions.user.AuthUserEmailAlreadyTakenExeption;
+import team.bahor.exeptions.user.RefreshTokenIsMissing;
 import team.bahor.mappers.user.AuthUserMapper;
 import team.bahor.properties.ServerProperties;
 import team.bahor.repositories.auth.AuthUserRepository;
@@ -42,11 +52,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
+@Slf4j
 public class AuthUserServiceImp extends AbstractService<
         AuthUserRepository,
         AuthUserMapper,
@@ -57,8 +69,9 @@ public class AuthUserServiceImp extends AbstractService<
     private final ObjectMapper objectMapper;
     private final UserActivationCodeRepository userActivationCodeRepository;
 
+
     @Autowired
-    public AuthUserServiceImp(@Lazy AuthUserMapper mapper,
+    public AuthUserServiceImp(AuthUserMapper mapper,
                               AuthUserValidator validator,
                               AuthUserRepository repository,
                               JavaMailSender javaMailSender,
@@ -102,6 +115,53 @@ public class AuthUserServiceImp extends AbstractService<
         }
     }
 
+
+    public void refreshToken2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            try {
+                String refreshToken = authorizationHeader.substring("Bearer ".length());
+
+                Algorithm algorithm = JwtUtils.getAlgorithm();
+                Date expiryForAccessToken = JwtUtils.getExpiryForRefreshToken();
+                Date expiryForRefreshToken = JwtUtils.getExpiryForRefreshToken();
+
+                JWTVerifier verifier = JWT.require(algorithm).build();
+                DecodedJWT decodedJWT = verifier.verify(refreshToken);
+                String username = decodedJWT.getSubject();
+                team.bahor.config.security.UserDetails user = new team.bahor.config.security.UserDetails(repository.findByUsernameAndDeletedFalse(username).get());
+
+                String accessToken = JWT.create()
+                        .withSubject(user.getUsername())
+                        .withExpiresAt(expiryForAccessToken)
+                        .withIssuer(request.getRequestURL().toString())
+                        .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                        .sign(JwtUtils.getAlgorithm());
+
+                SessionDto sessionDto = SessionDto.builder()
+                        .accessToken(accessToken)
+                        .accessTokenExpiry(expiryForAccessToken.getTime())
+                        .refreshToken(refreshToken)
+                        .refreshTokenExpiry(expiryForRefreshToken.getTime())
+                        .issuedAt(System.currentTimeMillis())
+                        .build();
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), new DataDto<>(sessionDto));
+            } catch (Exception exception) {
+                log.error("Error logging in: {}", exception.getMessage());
+                response.setHeader("error", exception.getMessage());
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                Map<String, String> error = new HashMap<>();
+                error.put("error_message", exception.getMessage());
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
+            }
+        } else {
+            throw new RefreshTokenIsMissing("Refresh token is missing");
+        }
+    }
+
+
     public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         return null;
     }
@@ -111,15 +171,7 @@ public class AuthUserServiceImp extends AbstractService<
         AuthUser user = repository.findByUsernameAndDeletedFalse(username).orElseThrow(() -> {
             throw new UsernameNotFoundException("User not found");
         });
-        return User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .authorities("ROLE_" + user.getRole())
-                .accountLocked(false)
-                .accountExpired(false)
-                .disabled(false)
-                .credentialsExpired(false)
-                .build();
+        return new team.bahor.config.security.UserDetails(user);
     }
 
 
@@ -144,9 +196,8 @@ public class AuthUserServiceImp extends AbstractService<
 
         UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail());
         userActivationCodeRepository.save(userActivationCode);
-
-        sendEmail(createDto.getEmail(), random);
-
+        System.out.println("message = " + "<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + createDto.getEmail() + "&email=" + random + "'>Confirmation</a>");
+//        sendEmail(createDto.getEmail(), random);
         return "Account created. You can activated account with email !!!";
     }
 
@@ -171,16 +222,16 @@ public class AuthUserServiceImp extends AbstractService<
     }
 
     public String verifyEmail(String activationCode, String email) {
-        //Todo checked time
-        UserActivationCode userActivationCode = userActivationCodeRepository.checkingCode(activationCode, email);
-
-        if (Objects.isNull(userActivationCode))
-            return "No Activation";
-
-        repository.changeStatus(userActivationCode.getUserId());
-        return "Activation";
+        String userId = validator.checksActivationCode(activationCode, email);
+        repository.changeStatusActive(userId);
+        return "Your profile active !";
     }
 
+//        if (Objects.isNull(userActivationCode))
+//            return "No Activation";
+
+
+    //Todo ishlatish kerak shuni togolar
     @Async
     public boolean sendEmail(String sendingEmail, String key) {
         try {

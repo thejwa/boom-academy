@@ -31,12 +31,14 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
     public ResponseEntity<String> verifyEmail(@RequestParam String activationCode, @RequestParam String email) {
         String str = service.verifyEmail(activationCode, email);
         return new ResponseEntity<>(str, HttpStatus.OK);
+        //Todo checked this method
     }
 
     @RequestMapping(value = PATH + "/auth/token", method = RequestMethod.POST)
     public ResponseEntity<DataDto<SessionDto>> token(@RequestBody AuthUserDto dto) {
         return service.getToken(dto);
     }
+
 
     @RequestMapping(value = PATH + "/auth/refresh-token", method = RequestMethod.GET)
     public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) {
@@ -49,11 +51,11 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     @RequestMapping(value = PATH + "/auth/blocked/{id}", method = RequestMethod.GET)
     public ResponseEntity<Void> blocked(@PathVariable String id) {
         service.blocked(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 }

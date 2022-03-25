@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Table(indexes = {
         @Index(name = "exam_question_status_index", columnList = "status"),
         @Index(name = "exam_question_exam_id_index", columnList = "examId"),
-        @Index(name = "exam_question_status_index", columnList = "status"),
+        @Index(name = "exam_question_mark_index", columnList = "mark"),
 })
 public class ExamQuestion extends Auditable {
     @Column(nullable = false)

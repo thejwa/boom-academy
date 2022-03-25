@@ -37,14 +37,20 @@ public class  SectionValidator
             throw new SectionForbiddenException("Not allowed");
     }
 
+
+    public void validOnCreate(String id) {
+        if (!courseRepository.existsByIdAndCreatedBy(id, Utils.getSessionId()))
+            throw new SectionForbiddenException("Not allowed");
+    }
+
     @Override
     public void validOnUpdate(SectionUpdateDto dto) throws ValidationException {
         Optional<Section> sectionOptional = sectionRepository.findByNoDeletedSection(dto.getId());
         if (sectionOptional.isEmpty())
             throw new SectionNotFoundException("Section not found");
-
     }
 
+    
     public void validOptionalSection(Optional<Section> optionalSection) {
         if (optionalSection.isEmpty())
             throw new SectionNotFoundException("Section not found");

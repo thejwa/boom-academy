@@ -15,7 +15,7 @@ import javax.persistence.*;
         @Index(name = "exam_question_user_exam_id_index", columnList = "examId"),
         @Index(name = "exam_question_user_exam_question_id_index", columnList = "examQuestionId"),
 })
-public class ExamQuestionUser {
+    public class ExamQuestionUser {
     @Id
     @Column(unique = true)
     private String id;
@@ -29,4 +29,8 @@ public class ExamQuestionUser {
 
     @Column(nullable = false)
     private String examQuestionId;
+
+    @Column(nullable = false)
+    private String userId;
+
 }
