@@ -171,10 +171,8 @@ public class AuthUserServiceImp extends AbstractService<
     }
 
     public String verifyEmail(String activationCode, String email) {
-        //Todo checked time
-        validator.checksActivationCode(activationCode, email);
-        UserActivationCode userActivationCode = userActivationCodeRepository.checkingCode(activationCode, email);
-
+        String userId = validator.checksActivationCode(activationCode, email);
+        repository.changeStatusActive(userId);
         return "Your profile active !";
     }
 

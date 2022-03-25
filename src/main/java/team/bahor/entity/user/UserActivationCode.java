@@ -50,4 +50,5 @@ public class UserActivationCode implements BaseGenericEntity {
         this.activationCode = activationCode;
         this.email = email;
     }
+
 }
