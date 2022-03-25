@@ -135,7 +135,7 @@ public class AuthUserServiceImp extends AbstractService<
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
             } catch (Exception exception) {
-                log.error("Error logging in: {}", exception.getMessage());
+//                log.error("Error logging in: {}", exception.getMessage());
                 response.setHeader("error", exception.getMessage());
                 response.setStatus(HttpStatus.FORBIDDEN.value());
                 Map<String, String> error = new HashMap<>();
