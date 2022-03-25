@@ -10,7 +10,7 @@ public class Utils {
     public static boolean sessionHasRole(String role){
         return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().stream()
                 .filter(grantedAuthority -> {
-                    return grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_"+role);
+                    return grantedAuthority.getAuthority().equalsIgnoreCase("ROLE"+role);
                 }).count()==1;
     }
 }

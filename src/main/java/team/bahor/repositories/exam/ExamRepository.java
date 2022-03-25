@@ -19,6 +19,6 @@ public interface ExamRepository extends JpaRepository<Exam, String>, BaseGeneric
 
     @Transactional
     @Qualifier
-    @Query(value = "update Exam set duration = #{#examDto.duration},maxMark = #{#examDto.maxMark},questionCount = #{#examDto.questionCount},status = 0 where id= #{#examDto.id}")
+    @Query(value = "update Exam set duration = :#{#examDto.duration},maxMark = :#{#examDto.maxMark},questionCount = :#{#examDto.questionCount},status = 0 where id= :#{#examDto.id}")
     void update(ExamDto examDto);
 }
