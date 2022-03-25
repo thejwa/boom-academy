@@ -17,7 +17,7 @@ import team.bahor.properties.FileStorageProperties;
 import team.bahor.repositories.file.FileStorageRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.services.base.GenericCrudService;
-import team.bahor.validators.FileStorageValidator;
+import team.bahor.validators.file.FileStorageValidator;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

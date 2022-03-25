@@ -5,11 +5,12 @@ import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
 import team.bahor.entity.courses.Course;
+import team.bahor.exeptions.ValidationException;
 import team.bahor.mappers.course.CourseMapper;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.services.base.GenericCrudService;
-import team.bahor.validators.CourseValidator;
+import team.bahor.validators.course.CourseValidator;
 
 import java.util.List;
 
@@ -30,9 +31,11 @@ public class CourseService extends AbstractService<
 
     @Override
     public String create(CourseCreateDto createDto) {
+
         validator.validOnCreate(createDto);
         Course course = mapper.fromCreateDto(createDto);
-        return null;
+
+        return repository.save(course).getId();
     }
 
     @Override

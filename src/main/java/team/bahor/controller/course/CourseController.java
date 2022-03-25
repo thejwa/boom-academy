@@ -20,11 +20,12 @@ public class CourseController extends AbstractController<CourseService> {
 
     @GetMapping(value = "get/{id}")
     public ResponseEntity<DataDto<CourseDto>> get(@PathVariable String id) {
-        return null;
+        CourseDto courseDto = service.get(id);
+        return new ResponseEntity<>(new DataDto<>(courseDto), HttpStatus.OK);
     }
 
     @PostMapping("create")
-    public ResponseEntity<DataDto<String>> create(@RequestBody CourseCreateDto dto){
+    public ResponseEntity<DataDto<String>> create(@RequestBody CourseCreateDto dto) {
         String id = service.create(dto);
         return new ResponseEntity<>(new DataDto<>(id), HttpStatus.OK);
     }

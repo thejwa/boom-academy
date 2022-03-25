@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import team.bahor.dto.responce.AppErrorDto;
 import team.bahor.dto.responce.DataDto;
+import team.bahor.exeptions.course.CategoryNotAvailableException;
 import team.bahor.exeptions.fileStore.FileStorageException;
 
+import javax.xml.crypto.Data;
 import java.util.Arrays;
 
 @ControllerAdvice("team.bahor")
@@ -25,4 +27,19 @@ public class GlobalExceptionHandler {
                                         HttpStatus.FORBIDDEN))
                         .build(), HttpStatus.OK);
     }
+
+    @ExceptionHandler(value = CategoryNotAvailableException.class)
+    public ResponseEntity<DataDto<AppErrorDto>> handleCategoryNotAvailableException(CategoryNotAvailableException exception, WebRequest request) {
+        return new ResponseEntity<>(
+                DataDto.<AppErrorDto>builder()
+                        .success(false)
+                        .error(new AppErrorDto(
+                                exception.getMessage(),
+                                request,
+                                HttpStatus.NO_CONTENT
+                        )).build(), HttpStatus.OK
+        );
+    }
+
+
 }
