@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface SectionRepository extends AbstractRepository<Section, String> {
 
 //    boolean existsByIdAndDeletedTrue(String id);
-//
+
 //    @Query(value = "select * from boom_academy.main.section s where s.is_deleted = 0", nativeQuery = true)
 //    List<Section> findAllSections();
 
@@ -41,6 +41,8 @@ public interface SectionRepository extends AbstractRepository<Section, String> {
     @Query(value = "update boom_academy.main.section set position = position - 1 where course_id = ?1 and position =< ?2 and is_deleted = 0 and position > ?3 and created_by = ?4", nativeQuery = true)
     void updatePositionLeftSection(String courseId, short positionNew, short positionDef, String ownerId);
 
+
+    @Query(value = "select count(*) from boom_academy.main.section where course_id = ?1 and is_deleted = 0",nativeQuery = true)
     short countSectionByCourseId(String courseId);
 
 
