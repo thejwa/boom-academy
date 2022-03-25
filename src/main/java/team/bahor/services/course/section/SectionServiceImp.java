@@ -62,6 +62,7 @@ public class SectionServiceImp extends AbstractService<
         return  mapper.toDto(allCourseSections);
     }
 
+
     @Override
     public void update(SectionUpdateDto updateDto) {
         Optional<Section> optionalSection = repository.findByNoDeletedSection(updateDto.getId(), Utils.getSessionId());

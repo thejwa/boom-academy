@@ -12,19 +12,19 @@ import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
 import team.bahor.dto.exam.exam.ExamCreateDtoEnd;
 import team.bahor.services.exam.exam.ExamServiceImpl;
 
-@RestController("/exam/*")
+@RestController
 public class ExamController extends AbstractController<ExamServiceImpl> {
     @Autowired
     public ExamController(ExamServiceImpl service) {
         super(service);
     }
 
-    @RequestMapping(value = {"create"},method = RequestMethod.GET)
+    @RequestMapping(value = {PATH+"/exam/createBegin"},method = RequestMethod.GET)
     public ResponseEntity<String> create(@RequestBody ExamCreateDtoBegin dtoBegin){
         return new ResponseEntity<>(service.create(dtoBegin), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = {"create"},method = RequestMethod.GET)
+    @RequestMapping(value = {PATH+"/exam/createEnd"},method = RequestMethod.GET)
     public ResponseEntity<String> create(@RequestBody ExamCreateDtoEnd dto){
         return new ResponseEntity<>(service.create(dto), HttpStatus.OK);
     }

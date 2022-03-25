@@ -1,12 +1,12 @@
 package team.bahor.services.user;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -21,13 +21,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MimeTypeUtils;
 import team.bahor.config.security.JwtUtils;
 import team.bahor.dto.auth.AuthUserDto;
 import team.bahor.dto.auth.SessionDto;
@@ -40,6 +40,7 @@ import team.bahor.entity.user.AuthUser;
 import team.bahor.entity.user.UserActivationCode;
 import team.bahor.enums.Role;
 import team.bahor.exeptions.user.AuthUserEmailAlreadyTakenExeption;
+import team.bahor.exeptions.user.RefreshTokenIsMissing;
 import team.bahor.mappers.user.AuthUserMapper;
 import team.bahor.properties.ServerProperties;
 import team.bahor.repositories.auth.AuthUserRepository;
@@ -52,10 +53,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
+@Slf4j
 public class AuthUserServiceImp extends AbstractService<
         AuthUserRepository,
         AuthUserMapper,
@@ -112,31 +115,40 @@ public class AuthUserServiceImp extends AbstractService<
         }
     }
 
+
     public void refreshToken2(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
-                String refresh_token = authorizationHeader.substring("Bearer ".length());
+                String refreshToken = authorizationHeader.substring("Bearer ".length());
+
                 Algorithm algorithm = JwtUtils.getAlgorithm();
+                Date expiryForAccessToken = JwtUtils.getExpiryForRefreshToken();
+                Date expiryForRefreshToken = JwtUtils.getExpiryForRefreshToken();
+
                 JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refresh_token);
+                DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
-                AuthUser user =repository.findByUsernameAndDeletedFalse(username).get();
+                team.bahor.config.security.UserDetails user = new team.bahor.config.security.UserDetails(repository.findByUsernameAndDeletedFalse(username).get());
 
-                String access_token = JWT.create()
+                String accessToken = JWT.create()
                         .withSubject(user.getUsername())
-                        .withExpiresAt(JwtUtils.getExpiry())
+                        .withExpiresAt(expiryForAccessToken)
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("role", Lists.newArrayList(user.getRole()))
-                        .sign(algorithm);
+                        .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                        .sign(JwtUtils.getAlgorithm());
 
-                Map<String, String> tokens = new HashMap<>();
-                tokens.put("access_token", access_token);
-                tokens.put("refresh_token", refresh_token);
+                SessionDto sessionDto = SessionDto.builder()
+                        .accessToken(accessToken)
+                        .accessTokenExpiry(expiryForAccessToken.getTime())
+                        .refreshToken(refreshToken)
+                        .refreshTokenExpiry(expiryForRefreshToken.getTime())
+                        .issuedAt(System.currentTimeMillis())
+                        .build();
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+                new ObjectMapper().writeValue(response.getOutputStream(), new DataDto<>(sessionDto));
             } catch (Exception exception) {
-//                log.error("Error logging in: {}", exception.getMessage());
+                log.error("Error logging in: {}", exception.getMessage());
                 response.setHeader("error", exception.getMessage());
                 response.setStatus(HttpStatus.FORBIDDEN.value());
                 Map<String, String> error = new HashMap<>();
@@ -145,7 +157,7 @@ public class AuthUserServiceImp extends AbstractService<
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
         } else {
-            throw new RuntimeException("Refresh token is missing");
+            throw new RefreshTokenIsMissing("Refresh token is missing");
         }
     }
 
@@ -160,15 +172,6 @@ public class AuthUserServiceImp extends AbstractService<
             throw new UsernameNotFoundException("User not found");
         });
         return new team.bahor.config.security.UserDetails(user);
-//        return User.builder()
-//                .username(user.getUsername())
-//                .password(user.getPassword())
-//                .authorities("ROLE_" + user.getRole())
-//                .accountLocked(false)
-//                .accountExpired(false)
-//                .disabled(false)
-//                .credentialsExpired(false)
-//                .build();
     }
 
 
@@ -224,6 +227,8 @@ public class AuthUserServiceImp extends AbstractService<
         return "Your profile active !";
     }
 
+//        if (Objects.isNull(userActivationCode))
+//            return "No Activation";
 
 
     //Todo ishlatish kerak shuni togolar
