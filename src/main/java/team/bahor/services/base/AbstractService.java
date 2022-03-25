@@ -1,5 +1,6 @@
 package team.bahor.services.base;
 
+import team.bahor.dto.section.SectionDto;
 import team.bahor.dto.section.SectionPositionUpdateDto;
 import team.bahor.mappers.base.BaseGenericMapper;
 import team.bahor.repositories.base.BaseGenericRepository;
@@ -20,4 +21,5 @@ public abstract class AbstractService<
         this.validator = validator;
         this.repository = repository;
     }
+
 }

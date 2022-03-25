@@ -17,6 +17,9 @@ public interface SectionRepository extends AbstractRepository<Section, String> {
     @Query(value = "select * from boom_academy.main.section s where s.is_deleted = 0", nativeQuery = true)
     List<Section> findAllSections();
 
+    @Query(value = "select * from boom_academy.main.section s where s.course_id = id and s.is_deleted = 0", nativeQuery = true)
+    List<Section> findAllByCourseIdAAndDelete(String id);
+
     @Query(value = "select * from boom_academy.main.section s where s.id = ?1 and s.is_deleted = 0", nativeQuery = true)
     Optional<Section> findByNoDeletedSection(String id);
 
