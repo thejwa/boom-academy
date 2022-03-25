@@ -51,11 +51,11 @@ public class ExamQuestionServiceImpl extends AbstractService<
 
     @Override
     public ExamQuestionDto get(String id) {
-        return mapper.toDto(repository.getByIdAndDeletedIsTrue(id));
+        return mapper.toDto(repository.getByIdAndDeletedIsFalse(id));
     }
 
     @Override
     public List<ExamQuestionDto> getAll() {
-        return mapper.toDto(repository.getByDeletedTrue());
+        return mapper.toDto(repository.getByDeletedFalse());
     }
 }

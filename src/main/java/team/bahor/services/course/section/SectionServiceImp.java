@@ -9,6 +9,7 @@ import team.bahor.entity.courses.Section;
 import team.bahor.mappers.course.SectionMapper;
 import team.bahor.repositories.course.SectionRepository;
 import team.bahor.services.base.AbstractService;
+import team.bahor.utils.Utils;
 import team.bahor.validators.section.SectionValidator;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class SectionServiceImp extends AbstractService<
 
         short i = repository.countSectionByCourseId(section.getCourseId());
         if (i > section.getPosition())
-            repository.updatePositionSection(section.getCourseId(), section.getPosition());
+            repository.updatePositionSection(section.getCourseId(), section.getPosition(), Utils.getSessionId());
         else
             section.setPosition((short) (i + 1));
 
@@ -42,26 +43,27 @@ public class SectionServiceImp extends AbstractService<
 
     @Override
     public SectionDto get(String id) {
-        Optional<Section> optionalSection = repository.findByNoDeletedSection(id);
+        Optional<Section> optionalSection = repository.findByNoDeletedSection(id, Utils.getSessionId());
         validator.validOptionalSection(optionalSection);
         return mapper.toDto(optionalSection.get());
     }
 
     @Override
     public List<SectionDto> getAll() {
-        List<Section> sectionList = repository.findAllSections();
-        return mapper.toDto(sectionList);
+//        List<Section> sectionList = repository.findAllSections();
+//        return mapper.toDto(sectionList);
+        return null;
     }
 
     public List<SectionDto> getCourseSections(String id){
-        List<Section> allCourseSections = repository.findAllByCourseIdAAndDelete(id);
+        List<Section> allCourseSections = repository.findAllByCourseIdAAndDelete(id, Utils.getSessionId());
         return  mapper.toDto(allCourseSections);
     }
 
 
     @Override
     public void update(SectionUpdateDto updateDto) {
-        Optional<Section> optionalSection = repository.findByNoDeletedSection(updateDto.getId());
+        Optional<Section> optionalSection = repository.findByNoDeletedSection(updateDto.getId(), Utils.getSessionId());
         validator.validOptionalSection(optionalSection);
         Section section = mapper.fromUpdateDto(updateDto, optionalSection.get());
         repository.save(section);
@@ -70,11 +72,11 @@ public class SectionServiceImp extends AbstractService<
     @Override
     public void delete(String id) {
         validator.validateKey(id);
-        repository.deleteBySection(id);
+        repository.deleteBySection(id, Utils.getSessionId());
     }
 
     public void updatePosition(SectionPositionUpdateDto dto) {
-        Optional<Section> optionalSection = repository.findByNoDeletedSection(dto.getId());
+        Optional<Section> optionalSection = repository.findByNoDeletedSection(dto.getId(), Utils.getSessionId());
         validator.validOptionalSection(optionalSection);
 
         Section section = mapper.fromUpdateDto(dto, optionalSection.get());
@@ -84,9 +86,9 @@ public class SectionServiceImp extends AbstractService<
         short position = section.getPosition();
 
         if (leng > position && position > def)
-            repository.updatePositionRightSection(section.getCourseId(), position, def);
+            repository.updatePositionRightSection(section.getCourseId(), position, def, Utils.getSessionId());
         else if (leng > position && position < def)
-            repository.updatePositionLeftSection(section.getCourseId(), position, def);
+            repository.updatePositionLeftSection(section.getCourseId(), position, def, Utils.getSessionId());
         else
             section.setPosition((short) (leng + 1));
 

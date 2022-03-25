@@ -33,11 +33,11 @@ public class SectionController extends AbstractController<SectionServiceImp> {
         return new ResponseEntity<>(sectionDto, HttpStatus.OK);
     }
 
-    @GetMapping("/get-all")
-    public ResponseEntity<List<SectionDto>> getAll() {
-        List<SectionDto> sectionDtoList = service.getAll();
-        return new ResponseEntity<>(sectionDtoList, HttpStatus.OK);
-    }
+//    @GetMapping("/get-all")
+//    public ResponseEntity<List<SectionDto>> getAll() {
+//        List<SectionDto> sectionDtoList = service.getAll();
+//        return new ResponseEntity<>(sectionDtoList, HttpStatus.OK);
+//    }
 
     @GetMapping("/get-course-sections/{id}")
     public ResponseEntity<List<SectionDto>> getCourseSections(@PathVariable String id) {

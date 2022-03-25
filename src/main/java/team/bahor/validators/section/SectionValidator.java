@@ -10,6 +10,7 @@ import team.bahor.exeptions.course.SectionForbiddenException;
 import team.bahor.exeptions.course.SectionNotFoundException;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.repositories.course.SectionRepository;
+import team.bahor.utils.Utils;
 import team.bahor.validators.AbstractValidator;
 
 import java.util.Optional;
@@ -21,11 +22,10 @@ public class SectionValidator
     private final SectionRepository sectionRepository;
     private final CourseRepository courseRepository;
 
-    //Todo checked actions user course owner?
 
     @Override
     public void validateKey(String id) throws ValidationException {
-        Optional<Section> sectionOptional = sectionRepository.findByNoDeletedSection(id);
+        Optional<Section> sectionOptional = sectionRepository.findByNoDeletedSection(id, Utils.getSessionId());
         if (sectionOptional.isEmpty())
             throw new SectionNotFoundException("Section not found");
 
@@ -39,7 +39,7 @@ public class SectionValidator
 
     @Override
     public void validOnUpdate(SectionUpdateDto dto) throws ValidationException {
-        Optional<Section> sectionOptional = sectionRepository.findByNoDeletedSection(dto.getId());
+        Optional<Section> sectionOptional = sectionRepository.findByNoDeletedSection(dto.getId(), Utils.getSessionId());
         if (sectionOptional.isEmpty())
             throw new SectionNotFoundException("Section not found");
 
