@@ -1,6 +1,7 @@
 package team.bahor.mappers.course;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
@@ -23,6 +24,7 @@ public interface CourseMapper extends AbstractMapper<
     List<CourseDto> toDto(List<Course> entities);
 
     @Override
+    @Mapping(target = "category", ignore = true)
     Course fromCreateDto(CourseCreateDto createDto);
 
     @Override

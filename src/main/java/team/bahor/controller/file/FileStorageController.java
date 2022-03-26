@@ -31,6 +31,7 @@ public class FileStorageController extends AbstractController<FileStorageService
         String fileId = service.create(dto);
 
         System.out.print(fileId);
+
     }
 
     @GetMapping(value = "load/{id}")

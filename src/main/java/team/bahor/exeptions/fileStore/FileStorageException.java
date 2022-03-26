@@ -1,6 +1,8 @@
 package team.bahor.exeptions.fileStore;
 
-public class FileStorageException extends RuntimeException {
+import team.bahor.exeptions.ValidationException;
+
+public class FileStorageException extends ValidationException {
     public FileStorageException(String message) {
         super(message);
     }

@@ -39,6 +39,7 @@ public class SectionController extends AbstractController<SectionServiceImp> {
         return new ResponseEntity<>(sectionDtoList, HttpStatus.OK);
     }
 
+
     @GetMapping("/get-course-sections/{id}")
     public ResponseEntity<List<SectionDto>> getCourseSections(@PathVariable String id) {
         List<SectionDto> sectionAllDto = service.getCourseSections(id);
@@ -51,6 +52,7 @@ public class SectionController extends AbstractController<SectionServiceImp> {
         service.update(dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {

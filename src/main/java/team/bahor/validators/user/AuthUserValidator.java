@@ -8,7 +8,7 @@ import team.bahor.entity.user.UserActivationCode;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.exeptions.user.ActivationCodeInvalidException;
 import team.bahor.repositories.auth.UserActivationCodeRepository;
-import team.bahor.validators.AbstractValidator;
+import team.bahor.validators.base.AbstractValidator;
 
 import java.util.Objects;
 
@@ -40,7 +40,6 @@ public class AuthUserValidator extends AbstractValidator<UserCreateDto, UserUpda
             throw new ActivationCodeInvalidException("Activation Code Invalid Exception !");
 
         userActivationCodeRepository.updateUsedCode(userActivationCode.getId());
-
         return userActivationCode.getUserId();
     }
 }

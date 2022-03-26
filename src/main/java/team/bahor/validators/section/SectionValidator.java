@@ -10,13 +10,14 @@ import team.bahor.exeptions.course.SectionForbiddenException;
 import team.bahor.exeptions.course.SectionNotFoundException;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.repositories.course.SectionRepository;
-import team.bahor.validators.AbstractValidator;
+import team.bahor.utils.Utils;
+import team.bahor.validators.base.AbstractValidator;
 
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class SectionValidator
+public class  SectionValidator
         extends AbstractValidator<SectionCreateDto, SectionUpdateDto, String> {
     private final SectionRepository sectionRepository;
     private final CourseRepository courseRepository;
@@ -25,7 +26,7 @@ public class SectionValidator
 
     @Override
     public void validateKey(String id) throws ValidationException {
-        Optional<Section> sectionOptional = sectionRepository.findByNoDeletedSection(id);
+        Optional<Section> sectionOptional = sectionRepository.findByNoDeletedSection(id, Utils.getSessionId());
         if (sectionOptional.isEmpty())
             throw new SectionNotFoundException("Section not found");
 
@@ -37,13 +38,19 @@ public class SectionValidator
             throw new SectionForbiddenException("Not allowed");
     }
 
+
+    public void validOnCreate(String id) {
+        if (!courseRepository.existsByIdAndCreatedBy(id, Utils.getSessionId()))
+            throw new SectionForbiddenException("Not allowed");
+    }
+
     @Override
     public void validOnUpdate(SectionUpdateDto dto) throws ValidationException {
-        Optional<Section> sectionOptional = sectionRepository.findByNoDeletedSection(dto.getId());
+        Optional<Section> sectionOptional = sectionRepository.findByNoDeletedSection(dto.getId(), Utils.getSessionId());
         if (sectionOptional.isEmpty())
             throw new SectionNotFoundException("Section not found");
-
     }
+
 
     public void validOptionalSection(Optional<Section> optionalSection) {
         if (optionalSection.isEmpty())

@@ -66,6 +66,7 @@ public class AuthUserServiceImp extends AbstractService<
     private final ObjectMapper objectMapper;
     private final UserActivationCodeRepository userActivationCodeRepository;
 
+
     @Autowired
     public AuthUserServiceImp(AuthUserMapper mapper,
                               AuthUserValidator validator,
@@ -192,9 +193,8 @@ public class AuthUserServiceImp extends AbstractService<
 
         UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail());
         userActivationCodeRepository.save(userActivationCode);
-        System.out.println("message = " + "<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + createDto.getEmail() + "&email=" + random + "'>Confirmation</a>");
+        System.out.println("message = " + "<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + random + "&email=" + createDto.getEmail() + "'>Confirmation</a>");
 //        sendEmail(createDto.getEmail(), random);
-
         return "Account created. You can activated account with email !!!";
     }
 
@@ -226,6 +226,7 @@ public class AuthUserServiceImp extends AbstractService<
 
 //        if (Objects.isNull(userActivationCode))
 //            return "No Activation";
+
 
     //Todo ishlatish kerak shuni togolar
     @Async

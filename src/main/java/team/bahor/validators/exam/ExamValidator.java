@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
 import team.bahor.dto.exam.exam.ExamUpdateDto;
 import team.bahor.exeptions.ValidationException;
-import team.bahor.validators.AbstractValidator;
+import team.bahor.validators.base.AbstractValidator;
 @Component
 public class ExamValidator extends AbstractValidator<ExamCreateDtoBegin, ExamUpdateDto, String> {
     @Override
