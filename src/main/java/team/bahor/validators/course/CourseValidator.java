@@ -7,7 +7,7 @@ import team.bahor.enums.CourseCategory;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.exeptions.course.CategoryNotAvailableException;
 import team.bahor.exeptions.course.CourseForbiddenException;
-import team.bahor.validators.AbstractValidator;
+import team.bahor.validators.base.AbstractValidator;
 
 @Component
 public class CourseValidator extends AbstractValidator<
