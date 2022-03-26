@@ -11,9 +11,11 @@ import team.bahor.mappers.course.CourseMapper;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.services.base.GenericCrudService;
+import team.bahor.utils.Utils;
 import team.bahor.validators.course.CourseValidator;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CourseService extends AbstractService<
@@ -36,6 +38,7 @@ public class CourseService extends AbstractService<
         validator.validOnCreate(createDto);
         Course course = mapper.fromCreateDto(createDto);
         course.setCategory(CourseCategory.valueOf(createDto.getCategory()));
+        course.setId(UUID.randomUUID().toString().replace("-",""));
         course = repository.save(course);
         return course.getId();
     }

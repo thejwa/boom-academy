@@ -9,6 +9,7 @@ import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.responce.DataDto;
 import team.bahor.services.course.CourseService;
+import team.bahor.utils.Utils;
 
 
 @RestController(value = "/course/")
@@ -26,6 +27,7 @@ public class CourseController extends AbstractController<CourseService> {
 
     @PostMapping("create")
     public ResponseEntity<DataDto<String>> create(@RequestBody CourseCreateDto dto) {
+        dto.setCreateBy(Utils.getSessionId());
         String id = service.create(dto);
         return new ResponseEntity<>(new DataDto<>(id), HttpStatus.OK);
     }

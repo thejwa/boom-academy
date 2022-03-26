@@ -22,4 +22,6 @@ public class CourseCreateDto implements BaseGenericDto {
 
     private Short duration;
 
+    private String createBy;
+
 }
