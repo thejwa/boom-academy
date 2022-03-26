@@ -1,9 +1,9 @@
-package team.bahor.validators.section;
+package team.bahor.validators.course.section;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import team.bahor.dto.section.SectionCreateDto;
-import team.bahor.dto.section.SectionUpdateDto;
+import team.bahor.dto.course.section.SectionCreateDto;
+import team.bahor.dto.course.section.SectionUpdateDto;
 import team.bahor.entity.courses.Section;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.exeptions.course.SectionForbiddenException;

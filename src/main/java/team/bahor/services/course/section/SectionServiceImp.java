@@ -1,16 +1,16 @@
 package team.bahor.services.course.section;
 
 import org.springframework.stereotype.Service;
-import team.bahor.dto.section.SectionCreateDto;
-import team.bahor.dto.section.SectionDto;
-import team.bahor.dto.section.SectionPositionUpdateDto;
-import team.bahor.dto.section.SectionUpdateDto;
+import team.bahor.dto.course.section.SectionCreateDto;
+import team.bahor.dto.course.section.SectionDto;
+import team.bahor.dto.course.section.SectionPositionUpdateDto;
+import team.bahor.dto.course.section.SectionUpdateDto;
 import team.bahor.entity.courses.Section;
 import team.bahor.mappers.course.SectionMapper;
 import team.bahor.repositories.course.SectionRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.utils.Utils;
-import team.bahor.validators.section.SectionValidator;
+import team.bahor.validators.course.section.SectionValidator;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package team.bahor.dto.section;
+package team.bahor.dto.course.section;
 
 import lombok.Getter;
 import lombok.Setter;

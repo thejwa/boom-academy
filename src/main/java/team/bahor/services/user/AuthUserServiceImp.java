@@ -190,6 +190,7 @@ public class AuthUserServiceImp extends AbstractService<
         authUser.setId(UUID.randomUUID().toString());
         authUser.setRole(Role.USER);
         authUser.setStatus((short) 110);
+        authUser.setBalance(0.0);
         AuthUser save = repository.save(authUser);
 
         UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail(), LocalDateTime.now().plusHours(2));

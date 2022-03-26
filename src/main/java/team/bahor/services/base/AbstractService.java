@@ -1,7 +1,5 @@
 package team.bahor.services.base;
 
-import team.bahor.dto.section.SectionDto;
-import team.bahor.dto.section.SectionPositionUpdateDto;
 import team.bahor.mappers.base.BaseGenericMapper;
 import team.bahor.repositories.base.BaseGenericRepository;
 import team.bahor.validators.BaseGenericValidator;
