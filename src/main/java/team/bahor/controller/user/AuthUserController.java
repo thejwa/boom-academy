@@ -12,6 +12,7 @@ import team.bahor.services.user.AuthUserServiceImp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 @RestController
@@ -39,9 +40,8 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         return service.getToken(dto);
     }
 
-
     @RequestMapping(value = PATH + "/auth/refresh-token", method = RequestMethod.GET)
-    public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         return service.refreshToken(request, response);
     }
 

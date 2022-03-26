@@ -37,10 +37,10 @@ public class FileStorageService extends AbstractService<
         FileStorageMapper,
         FileStorageValidator>
         implements GenericCrudService<
-            FileStorageDto,
-            FileStorageCreateDto,
-            FileStorageUpdateDto,
-            String> {
+        FileStorageDto,
+        FileStorageCreateDto,
+        FileStorageUpdateDto,
+        String> {
 
     private final Path rootLocation;
 

@@ -11,9 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import team.bahor.config.security.JwtUtils;
+import team.bahor.config.security.UserDetails;
 import team.bahor.dto.auth.AuthUserDto;
 import team.bahor.dto.auth.SessionDto;
 import team.bahor.dto.responce.AppErrorDto;
@@ -52,7 +52,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException, IOException {
-        User user = (User) authentication.getPrincipal();
+        UserDetails user = (UserDetails) authentication.getPrincipal();
         Date expiryForAccessToken = JwtUtils.getExpiry();
         Date expiryForRefreshToken = JwtUtils.getExpiryForRefreshToken();
 
@@ -61,6 +61,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withExpiresAt(expiryForAccessToken)
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withClaim("id",user.getId())
+                .withClaim("status", (int) user.getStatus())
+                .withClaim("deleted",user.isDeleted())
                 .sign(JwtUtils.getAlgorithm());
 
         String refreshToken = JWT.create()

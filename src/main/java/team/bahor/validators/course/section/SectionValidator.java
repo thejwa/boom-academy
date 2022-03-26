@@ -11,7 +11,7 @@ import team.bahor.exeptions.course.section.SectionNotFoundException;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.repositories.course.SectionRepository;
 import team.bahor.utils.Utils;
-import team.bahor.validators.AbstractValidator;
+import team.bahor.validators.base.AbstractValidator;
 
 import java.util.Optional;
 
