@@ -40,7 +40,7 @@ public class CourseService extends AbstractService<
 
         course.setCategory(CourseCategory.valueOf(createDto.getCategory()));
         course.setId(UUID.randomUUID().toString().replace("-",""));
-        course.setCreatedBy("Utils.getSessionId()");
+        course.setCreatedBy(Utils.getSessionId());
         course.setStatus((short) 200);
 
         course = repository.save(course);

@@ -27,7 +27,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             "/test/exception",
             "/sw",
-            "/create",
             "/api-docs/**"
     };
     private final AuthUserServiceImp userService;
