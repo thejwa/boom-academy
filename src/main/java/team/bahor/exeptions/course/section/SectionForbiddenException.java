@@ -1,4 +1,4 @@
-package team.bahor.exeptions.course;
+package team.bahor.exeptions.course.section;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

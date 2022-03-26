@@ -14,6 +14,7 @@ import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,7 @@ public class AuthUserServiceImp extends AbstractService<
 
 
     @Autowired
-    public AuthUserServiceImp(AuthUserMapper mapper,
+    public AuthUserServiceImp(@Qualifier("authUserMapper") AuthUserMapper mapper,
                               AuthUserValidator validator,
                               AuthUserRepository repository,
                               JavaMailSender javaMailSender,

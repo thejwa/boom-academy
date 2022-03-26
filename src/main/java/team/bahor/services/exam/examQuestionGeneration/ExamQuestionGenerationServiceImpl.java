@@ -1,5 +1,6 @@
 package team.bahor.services.exam.examQuestionGeneration;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.exam.examQuestionGeneration.ExamQuestionGenerationCreateDto;
 import team.bahor.dto.exam.examQuestionGeneration.ExamQuestionGenerationDto;
@@ -17,7 +18,7 @@ public class ExamQuestionGenerationServiceImpl extends AbstractService<
         ExamQuestionGenerationMapper,
         ExamQuestionGenerationValidator
         > implements ExamQuestionGenerationService {
-    public ExamQuestionGenerationServiceImpl(ExamQuestionGenerationMapper mapper,
+    public ExamQuestionGenerationServiceImpl(@Qualifier("examQuestionGenerationMapper") ExamQuestionGenerationMapper mapper,
                                              ExamQuestionGenerationValidator validator,
                                              ExamQuestionGenerationRepository repository) {
         super(mapper, validator, repository);

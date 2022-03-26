@@ -16,8 +16,7 @@ public class CourseRatingUpdateDto extends GenericDto {
     private String userId;
 
     @NotNull
-    private String rating;
+    private byte rating;
 
-    @NotNull
     private String body;
 }

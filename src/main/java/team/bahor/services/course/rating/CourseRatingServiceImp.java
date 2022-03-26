@@ -1,9 +1,11 @@
 package team.bahor.services.course.rating;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.course.rating.CourseRatingCreateDto;
 import team.bahor.dto.course.rating.CourseRatingDto;
 import team.bahor.dto.course.rating.CourseRatingUpdateDto;
+import team.bahor.entity.courses.CourseRating;
 import team.bahor.mappers.course.CourseRatingMapper;
 import team.bahor.repositories.course.CourseRatingRepository;
 import team.bahor.services.base.AbstractService;
@@ -17,12 +19,16 @@ public class CourseRatingServiceImp extends AbstractService<
         CourseRatingMapper,
         CourseRatingValidator> implements CourseRatingService {
 
-    protected CourseRatingServiceImp(CourseRatingMapper mapper, CourseRatingValidator validator, CourseRatingRepository repository) {
+    protected CourseRatingServiceImp(@Qualifier("courseRatingMapper") CourseRatingMapper mapper, CourseRatingValidator validator, CourseRatingRepository repository) {
         super(mapper, validator, repository);
     }
 
     @Override
     public String create(CourseRatingCreateDto createDto) {
+        validator.validOnCreate(createDto);
+        CourseRating courseRating = mapper.fromCreateDto(createDto);
+
+
         return null;
     }
 

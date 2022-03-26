@@ -1,5 +1,6 @@
 package team.bahor.services.exam.exam;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
 import team.bahor.dto.exam.exam.ExamCreateDtoEnd;
@@ -30,7 +31,7 @@ public class ExamServiceImpl extends AbstractService<
 
     private final ExamQuestionGenerationServiceImpl examQuestionGenerationService;
 
-    public ExamServiceImpl(ExamMapper mapper, ExamValidator validator, ExamRepository repository, ExamQuestionGenerationServiceImpl examQuestionGenerationService) {
+    public ExamServiceImpl(@Qualifier("examMapper") ExamMapper mapper, ExamValidator validator, ExamRepository repository, ExamQuestionGenerationServiceImpl examQuestionGenerationService) {
         super(mapper, validator, repository);
         this.examQuestionGenerationService = examQuestionGenerationService;
     }

@@ -1,5 +1,6 @@
 package team.bahor.services.course.section;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.course.section.SectionCreateDto;
 import team.bahor.dto.course.section.SectionDto;
@@ -21,7 +22,7 @@ public class SectionServiceImp extends AbstractService<
         SectionMapper,
         SectionValidator> implements SectionService {
 
-    protected SectionServiceImp(SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
+    protected SectionServiceImp(@Qualifier("sectionMapper") SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
         super(mapper, validator, repository);
     }
 
