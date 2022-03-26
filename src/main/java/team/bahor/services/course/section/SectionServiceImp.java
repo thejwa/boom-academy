@@ -22,7 +22,7 @@ public class SectionServiceImp extends AbstractService<
         SectionMapper,
         SectionValidator> implements SectionService {
 
-    protected SectionServiceImp(@Qualifier("sectionMapper") SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
+    protected SectionServiceImp(@Qualifier("sectionMapperImpl") SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
         super(mapper, validator, repository);
     }
 

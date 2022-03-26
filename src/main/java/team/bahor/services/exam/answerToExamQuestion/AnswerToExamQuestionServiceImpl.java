@@ -17,7 +17,7 @@ public class AnswerToExamQuestionServiceImpl extends AbstractService<
         AnswerToExamQuestionMapper,
         AnswerToExamQuestionValidator
         > implements AnswerToExamQuestionService{
-    public AnswerToExamQuestionServiceImpl(@Qualifier("answerToExamQuestionMapper") AnswerToExamQuestionMapper mapper, AnswerToExamQuestionValidator validator, AnswerToExamQuestionRepository repository) {
+    public AnswerToExamQuestionServiceImpl(@Qualifier("answerToExamQuestionMapperImpl") AnswerToExamQuestionMapper mapper, AnswerToExamQuestionValidator validator, AnswerToExamQuestionRepository repository) {
         super(mapper, validator, repository);
     }
 

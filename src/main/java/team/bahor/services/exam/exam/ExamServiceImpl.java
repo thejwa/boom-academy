@@ -31,7 +31,7 @@ public class ExamServiceImpl extends AbstractService<
 
     private final ExamQuestionGenerationServiceImpl examQuestionGenerationService;
 
-    public ExamServiceImpl(@Qualifier("examMapper") ExamMapper mapper, ExamValidator validator, ExamRepository repository, ExamQuestionGenerationServiceImpl examQuestionGenerationService) {
+    public ExamServiceImpl(@Qualifier("examMapperImpl") ExamMapper mapper, ExamValidator validator, ExamRepository repository, ExamQuestionGenerationServiceImpl examQuestionGenerationService) {
         super(mapper, validator, repository);
         this.examQuestionGenerationService = examQuestionGenerationService;
     }

@@ -18,7 +18,7 @@ public class ExamQuestionGenerationServiceImpl extends AbstractService<
         ExamQuestionGenerationMapper,
         ExamQuestionGenerationValidator
         > implements ExamQuestionGenerationService {
-    public ExamQuestionGenerationServiceImpl(@Qualifier("examQuestionGenerationMapper") ExamQuestionGenerationMapper mapper,
+    public ExamQuestionGenerationServiceImpl(@Qualifier("examQuestionGenerationMapperImpl") ExamQuestionGenerationMapper mapper,
                                              ExamQuestionGenerationValidator validator,
                                              ExamQuestionGenerationRepository repository) {
         super(mapper, validator, repository);

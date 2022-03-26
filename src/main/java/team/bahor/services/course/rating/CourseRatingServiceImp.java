@@ -19,7 +19,7 @@ public class CourseRatingServiceImp extends AbstractService<
         CourseRatingMapper,
         CourseRatingValidator> implements CourseRatingService {
 
-    protected CourseRatingServiceImp(@Qualifier("courseRatingMapper") CourseRatingMapper mapper, CourseRatingValidator validator, CourseRatingRepository repository) {
+    protected CourseRatingServiceImp(@Qualifier("courseRatingMapperImpl") CourseRatingMapper mapper, CourseRatingValidator validator, CourseRatingRepository repository) {
         super(mapper, validator, repository);
     }
 

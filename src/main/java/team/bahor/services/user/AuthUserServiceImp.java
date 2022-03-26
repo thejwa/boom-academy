@@ -1,9 +1,5 @@
 package team.bahor.services.user;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -16,17 +12,14 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import team.bahor.config.security.JwtUtils;
 import team.bahor.dto.auth.AuthUserDto;
 import team.bahor.dto.auth.SessionDto;
 import team.bahor.dto.responce.AppErrorDto;
@@ -38,7 +31,6 @@ import team.bahor.entity.user.AuthUser;
 import team.bahor.entity.user.UserActivationCode;
 import team.bahor.enums.Role;
 import team.bahor.exeptions.user.AuthUserEmailAlreadyTakenExeption;
-import team.bahor.exeptions.user.RefreshTokenIsMissing;
 import team.bahor.mappers.user.AuthUserMapper;
 import team.bahor.properties.ServerProperties;
 import team.bahor.repositories.auth.AuthUserRepository;
@@ -51,10 +43,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -70,7 +61,7 @@ public class AuthUserServiceImp extends AbstractService<
 
 
     @Autowired
-    public AuthUserServiceImp(@Qualifier("authUserMapper") AuthUserMapper mapper,
+    public AuthUserServiceImp(@Qualifier("authUserMapperImpl") AuthUserMapper mapper,
                               AuthUserValidator validator,
                               AuthUserRepository repository,
                               JavaMailSender javaMailSender,

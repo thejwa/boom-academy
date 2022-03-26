@@ -9,7 +9,7 @@ import team.bahor.exeptions.ValidationException;
 import team.bahor.exeptions.course.rating.CourseRatingInvalidException;
 import team.bahor.exeptions.course.rating.CourseRatingUserMarkException;
 import team.bahor.repositories.course.CourseUserRepository;
-import team.bahor.validators.AbstractValidator;
+import team.bahor.validators.base.AbstractValidator;
 
 @Component
 @RequiredArgsConstructor

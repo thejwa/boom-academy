@@ -22,7 +22,7 @@ public class ExamQuestionServiceImpl extends AbstractService<
         ExamQuestionMapper,
         ExamQuestionValidator
         > implements ExamQuestionService {
-    public ExamQuestionServiceImpl(@Qualifier("examQuestionMapper") ExamQuestionMapper mapper, ExamQuestionValidator validator, ExamQuestionRepository repository, AnswerToExamQuestionServiceImpl answerToExamQuestionService) {
+    public ExamQuestionServiceImpl(@Qualifier("examQuestionMapperImpl") ExamQuestionMapper mapper, ExamQuestionValidator validator, ExamQuestionRepository repository, AnswerToExamQuestionServiceImpl answerToExamQuestionService) {
         super(mapper, validator, repository);
         this.answerToExamQuestionService = answerToExamQuestionService;
     }
