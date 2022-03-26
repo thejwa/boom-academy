@@ -10,7 +10,7 @@ import team.bahor.entity.exam.AnswerToExamQuestion;
 import team.bahor.mappers.base.AbstractMapper;
 
 @Component
-@Mapper(componentModel = "spring",nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AnswerToExamQuestionMapper extends AbstractMapper<
         AnswerToExamQuestion,
         AnswerToExamQuestionDto,

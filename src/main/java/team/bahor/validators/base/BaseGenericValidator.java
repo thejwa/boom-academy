@@ -1,4 +1,4 @@
-package team.bahor.validators;
+package team.bahor.validators.base;
 
 public interface BaseGenericValidator {
 }

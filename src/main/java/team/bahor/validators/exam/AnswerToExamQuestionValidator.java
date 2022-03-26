@@ -2,10 +2,9 @@ package team.bahor.validators.exam;
 
 import org.springframework.stereotype.Component;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionCreateDto;
-import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionDto;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionUpdateDto;
 import team.bahor.exeptions.ValidationException;
-import team.bahor.validators.AbstractValidator;
+import team.bahor.validators.base.AbstractValidator;
 @Component
 public class AnswerToExamQuestionValidator extends AbstractValidator<
         AnswerToExamQuestionCreateDto,
