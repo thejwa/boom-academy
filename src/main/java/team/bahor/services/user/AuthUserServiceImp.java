@@ -132,6 +132,10 @@ public class AuthUserServiceImp extends AbstractService<
 //                        .withExpiresAt(expiryForAccessToken)
 //                        .withIssuer(request.getRequestURL().toString())
 //                        .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+//                        .withClaim("id",user.getId())
+//                .withClaim("status", (int) user.getStatus())
+//                .withClaim("deleted",user.isDeleted())
+//
 //                        .sign(JwtUtils.getAlgorithm());
 //
 //                SessionDto sessionDto = SessionDto.builder()

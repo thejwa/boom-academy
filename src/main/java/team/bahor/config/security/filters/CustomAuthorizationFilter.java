@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import team.bahor.config.security.JwtUtils;
+import team.bahor.entity.user.Principal;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -34,10 +35,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 DecodedJWT decodedJWT = JwtUtils.getVerifier().verify(token);
                 String username = decodedJWT.getSubject();
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+                String id = decodedJWT.getClaim("id").toString();
+                Integer status = decodedJWT.getClaim("status").asInt();
+                Boolean deleted = decodedJWT.getClaim("deleted").asBoolean();
 
                 Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 Arrays.stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(new Principal(id,username,status,deleted), null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 filterChain.doFilter(request, response);
             } catch (Exception exception) {

@@ -10,9 +10,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
 
-    @Getter
     private String id;
     private String username;
     private String password;
@@ -30,8 +30,8 @@ public class UserDetails implements org.springframework.security.core.userdetail
     }
 
     private Set<GrantedAuthority> processAuthorities(Role role) {
-        authorities=new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+role.name()));
+        authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
         return authorities;
     }
 
@@ -53,21 +53,21 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return status == 0;
     }
 }
