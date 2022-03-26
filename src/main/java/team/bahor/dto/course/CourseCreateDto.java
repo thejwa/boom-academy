@@ -18,7 +18,7 @@ public class CourseCreateDto implements BaseGenericDto {
 
     private Double price;
 
-    private CourseCategory category;
+    private String category;
 
     private Short duration;
 

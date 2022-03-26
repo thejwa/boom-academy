@@ -20,16 +20,17 @@ public class AppErrorDto {
     private Integer status;
     private String code;
     private String message;
+    private String developerMessage;
     private String path;
 
-    public AppErrorDto() {
+
+
+    public AppErrorDto(String message, WebRequest webRequest, HttpStatus httpStatus, String developerMessage) {
+        this(message, ((ServletWebRequest) webRequest).getRequest().getRequestURI(), httpStatus, developerMessage);
     }
 
-    public AppErrorDto(String message, WebRequest webRequest, HttpStatus httpStatus) {
-        this(message, ((ServletWebRequest) webRequest).getRequest().getRequestURI(), httpStatus);
-    }
-
-    public AppErrorDto(String message, String path, HttpStatus httpStatus) {
+    public AppErrorDto(String message, String path, HttpStatus httpStatus, String developerMessage) {
+        this.developerMessage = developerMessage;
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
         this.status = httpStatus.value();
         this.code = httpStatus.getReasonPhrase();
@@ -39,7 +40,8 @@ public class AppErrorDto {
 
 
     @Builder
-    public AppErrorDto(HttpStatus status, String message, String path) {
+    public AppErrorDto(HttpStatus status, String message, String developerMessage, String path) {
+        this.developerMessage = developerMessage;
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
         this.status = status.value();
         this.code = status.getReasonPhrase();

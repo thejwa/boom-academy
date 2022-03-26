@@ -27,6 +27,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             "/test/exception",
             "/sw",
+            "/create",
             "/api-docs/**"
     };
     private final AuthUserServiceImp userService;
@@ -51,7 +52,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

@@ -3,10 +3,8 @@ package team.bahor.enums;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @RequiredArgsConstructor
@@ -22,7 +20,11 @@ public enum CourseCategory {
     HEALTH,
     EDUCATIONAL_AND_ACADEMIC_DISCIPLINES;
 
-    public static List<CourseCategory> getAll(){
+
+    public static List<CourseCategory> getAll() {
+
         return Arrays.stream(CourseCategory.values()).toList();
+
     }
+
 }

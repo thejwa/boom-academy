@@ -10,9 +10,6 @@ import team.bahor.dto.responce.DataDto;
 import team.bahor.exeptions.course.CategoryNotAvailableException;
 import team.bahor.exeptions.fileStore.FileStorageException;
 
-import javax.xml.crypto.Data;
-import java.util.Arrays;
-
 @ControllerAdvice("team.bahor")
 public class GlobalExceptionHandler {
 
@@ -24,7 +21,7 @@ public class GlobalExceptionHandler {
                         .error(
                                 new AppErrorDto(exception.getMessage(),
                                         webRequest,
-                                        HttpStatus.FORBIDDEN))
+                                        HttpStatus.FORBIDDEN,exception.getDeveloperMessage()))
                         .build(), HttpStatus.OK);
     }
 
@@ -36,10 +33,9 @@ public class GlobalExceptionHandler {
                         .error(new AppErrorDto(
                                 exception.getMessage(),
                                 request,
-                                HttpStatus.NO_CONTENT
-                        )).build(), HttpStatus.OK
+                                HttpStatus.NO_CONTENT,
+                                exception.getDeveloperMessage())).build(), HttpStatus.OK
         );
+
     }
-
-
 }

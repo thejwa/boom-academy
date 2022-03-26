@@ -5,6 +5,7 @@ import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
 import team.bahor.entity.courses.Course;
+import team.bahor.enums.CourseCategory;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.mappers.course.CourseMapper;
 import team.bahor.repositories.course.CourseRepository;
@@ -34,8 +35,9 @@ public class CourseService extends AbstractService<
 
         validator.validOnCreate(createDto);
         Course course = mapper.fromCreateDto(createDto);
-
-        return repository.save(course).getId();
+        course.setCategory(CourseCategory.valueOf(createDto.getCategory()));
+        course = repository.save(course);
+        return course.getId();
     }
 
     @Override

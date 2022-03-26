@@ -23,7 +23,7 @@ public class CourseValidator extends AbstractValidator<
     @Override
     public void validOnCreate(CourseCreateDto courseCreateDto) {
 
-        if (!CourseCategory.getAll().contains(courseCreateDto.getCategory()))
+        if (!CourseCategory.getAll().contains(CourseCategory.valueOf(courseCreateDto.getCategory())))
             throw new CategoryNotAvailableException("Not available");
         if (courseCreateDto.getPrice() < 0 || courseCreateDto.getDuration() < 0)
             throw new CourseForbiddenException("Not possible to enter a negative number");
