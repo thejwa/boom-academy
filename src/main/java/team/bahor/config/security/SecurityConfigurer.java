@@ -51,7 +51,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

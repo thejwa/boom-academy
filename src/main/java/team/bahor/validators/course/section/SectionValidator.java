@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class SectionValidator
+public class  SectionValidator
         extends AbstractValidator<SectionCreateDto, SectionUpdateDto, String> {
     private final SectionRepository sectionRepository;
     private final CourseRepository courseRepository;
