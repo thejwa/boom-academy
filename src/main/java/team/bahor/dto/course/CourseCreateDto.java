@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import team.bahor.dto.BaseGenericDto;
-import team.bahor.enums.CourseCategory;
 
 
 @Getter
@@ -21,7 +20,5 @@ public class CourseCreateDto implements BaseGenericDto {
     private String category;
 
     private Short duration;
-
-    private String createBy;
 
 }

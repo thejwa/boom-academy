@@ -37,10 +37,15 @@ public class CourseService extends AbstractService<
 
         validator.validOnCreate(createDto);
         Course course = mapper.fromCreateDto(createDto);
+
         course.setCategory(CourseCategory.valueOf(createDto.getCategory()));
         course.setId(UUID.randomUUID().toString().replace("-",""));
+        course.setCreatedBy("Utils.getSessionId()");
+        course.setStatus((short) 200);
+
         course = repository.save(course);
         return course.getId();
+
     }
 
     @Override

@@ -27,7 +27,6 @@ public class CourseController extends AbstractController<CourseService> {
 
     @PostMapping("create")
     public ResponseEntity<DataDto<String>> create(@RequestBody CourseCreateDto dto) {
-        dto.setCreateBy(Utils.getSessionId());
         String id = service.create(dto);
         return new ResponseEntity<>(new DataDto<>(id), HttpStatus.OK);
     }
