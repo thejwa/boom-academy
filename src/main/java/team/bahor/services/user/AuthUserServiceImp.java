@@ -1,9 +1,5 @@
 package team.bahor.services.user;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -14,18 +10,16 @@ import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import team.bahor.config.security.JwtUtils;
 import team.bahor.dto.auth.AuthUserDto;
 import team.bahor.dto.auth.SessionDto;
 import team.bahor.dto.responce.AppErrorDto;
@@ -37,7 +31,6 @@ import team.bahor.entity.user.AuthUser;
 import team.bahor.entity.user.UserActivationCode;
 import team.bahor.enums.Role;
 import team.bahor.exeptions.user.AuthUserEmailAlreadyTakenExeption;
-import team.bahor.exeptions.user.RefreshTokenIsMissing;
 import team.bahor.mappers.user.AuthUserMapper;
 import team.bahor.properties.ServerProperties;
 import team.bahor.repositories.auth.AuthUserRepository;
@@ -49,10 +42,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -68,7 +61,7 @@ public class AuthUserServiceImp extends AbstractService<
 
 
     @Autowired
-    public AuthUserServiceImp(AuthUserMapper mapper,
+    public AuthUserServiceImp(@Qualifier("authUserMapperImpl") AuthUserMapper mapper,
                               AuthUserValidator validator,
                               AuthUserRepository repository,
                               JavaMailSender javaMailSender,
@@ -113,53 +106,53 @@ public class AuthUserServiceImp extends AbstractService<
     }
 
 
-    public void refreshToken2(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            try {
-                String refreshToken = authorizationHeader.substring("Bearer ".length());
-
-                Algorithm algorithm = JwtUtils.getAlgorithm();
-                Date expiryForAccessToken = JwtUtils.getExpiryForRefreshToken();
-                Date expiryForRefreshToken = JwtUtils.getExpiryForRefreshToken();
-
-                JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refreshToken);
-                String username = decodedJWT.getSubject();
-                team.bahor.config.security.UserDetails user = new team.bahor.config.security.UserDetails(repository.findByUsernameAndDeletedFalse(username).get());
-
-                String accessToken = JWT.create()
-                        .withSubject(user.getUsername())
-                        .withExpiresAt(expiryForAccessToken)
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                        .sign(JwtUtils.getAlgorithm());
-
-                SessionDto sessionDto = SessionDto.builder()
-                        .accessToken(accessToken)
-                        .accessTokenExpiry(expiryForAccessToken.getTime())
-                        .refreshToken(refreshToken)
-                        .refreshTokenExpiry(expiryForRefreshToken.getTime())
-                        .issuedAt(System.currentTimeMillis())
-                        .build();
-                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), new DataDto<>(sessionDto));
-            } catch (Exception exception) {
-                log.error("Error logging in: {}", exception.getMessage());
-                response.setHeader("error", exception.getMessage());
-                response.setStatus(HttpStatus.FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("error_message", exception.getMessage());
-                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
-            }
-        } else {
-            throw new RefreshTokenIsMissing("Refresh token is missing");
-        }
-    }
-
-
-    public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        String authorizationHeader = request.getHeader(AUTHORIZATION);
+//        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+//            try {
+//                String refreshToken = authorizationHeader.substring("Bearer ".length());
+//
+//                Algorithm algorithm = JwtUtils.getAlgorithm();
+//                Date expiryForAccessToken = JwtUtils.getExpiryForRefreshToken();
+//                Date expiryForRefreshToken = JwtUtils.getExpiryForRefreshToken();
+//
+//                JWTVerifier verifier = JWT.require(algorithm).build();
+//                DecodedJWT decodedJWT = verifier.verify(refreshToken);
+//                String username = decodedJWT.getSubject();
+//                team.bahor.config.security.UserDetails user = new team.bahor.config.security.UserDetails(repository.findByUsernameAndDeletedFalse(username).get());
+//
+//                String accessToken = JWT.create()
+//                        .withSubject(user.getUsername())
+//                        .withExpiresAt(expiryForAccessToken)
+//                        .withIssuer(request.getRequestURL().toString())
+//                        .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+//                        .withClaim("id",user.getId())
+//                .withClaim("status", (int) user.getStatus())
+//                .withClaim("deleted",user.isDeleted())
+//
+//                        .sign(JwtUtils.getAlgorithm());
+//
+//                SessionDto sessionDto = SessionDto.builder()
+//                        .accessToken(accessToken)
+//                        .accessTokenExpiry(expiryForAccessToken.getTime())
+//                        .refreshToken(refreshToken)
+//                        .refreshTokenExpiry(expiryForRefreshToken.getTime())
+//                        .issuedAt(System.currentTimeMillis())
+//                        .build();
+//                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//                new ObjectMapper().writeValue(response.getOutputStream(), new DataDto<>(sessionDto));
+//            } catch (Exception exception) {
+//                log.error("Error logging in: {}", exception.getMessage());
+//                response.setHeader("error", exception.getMessage());
+//                response.setStatus(HttpStatus.FORBIDDEN.value());
+//                Map<String, String> error = new HashMap<>();
+//                error.put("error_message", exception.getMessage());
+//                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//                new ObjectMapper().writeValue(response.getOutputStream(), error);
+//            }
+//        } else {
+//            throw new RefreshTokenIsMissing("Refresh token is missing");
+//        }
         return null;
     }
 
@@ -189,9 +182,10 @@ public class AuthUserServiceImp extends AbstractService<
         authUser.setId(UUID.randomUUID().toString());
         authUser.setRole(Role.USER);
         authUser.setStatus((short) 110);
+        authUser.setBalance(0.0);
         AuthUser save = repository.save(authUser);
 
-        UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail());
+        UserActivationCode userActivationCode = new UserActivationCode(save.getId(), random, save.getEmail(), LocalDateTime.now().plusHours(2));
         userActivationCodeRepository.save(userActivationCode);
         System.out.println("message = " + "<a href='http://localhost:8080/api/auth/verifyEmail?activationCode=" + random + "&email=" + createDto.getEmail() + "'>Confirmation</a>");
 //        sendEmail(createDto.getEmail(), random);
@@ -244,5 +238,6 @@ public class AuthUserServiceImp extends AbstractService<
             return false;
         }
     }
+
 }
 

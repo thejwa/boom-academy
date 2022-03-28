@@ -4,10 +4,9 @@ import org.springframework.stereotype.Component;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionCreateDto;
 import team.bahor.dto.exam.examQuestion.ExamQuestionCreateDto;
 import team.bahor.dto.exam.examQuestion.ExamQuestionUpdateDto;
-import team.bahor.enums.types.QuestionType;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.exeptions.exam.NotValidOnCreateException;
-import team.bahor.validators.AbstractValidator;
+import team.bahor.validators.base.AbstractValidator;
 @Component
 public class ExamQuestionValidator extends AbstractValidator<
         ExamQuestionCreateDto,

@@ -3,10 +3,10 @@ package team.bahor.mappers.course;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
-import team.bahor.dto.section.SectionCreateDto;
-import team.bahor.dto.section.SectionDto;
-import team.bahor.dto.section.SectionPositionUpdateDto;
-import team.bahor.dto.section.SectionUpdateDto;
+import team.bahor.dto.course.section.SectionCreateDto;
+import team.bahor.dto.course.section.SectionDto;
+import team.bahor.dto.course.section.SectionPositionUpdateDto;
+import team.bahor.dto.course.section.SectionUpdateDto;
 import team.bahor.entity.courses.Section;
 import team.bahor.mappers.base.AbstractMapper;
 
@@ -14,7 +14,12 @@ import java.util.List;
 
 @Component
 @Mapper(componentModel = "spring")
-public interface SectionMapper extends AbstractMapper<Section, SectionDto, SectionCreateDto, SectionUpdateDto> {
+public interface SectionMapper extends AbstractMapper<
+        Section,
+        SectionDto,
+        SectionCreateDto,
+        SectionUpdateDto> {
+
     @Override
     SectionDto toDto(Section entity);
 

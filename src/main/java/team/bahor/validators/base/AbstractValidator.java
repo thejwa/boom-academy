@@ -1,4 +1,4 @@
-package team.bahor.validators;
+package team.bahor.validators.base;
 
 import team.bahor.dto.BaseGenericDto;
 import team.bahor.dto.GenericDto;
