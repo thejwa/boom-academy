@@ -10,10 +10,8 @@ import team.bahor.mappers.course.CourseMapper;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.services.base.GenericCrudService;
-import team.bahor.utils.Utils;
 import team.bahor.validators.course.CourseValidator;
 
-import javax.crypto.spec.OAEPParameterSpec;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +39,7 @@ public class CourseService extends AbstractService<
 
         course.setCategory(CourseCategory.valueOf(createDto.getCategory()));
         course.setId(UUID.randomUUID().toString().replace("-", ""));
-        course.setCreatedBy(Utils.getSessionId());
+        course.setCreatedBy("Utils.getSessionId()");
         course.setStatus((short) 200);
 
         course = repository.save(course);

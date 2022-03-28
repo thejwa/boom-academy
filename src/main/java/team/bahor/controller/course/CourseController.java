@@ -10,7 +10,7 @@ import team.bahor.dto.responce.DataDto;
 import team.bahor.services.course.CourseService;
 
 
-@RestController(value = "/course/")
+@RestController("/course/")
 public class CourseController extends AbstractController<CourseService> {
 
     public CourseController(CourseService service) {
