@@ -2,6 +2,7 @@ package team.bahor.mappers.course;
 
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 import team.bahor.dto.course.rating.CourseRatingCreateDto;
 import team.bahor.dto.course.rating.CourseRatingDto;
@@ -30,4 +31,9 @@ public interface CourseRatingMapper extends AbstractMapper<
 
     @Override
     CourseRating fromUpdateDto(CourseRatingUpdateDto updateDto);
+
+    CourseRating fromUpdateDto(CourseRatingCreateDto createDto, @MappingTarget CourseRating courseRating);
+
+    CourseRating fromUpdateDto(CourseRatingUpdateDto updateDto, @MappingTarget CourseRating courseRating);
+
 }

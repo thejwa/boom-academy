@@ -6,6 +6,7 @@ import lombok.Setter;
 import team.bahor.entity.base.BaseGenericEntity;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -22,5 +23,6 @@ public class UserData implements BaseGenericEntity {
     @Column(nullable = false)
     private String userId;
 
-    private Integer rating; // -> this is overall rating of a teacher
+    @Column(nullable = false, columnDefinition = "float4 default 0")
+    private float rating; // -> this is overall rating of a teacher
 }
