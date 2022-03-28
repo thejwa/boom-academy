@@ -38,6 +38,11 @@ api:
 storage:
   location: C:/Users/HP/Desktop/boom-academy/resource
 
+course:
+  activeStatus: 200
+  nonActiveStatus: 210
+
+
 service:
   prop:
     protocol: http

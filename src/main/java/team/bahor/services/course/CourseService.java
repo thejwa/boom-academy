@@ -7,9 +7,11 @@ import team.bahor.dto.course.CourseUpdateDto;
 import team.bahor.entity.courses.Course;
 import team.bahor.enums.CourseCategory;
 import team.bahor.mappers.course.CourseMapper;
+import team.bahor.properties.CourseProperties;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.services.base.GenericCrudService;
+import team.bahor.utils.Utils;
 import team.bahor.validators.course.CourseValidator;
 
 import java.util.List;
@@ -27,8 +29,11 @@ public class CourseService extends AbstractService<
         CourseUpdateDto,
         String> {
 
-    protected CourseService(CourseMapper mapper, CourseValidator validator, CourseRepository repository) {
+    private final CourseProperties properties;
+
+    protected CourseService(CourseMapper mapper, CourseValidator validator, CourseRepository repository, CourseProperties properties) {
         super(mapper, validator, repository);
+        this.properties = properties;
     }
 
     @Override
@@ -39,7 +44,7 @@ public class CourseService extends AbstractService<
 
         course.setCategory(CourseCategory.valueOf(createDto.getCategory()));
         course.setId(UUID.randomUUID().toString().replace("-", ""));
-        course.setCreatedBy("Utils.getSessionId()");
+        course.setCreatedBy(Utils.getSessionId());
         course.setStatus((short) 200);
 
         course = repository.save(course);
@@ -49,32 +54,87 @@ public class CourseService extends AbstractService<
 
     @Override
     public void delete(String id) {
-        System.out.println("Abdumajid branch test");
+
+        validator.validateKey(id);
+        Optional<Course> courseOptional = repository.findByIdAndDeletedFalse(id);
+        Course course = courseOptional.get();
+        course.setDeleted(true);
+        repository.save(course);
+
     }
 
     @Override
     public void update(CourseUpdateDto updateDto) {
 
+        validator.validOnUpdate(updateDto);
+        Optional<Course> courseOptional = repository.findByIdAndDeletedFalse(updateDto.getId());
+        Course course = courseOptional.get();
+        validator.validateKey(updateDto.getId());
+        mapper.fromUpdateDto(updateDto, course);
+
     }
 
     @Override
     public CourseDto get(String id) {
-        return null;
+
+        validator.validateKey(id);
+        Optional<Course> courseOptional = repository.findByIdAndDeletedFalse(id);
+        Course course = courseOptional.get();
+        return mapper.toDto(course);
+
     }
 
     @Override
     public List<CourseDto> getAll() {
-        return null;
+
+        validator.validateKey(null);
+        List<Course> courses = repository.findAllByDeletedFalse();
+        return mapper.toDto(courses);
+
+    }
+
+    public List<CourseDto> getActiveCourses() {
+
+        validator.validateKey(null);
+        List<Course> courses = repository.findAllByStatusAndDeletedFalse(properties.getActiveStatus());
+        return mapper.toDto(courses);
+
+    }
+
+    public List<CourseDto> getNonActiveCourses() {
+
+        validator.validateKey(null);
+        List<Course> courses = repository.findAllByStatusAndDeletedFalse(properties.getNonActiveStatus());
+        return mapper.toDto(courses);
+
     }
 
 
     public void activated(String id) {
+
+        validator.validateKey(id);
         Optional<Course> courseOptional = repository.findByIdAndDeletedFalse(id);
 
         if (courseOptional.isPresent()) {
             Course course = courseOptional.get();
-            course.setStatus((short) 210);
+            course.setStatus(properties.getActiveStatus());
             repository.save(course);
         }
+
     }
+
+    public void nonActivated(String id) {
+
+        validator.validateKey(id);
+        Optional<Course> courseOptional = repository.findByIdAndDeletedFalse(id);
+
+        if (courseOptional.isPresent()) {
+            Course course = courseOptional.get();
+            course.setStatus(properties.getNonActiveStatus());
+            repository.save(course);
+        }
+
+    }
+
+
 }
