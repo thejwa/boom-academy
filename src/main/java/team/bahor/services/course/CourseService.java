@@ -6,15 +6,14 @@ import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
 import team.bahor.entity.courses.Course;
 import team.bahor.enums.CourseCategory;
-import team.bahor.exeptions.ValidationException;
 import team.bahor.mappers.course.CourseMapper;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.services.base.GenericCrudService;
-import team.bahor.utils.Utils;
 import team.bahor.validators.course.CourseValidator;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -39,8 +38,8 @@ public class CourseService extends AbstractService<
         Course course = mapper.fromCreateDto(createDto);
 
         course.setCategory(CourseCategory.valueOf(createDto.getCategory()));
-        course.setId(UUID.randomUUID().toString().replace("-",""));
-        course.setCreatedBy(Utils.getSessionId());
+        course.setId(UUID.randomUUID().toString().replace("-", ""));
+        course.setCreatedBy("Utils.getSessionId()");
         course.setStatus((short) 200);
 
         course = repository.save(course);
@@ -66,5 +65,16 @@ public class CourseService extends AbstractService<
     @Override
     public List<CourseDto> getAll() {
         return null;
+    }
+
+
+    public void activated(String id) {
+        Optional<Course> courseOptional = repository.findByIdAndDeletedFalse(id);
+
+        if (courseOptional.isPresent()) {
+            Course course = courseOptional.get();
+            course.setStatus((short) 210);
+            repository.save(course);
+        }
     }
 }

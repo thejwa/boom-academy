@@ -1,5 +1,6 @@
 package team.bahor.services.exam.answerToExamQuestion;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionCreateDto;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionDto;
@@ -16,7 +17,7 @@ public class AnswerToExamQuestionServiceImpl extends AbstractService<
         AnswerToExamQuestionMapper,
         AnswerToExamQuestionValidator
         > implements AnswerToExamQuestionService{
-    public AnswerToExamQuestionServiceImpl(AnswerToExamQuestionMapper mapper, AnswerToExamQuestionValidator validator, AnswerToExamQuestionRepository repository) {
+    public AnswerToExamQuestionServiceImpl(@Qualifier("answerToExamQuestionMapperImpl") AnswerToExamQuestionMapper mapper, AnswerToExamQuestionValidator validator, AnswerToExamQuestionRepository repository) {
         super(mapper, validator, repository);
     }
 

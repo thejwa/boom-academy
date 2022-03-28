@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.bahor.controller.AbstractController;
 import team.bahor.dto.responce.DataDto;
-import team.bahor.dto.section.SectionCreateDto;
-import team.bahor.dto.section.SectionDto;
-import team.bahor.dto.section.SectionPositionUpdateDto;
-import team.bahor.dto.section.SectionUpdateDto;
+import team.bahor.dto.course.section.SectionCreateDto;
+import team.bahor.dto.course.section.SectionDto;
+import team.bahor.dto.course.section.SectionPositionUpdateDto;
+import team.bahor.dto.course.section.SectionUpdateDto;
 import team.bahor.services.course.section.SectionServiceImp;
 
 import java.util.List;

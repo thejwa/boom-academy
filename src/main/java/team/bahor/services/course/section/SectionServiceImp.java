@@ -1,16 +1,17 @@
 package team.bahor.services.course.section;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import team.bahor.dto.section.SectionCreateDto;
-import team.bahor.dto.section.SectionDto;
-import team.bahor.dto.section.SectionPositionUpdateDto;
-import team.bahor.dto.section.SectionUpdateDto;
+import team.bahor.dto.course.section.SectionCreateDto;
+import team.bahor.dto.course.section.SectionDto;
+import team.bahor.dto.course.section.SectionPositionUpdateDto;
+import team.bahor.dto.course.section.SectionUpdateDto;
 import team.bahor.entity.courses.Section;
 import team.bahor.mappers.course.SectionMapper;
 import team.bahor.repositories.course.SectionRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.utils.Utils;
-import team.bahor.validators.section.SectionValidator;
+import team.bahor.validators.course.section.SectionValidator;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ public class SectionServiceImp extends AbstractService<
         SectionMapper,
         SectionValidator> implements SectionService {
 
-    protected SectionServiceImp(SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
+    protected SectionServiceImp(@Qualifier("sectionMapperImpl") SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
         super(mapper, validator, repository);
     }
 
@@ -31,11 +32,11 @@ public class SectionServiceImp extends AbstractService<
         validator.validOnCreate(createDto);
         Section section = mapper.fromCreateDto(createDto);
 
-        short i = repository.countSectionByCourseId(section.getCourseId());
-        if (i > section.getPosition())
+        short length = repository.countSectionByCourseId(section.getCourseId());
+        if (length > section.getPosition())
             repository.updatePositionSection(section.getCourseId(), section.getPosition(), Utils.getSessionId());
         else
-            section.setPosition((short) (i + 1));
+            section.setPosition((short) (length + 1));
 
         repository.save(section);
         return "Saved section !";

@@ -45,10 +45,11 @@ public class UserActivationCode implements BaseGenericEntity {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean usedCode;
 
-    public UserActivationCode(String userId, String activationCode, String email) {
+    public UserActivationCode(String userId, String activationCode, String email, LocalDateTime activeTime) {
         this.userId = userId;
         this.activationCode = activationCode;
         this.email = email;
+        this.activeTime = activeTime;
     }
 
 }

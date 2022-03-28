@@ -1,13 +1,13 @@
-package team.bahor.validators.section;
+package team.bahor.validators.course.section;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import team.bahor.dto.section.SectionCreateDto;
-import team.bahor.dto.section.SectionUpdateDto;
+import team.bahor.dto.course.section.SectionCreateDto;
+import team.bahor.dto.course.section.SectionUpdateDto;
 import team.bahor.entity.courses.Section;
 import team.bahor.exeptions.ValidationException;
-import team.bahor.exeptions.course.SectionForbiddenException;
-import team.bahor.exeptions.course.SectionNotFoundException;
+import team.bahor.exeptions.course.section.SectionForbiddenException;
+import team.bahor.exeptions.course.section.SectionNotFoundException;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.repositories.course.SectionRepository;
 import team.bahor.utils.Utils;
@@ -17,12 +17,11 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class  SectionValidator
+public class SectionValidator
         extends AbstractValidator<SectionCreateDto, SectionUpdateDto, String> {
     private final SectionRepository sectionRepository;
     private final CourseRepository courseRepository;
 
-    //Todo checked actions user course owner?
 
     @Override
     public void validateKey(String id) throws ValidationException {

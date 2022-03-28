@@ -1,14 +1,11 @@
-package team.bahor.dto.section;
+package team.bahor.dto.course.section;
 
-import lombok.Getter;
-import lombok.Setter;
-import team.bahor.dto.BaseGenericDto;
+import team.bahor.dto.GenericDto;
 
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
-public class SectionCreateDto implements BaseGenericDto {
+public class SectionDto extends GenericDto {
+
     @NotNull
     private String courseId;
 
@@ -23,4 +20,8 @@ public class SectionCreateDto implements BaseGenericDto {
 
     @NotNull
     private String createdBy;
+
+    @NotNull
+    private Short status;
+
 }

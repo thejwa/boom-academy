@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface UserActivationCodeRepository extends JpaRepository<UserActivationCode, String> {
 
-    @Query(value = "select * from boom_academy.main.user_activation_code au  where au.activation_code = ?1 and au.email = ?2 and au.used_code = 0 and  au.active_time < current_timestamp", nativeQuery = true)
+    @Query(value = "select * from boom_academy.main.user_activation_code au  where au.activation_code = ?1 and au.email = ?2 and au.used_code = 0 and  au.active_time > current_timestamp", nativeQuery = true)
     UserActivationCode checkingCode(String activationCode, String email);
 
 
