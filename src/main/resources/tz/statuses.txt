@@ -11,4 +11,4 @@
 
 exam-status
 300 - exam hali toliq yaratilmagani anglatidi
-
+301 - message jonatilganini bildiradi

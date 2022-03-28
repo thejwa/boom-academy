@@ -11,6 +11,7 @@ import team.bahor.services.exam.examQuestionGeneration.ExamQuestionGenerationSer
 import team.bahor.validators.exam.ExamQuestionGenerationValidator;
 
 import java.util.List;
+
 @Service
 public class ExamQuestionGenerationServiceImpl extends AbstractService<
         ExamQuestionGenerationRepository,
@@ -25,6 +26,7 @@ public class ExamQuestionGenerationServiceImpl extends AbstractService<
 
     @Override
     public String create(ExamQuestionGenerationCreateDto createDto) {
+
         return null;
     }
 
@@ -48,7 +50,7 @@ public class ExamQuestionGenerationServiceImpl extends AbstractService<
         return null;
     }
 
-    public List<ExamQuestionGenerationDto> getAllByExamId(String id){
+    public List<ExamQuestionGenerationDto> getAllByExamId(String id) {
         return mapper.toDto(repository.findAllByDeletedFalseAndExamId(id));
     }
 

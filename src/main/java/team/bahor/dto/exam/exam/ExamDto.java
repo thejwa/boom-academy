@@ -12,13 +12,13 @@ public class ExamDto extends GenericDto {
 
     private Long duration; //milliseconds
 
-    private Short questionCount;
+    private Integer questionCount;
 
-    private Short maxMark;
+    private Integer maxMark;
 
     private String title;
 
     private String description;
 
-    private Map<Short, Short> questionCounts;
+    private Map<String, Integer> questionCounts;
 }

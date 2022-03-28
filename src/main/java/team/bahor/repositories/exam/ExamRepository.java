@@ -1,7 +1,7 @@
 package team.bahor.repositories.exam;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import team.bahor.dto.exam.exam.ExamDto;
 import team.bahor.entity.exam.Exam;
@@ -18,7 +18,7 @@ public interface ExamRepository extends JpaRepository<Exam, String>, BaseGeneric
     List<Exam> findAllByDeletedFalse();
 
     @Transactional
-    @Qualifier
-    @Query(value = "update Exam set duration = :#{#examDto.duration},maxMark = :#{#examDto.maxMark},questionCount = :#{#examDto.questionCount},status = 0 where id= :#{#examDto.id}")
+    @Modifying
+    @Query(value = "update Exam set duration = :#{#examDto.duration},maxMark = :#{#examDto.maxMark},questionCount = :#{#examDto.questionCount},status = 301 where id= :#{#examDto.id}")
     void update(ExamDto examDto);
 }

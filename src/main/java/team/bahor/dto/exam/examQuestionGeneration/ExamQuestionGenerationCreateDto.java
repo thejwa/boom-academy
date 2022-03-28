@@ -17,8 +17,8 @@ public class ExamQuestionGenerationCreateDto implements BaseGenericDto {
 
     private String examId;
 
-    private Short count;
+    private Integer count;
 
-    private Short mark;
+    private Integer mark;
 
 }

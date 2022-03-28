@@ -1,5 +1,6 @@
 package team.bahor.controller.user;
 
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,9 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         return service.getToken(dto);
     }
 
+    @SneakyThrows
     @RequestMapping(value = PATH + "/auth/refresh-token", method = RequestMethod.GET)
-    public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         return service.refreshToken(request, response);
     }
 

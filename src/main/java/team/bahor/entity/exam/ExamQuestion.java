@@ -28,5 +28,5 @@ public class ExamQuestion extends Auditable {
     private QuestionType type;
 
     @Column(nullable = false)
-    private Short mark;
+    private Integer mark;
 }

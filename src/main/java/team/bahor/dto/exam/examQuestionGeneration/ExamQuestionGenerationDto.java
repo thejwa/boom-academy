@@ -13,8 +13,8 @@ import java.util.List;
 public class ExamQuestionGenerationDto extends GenericDto {
     private String examId;
 
-    private Short count;
+    private Integer count;
 
-    private Short mark;
+    private Integer mark;
 
 }

@@ -24,10 +24,10 @@ public class ExamQuestionGeneration implements BaseGenericEntity {
     private String examId;
 
     @Column(nullable = false)
-    private Short count;
+    private Integer count;
 
     @Column(nullable = false)
-    private Short mark;
+    private Integer mark;
 
     @Column(name = "is_deleted", columnDefinition = "NUMERIC default 0")
     @Type(type = "org.hibernate.type.NumericBooleanType")

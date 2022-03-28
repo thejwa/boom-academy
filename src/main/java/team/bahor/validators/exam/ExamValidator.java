@@ -2,9 +2,11 @@ package team.bahor.validators.exam;
 
 import org.springframework.stereotype.Component;
 import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
+import team.bahor.dto.exam.exam.ExamCreateDtoEnd;
 import team.bahor.dto.exam.exam.ExamUpdateDto;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.validators.base.AbstractValidator;
+
 @Component
 public class ExamValidator extends AbstractValidator<ExamCreateDtoBegin, ExamUpdateDto, String> {
     @Override
@@ -21,4 +23,5 @@ public class ExamValidator extends AbstractValidator<ExamCreateDtoBegin, ExamUpd
     public void validOnUpdate(ExamUpdateDto cd) throws ValidationException {
 
     }
+
 }

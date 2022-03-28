@@ -15,10 +15,7 @@ import team.bahor.services.exam.exam.ExamService;
 import team.bahor.services.exam.examQuestionGeneration.ExamQuestionGenerationServiceImpl;
 import team.bahor.validators.exam.ExamValidator;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -40,6 +37,7 @@ public class ExamServiceImpl extends AbstractService<
         validator.validOnCreate(createDto);
         Exam exam = mapper.fromCreateDto(createDto);
         exam.setStatus((short) 300);
+        exam.setId(UUID.randomUUID().toString());
         return repository.save(exam).getId();
     }
 
@@ -60,9 +58,9 @@ public class ExamServiceImpl extends AbstractService<
             throw new NotFoundExamException("Not found Exam");
         }
         ExamDto examDto = mapper.toDto(byIdAndDeletedFalse.get());
-        Map<Short,Short> questionCount=new HashMap<>();
+        Map<String,Integer> questionCount=new HashMap<>();
         examQuestionGenerationService.getAllByExamId(id).forEach(examQuestionGenerationDto -> {
-            questionCount.put(examQuestionGenerationDto.getMark(),examQuestionGenerationDto.getCount());
+            questionCount.put(examQuestionGenerationDto.getMark().toString(),examQuestionGenerationDto.getCount());
         });
         examDto.setQuestionCounts(questionCount);
         return examDto;
@@ -79,12 +77,12 @@ public class ExamServiceImpl extends AbstractService<
         AtomicInteger questionCount= new AtomicInteger();
         AtomicInteger mark= new AtomicInteger();
         dto.getQuestionCounts().forEach((k,v)->{
-            questionCount.addAndGet(k);
-            mark.addAndGet(k * v);
-            examQuestionGenerationService.create(new ExamQuestionGenerationCreateDto(dto.getId(),v,k));
+            questionCount.addAndGet(Integer.parseInt(k));
+            mark.addAndGet(Integer.parseInt(k) * v);
+            examQuestionGenerationService.create(new ExamQuestionGenerationCreateDto(dto.getId(),v,Integer.parseInt(k)));
         });
-        examDto.setQuestionCount((short) questionCount.get());
-        examDto.setMaxMark((short) mark.get());
+        examDto.setQuestionCount(questionCount.get());
+        examDto.setMaxMark(mark.get());
         repository.update(examDto);
         return dto.getId();
     }

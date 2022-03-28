@@ -114,52 +114,52 @@ public class AuthUserServiceImp extends AbstractService<
 
 
     public ResponseEntity<DataDto<SessionDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        String authorizationHeader = request.getHeader(AUTHORIZATION);
-//        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-//            try {
-//                String refreshToken = authorizationHeader.substring("Bearer ".length());
-//
-//                Algorithm algorithm = JwtUtils.getAlgorithm();
-//                Date expiryForAccessToken = JwtUtils.getExpiryForRefreshToken();
-//                Date expiryForRefreshToken = JwtUtils.getExpiryForRefreshToken();
-//
-//                JWTVerifier verifier = JWT.require(algorithm).build();
-//                DecodedJWT decodedJWT = verifier.verify(refreshToken);
-//                String username = decodedJWT.getSubject();
-//                team.bahor.config.security.UserDetails user = new team.bahor.config.security.UserDetails(repository.findByUsernameAndDeletedFalse(username).get());
-//
-//                String accessToken = JWT.create()
-//                        .withSubject(user.getUsername())
-//                        .withExpiresAt(expiryForAccessToken)
-//                        .withIssuer(request.getRequestURL().toString())
-//                        .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-//                        .withClaim("id",user.getId())
-//                .withClaim("status", (int) user.getStatus())
-//                .withClaim("deleted",user.isDeleted())
-//
-//                        .sign(JwtUtils.getAlgorithm());
-//
-//                SessionDto sessionDto = SessionDto.builder()
-//                        .accessToken(accessToken)
-//                        .accessTokenExpiry(expiryForAccessToken.getTime())
-//                        .refreshToken(refreshToken)
-//                        .refreshTokenExpiry(expiryForRefreshToken.getTime())
-//                        .issuedAt(System.currentTimeMillis())
-//                        .build();
-//                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//                new ObjectMapper().writeValue(response.getOutputStream(), new DataDto<>(sessionDto));
-//            } catch (Exception exception) {
-//                log.error("Error logging in: {}", exception.getMessage());
-//                response.setHeader("error", exception.getMessage());
-//                response.setStatus(HttpStatus.FORBIDDEN.value());
-//                Map<String, String> error = new HashMap<>();
-//                error.put("error_message", exception.getMessage());
-//                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//                new ObjectMapper().writeValue(response.getOutputStream(), error);
-//            }
-//        } else {
-//            throw new RefreshTokenIsMissing("Refresh token is missing");
-//        }
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            try {
+                String refreshToken = authorizationHeader.substring("Bearer ".length());
+
+                Algorithm algorithm = JwtUtils.getAlgorithm();
+                Date expiryForAccessToken = JwtUtils.getExpiryForRefreshToken();
+                Date expiryForRefreshToken = JwtUtils.getExpiryForRefreshToken();
+
+                JWTVerifier verifier = JWT.require(algorithm).build();
+                DecodedJWT decodedJWT = verifier.verify(refreshToken);
+                String username = decodedJWT.getSubject();
+                team.bahor.config.security.UserDetails user = new team.bahor.config.security.UserDetails(repository.findByUsernameAndDeletedFalse(username).get());
+
+                String accessToken = JWT.create()
+                        .withSubject(user.getUsername())
+                        .withExpiresAt(expiryForAccessToken)
+                        .withIssuer(request.getRequestURL().toString())
+                        .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                        .withClaim("id",user.getId())
+                .withClaim("status", (int) user.getStatus())
+                .withClaim("deleted",user.isDeleted())
+
+                        .sign(JwtUtils.getAlgorithm());
+
+                SessionDto sessionDto = SessionDto.builder()
+                        .accessToken(accessToken)
+                        .accessTokenExpiry(expiryForAccessToken.getTime())
+                        .refreshToken(refreshToken)
+                        .refreshTokenExpiry(expiryForRefreshToken.getTime())
+                        .issuedAt(System.currentTimeMillis())
+                        .build();
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), new DataDto<>(sessionDto));
+            } catch (Exception exception) {
+                log.error("Error logging in: {}", exception.getMessage());
+                response.setHeader("error", exception.getMessage());
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                Map<String, String> error = new HashMap<>();
+                error.put("error_message", exception.getMessage());
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
+            }
+        } else {
+            throw new RefreshTokenIsMissing("Refresh token is missing");
+        }
         return null;
     }
 

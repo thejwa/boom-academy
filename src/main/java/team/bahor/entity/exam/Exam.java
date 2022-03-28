@@ -3,6 +3,8 @@ package team.bahor.entity.exam;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.factory.annotation.Value;
 import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
@@ -17,24 +19,24 @@ import javax.persistence.Table;
 @Table(indexes = {
         @Index(name = "exam_title_index", columnList = "title"),
         @Index(name = "exam_course_id_index", columnList = "course_id"),
-        @Index(name = "exam_status_index",columnList = "status")
+        @Index(name = "exam_status_index", columnList = "status")
 })
 public class Exam extends Auditable {
     @Column(name = "course_id", nullable = false)
     private String courseId;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "int8 default 0")
     private Long duration; //milliseconds
 
-    @Column(nullable = false)
-    private Short questionCount;
+    @Column(columnDefinition = "int2 default 0")
+    private Integer questionCount;
 
-    @Column(nullable = false)
-    private Short maxMark;
+    @Value("int2 0")
+    @Column(columnDefinition = "int2 default 0")
+    private Integer maxMark;
 
     @Column(nullable = false)
     private String title;
 
     private String description;
-
 }

@@ -11,6 +11,6 @@ public class ExamUpdateDto extends GenericDto {
 
     private String description;
 
-    private Map<Short, Short> questionCounts;
+    private Map<String, Integer> questionCounts;
 }
 
