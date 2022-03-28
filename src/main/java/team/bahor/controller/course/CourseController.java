@@ -1,6 +1,5 @@
 package team.bahor.controller.course;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +8,6 @@ import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.responce.DataDto;
 import team.bahor.services.course.CourseService;
-import team.bahor.utils.Utils;
 
 
 @RestController(value = "/course/")
@@ -23,6 +21,12 @@ public class CourseController extends AbstractController<CourseService> {
     public ResponseEntity<DataDto<CourseDto>> get(@PathVariable String id) {
         CourseDto courseDto = service.get(id);
         return new ResponseEntity<>(new DataDto<>(courseDto), HttpStatus.OK);
+    }
+
+    @PutMapping("activated/{id}")
+    public ResponseEntity<DataDto<String>> activatedCourse(@PathVariable String id) {
+        service.activated(id);
+        return new ResponseEntity<>(new DataDto<>("activated"), HttpStatus.OK);
     }
 
     @PostMapping("create")

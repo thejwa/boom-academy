@@ -11,7 +11,7 @@ public abstract class AbstractValidator<CD extends BaseGenericDto, UD extends Ge
 
     public abstract void validateKey(K id) throws ValidationException;
 
-    public abstract void validOnCreate(CD cd) throws ValidationException, CategoryNotAvailableException;
+    public abstract void validOnCreate(CD cd) throws ValidationException;
 
     public abstract void validOnUpdate(UD cd) throws ValidationException;
 
