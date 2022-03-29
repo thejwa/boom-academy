@@ -1,5 +1,6 @@
 package team.bahor.services.course;
 
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
@@ -45,7 +46,7 @@ public class CourseService extends AbstractService<
         course.setCategory(CourseCategory.valueOf(createDto.getCategory()));
         course.setId(UUID.randomUUID().toString().replace("-", ""));
         course.setCreatedBy(Utils.getSessionId());
-        course.setStatus((short) 200);
+        course.setStatus(properties.getNonActiveStatus());
 
         course = repository.save(course);
         return course.getId();
@@ -105,6 +106,7 @@ public class CourseService extends AbstractService<
 
         validator.validateKey(null);
         List<Course> courses = repository.findAllByStatusAndDeletedFalse(properties.getNonActiveStatus());
+
         return mapper.toDto(courses);
 
     }

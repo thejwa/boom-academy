@@ -11,10 +11,9 @@ public class Utils {
     public static boolean sessionHasRole(String role) {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities()
                 .stream().
-                filter(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase(role))
+                filter(grantedAuthority -> grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_" + role))
                 .count() == 1;
     }
-
 
     public static boolean sessionHasAnyRole(String... roles) {
         for (String role : roles) {
