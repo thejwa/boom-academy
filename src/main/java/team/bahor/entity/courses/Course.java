@@ -3,6 +3,7 @@ package team.bahor.entity.courses;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import team.bahor.entity.base.Auditable;
 import team.bahor.enums.CourseCategory;
 
