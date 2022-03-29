@@ -15,6 +15,5 @@ public abstract class AbstractValidator<CD extends BaseGenericDto, UD extends Ge
 
     public abstract void validOnUpdate(UD cd) throws ValidationException;
 
-
 }
 

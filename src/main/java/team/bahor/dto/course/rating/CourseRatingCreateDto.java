@@ -6,6 +6,7 @@ import team.bahor.dto.BaseGenericDto;
 
 import javax.validation.constraints.NotNull;
 
+
 @Getter
 @Setter
 public class CourseRatingCreateDto implements BaseGenericDto {
@@ -17,7 +18,7 @@ public class CourseRatingCreateDto implements BaseGenericDto {
     private String userId;
 
     @NotNull
-    private byte rating;
+    private float rating;
 
     private String body;
 }

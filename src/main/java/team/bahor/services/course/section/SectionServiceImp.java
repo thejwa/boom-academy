@@ -57,10 +57,10 @@ public class SectionServiceImp extends AbstractService<
         return null;
     }
 
-    public List<SectionDto> getCourseSections(String id){
+    public List<SectionDto> getCourseSections(String id) {
+        validator.validOnAuthorizated();
         List<Section> allCourseSections = repository.findAllByCourseIdAAndDelete(id, Utils.getSessionId());
-        validator.validOnCreate(id);
-        return  mapper.toDto(allCourseSections);
+        return mapper.toDto(allCourseSections);
     }
 
 
@@ -71,6 +71,7 @@ public class SectionServiceImp extends AbstractService<
         Section section = mapper.fromUpdateDto(updateDto, optionalSection.get());
         repository.save(section);
     }
+
 
     @Override
     public void delete(String id) {

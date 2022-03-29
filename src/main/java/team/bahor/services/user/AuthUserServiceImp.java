@@ -172,7 +172,7 @@ public class AuthUserServiceImp extends AbstractService<
     @Override
     public String create(UserCreateDto createDto) {
 
-        AuthUser authUser = repository.existsByEmailOrUsername(createDto.getEmail(), createDto.getUsername());
+        AuthUser authUser = repository.findByEmailOrUsername(createDto.getEmail(), createDto.getUsername());
 
         if (Objects.nonNull(authUser))
             throw new AuthUserEmailAlreadyTakenExeption("Bad request !!!");

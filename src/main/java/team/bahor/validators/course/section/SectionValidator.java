@@ -8,11 +8,13 @@ import team.bahor.entity.courses.Section;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.exeptions.course.section.SectionForbiddenException;
 import team.bahor.exeptions.course.section.SectionNotFoundException;
+import team.bahor.repositories.auth.AuthUserRepository;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.repositories.course.SectionRepository;
 import team.bahor.utils.Utils;
 import team.bahor.validators.base.AbstractValidator;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -21,7 +23,7 @@ public class SectionValidator
         extends AbstractValidator<SectionCreateDto, SectionUpdateDto, String> {
     private final SectionRepository sectionRepository;
     private final CourseRepository courseRepository;
-
+    private final AuthUserRepository authUserRepository;
 
     @Override
     public void validateKey(String id) throws ValidationException {
@@ -38,8 +40,8 @@ public class SectionValidator
     }
 
 
-    public void validOnCreate(String id) {
-        if (!courseRepository.existsByIdAndCreatedBy(id, Utils.getSessionId()))
+    public void validOnAuthorizated() {
+        if (Objects.isNull(authUserRepository.findByIdAuthorizated(Utils.getSessionId())))
             throw new SectionForbiddenException("Not allowed");
     }
 
