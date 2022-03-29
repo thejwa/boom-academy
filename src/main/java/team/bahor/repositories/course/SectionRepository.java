@@ -51,5 +51,8 @@ public interface SectionRepository extends AbstractRepository<Section, String> {
     @Query(value = "update boom_academy.main.section set is_deleted = 1 where id = ?1 and created_by = ?2", nativeQuery = true)
     void deleteBySection(String sId, String ownerId);
 
+    @Query(value = "select exists(select * from main.section s inner join main.courses c on s.course_id = c.id where c.created_by = ?2 and c.id = ?1);", nativeQuery = true)
+    boolean isUserCreatorOfCourse(String sectionId, String userId);
+
 //
 }
