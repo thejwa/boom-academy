@@ -32,5 +32,5 @@ public interface AuthUserRepository extends JpaRepository<AuthUser, String>, Bas
     AuthUser findByEmailOrUsername(String email, String username);
 
     @Query(value = "select * from boom_academy.main.auth_users where id = ?1 and status = 0 and is_deleted = 0", nativeQuery = true)
-    AuthUser findByIdAuthorizated(String sessionId);
+    boolean existsByIdAuthorizated(String sessionId);
 }

@@ -14,7 +14,6 @@ import team.bahor.repositories.course.SectionRepository;
 import team.bahor.utils.Utils;
 import team.bahor.validators.base.AbstractValidator;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -41,7 +40,7 @@ public class SectionValidator
 
 
     public void validOnAuthorizated() {
-        if (Objects.isNull(authUserRepository.findByIdAuthorizated(Utils.getSessionId())))
+        if (!authUserRepository.existsByIdAuthorizated(Utils.getSessionId()))
             throw new SectionForbiddenException("Not allowed");
     }
 

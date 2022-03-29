@@ -67,7 +67,7 @@ public class CourseRatingValidator extends AbstractValidator<CourseRatingCreateD
     }
 
     public void findByIdAuthorizated() {
-        if (Objects.isNull(authUserRepository.findByIdAuthorizated(Utils.getSessionId())))
+        if (!authUserRepository.existsByIdAuthorizated(Utils.getSessionId()))
             throw new SectionForbiddenException("Not allowed");
 
     }
