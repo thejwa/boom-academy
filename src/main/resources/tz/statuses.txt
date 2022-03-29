@@ -9,6 +9,6 @@
 200 - none active
 210 - active
 
-exam-status
+#exam-status
 300 - exam hali toliq yaratilmagani anglatidi
 
