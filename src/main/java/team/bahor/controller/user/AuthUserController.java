@@ -18,6 +18,8 @@ import java.io.IOException;
 @RestController
 public class AuthUserController extends AbstractController<AuthUserServiceImp> {
 
+
+
     public AuthUserController(AuthUserServiceImp service) {
         super(service);
     }
@@ -34,6 +36,7 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         return new ResponseEntity<>(str, HttpStatus.OK);
         //Todo checked this method
     }
+
 
     @RequestMapping(value = PATH + "/auth/token", method = RequestMethod.POST)
     public ResponseEntity<DataDto<SessionDto>> token(@RequestBody AuthUserDto dto) {

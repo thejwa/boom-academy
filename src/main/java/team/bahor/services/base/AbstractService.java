@@ -2,6 +2,7 @@ package team.bahor.services.base;
 
 import team.bahor.mappers.base.BaseGenericMapper;
 import team.bahor.repositories.base.BaseGenericRepository;
+import team.bahor.utils.Utils;
 import team.bahor.validators.base.BaseGenericValidator;
 
 public abstract class AbstractService<

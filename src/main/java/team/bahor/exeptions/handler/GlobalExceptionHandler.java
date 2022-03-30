@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import team.bahor.dto.responce.AppErrorDto;
 import team.bahor.dto.responce.DataDto;
+import team.bahor.exeptions.NotAllowedException;
 import team.bahor.exeptions.course.CategoryNotAvailableException;
 import team.bahor.exeptions.fileStore.FileStorageException;
 
@@ -34,6 +35,20 @@ public class GlobalExceptionHandler {
                                 exception.getMessage(),
                                 request,
                                 HttpStatus.NO_CONTENT,
+                                exception.getDeveloperMessage())).build(), HttpStatus.OK
+        );
+
+    }
+
+    @ExceptionHandler(value = NotAllowedException.class)
+    public ResponseEntity<DataDto<AppErrorDto>> handleNotAllowedException(NotAllowedException exception,WebRequest request){
+        return new ResponseEntity<>(
+                DataDto.<AppErrorDto>builder()
+                        .success(false)
+                        .error(new AppErrorDto(
+                                exception.getMessage(),
+                                request,
+                                HttpStatus.METHOD_NOT_ALLOWED,
                                 exception.getDeveloperMessage())).build(), HttpStatus.OK
         );
 

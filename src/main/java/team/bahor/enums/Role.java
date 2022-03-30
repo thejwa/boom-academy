@@ -1,5 +1,7 @@
 package team.bahor.enums;
 
+import org.apache.commons.codec.digest.MurmurHash2;
+
 public enum Role {
     SUPER_ADMIN(100),
     ADMIN(60),

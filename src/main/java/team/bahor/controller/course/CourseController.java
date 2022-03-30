@@ -1,8 +1,8 @@
 package team.bahor.controller.course;
 
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import team.bahor.controller.AbstractController;
 import team.bahor.dto.course.CourseCreateDto;
@@ -26,19 +26,35 @@ public class CourseController extends AbstractController<CourseService> {
         return new ResponseEntity<>(new DataDto<>(courseDto), HttpStatus.OK);
     }
 
-    @GetMapping("getAll")
+    @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
+    @GetMapping("getCourses")
     public ResponseEntity<DataDto<List<CourseDto>>> getAll() {
         return new ResponseEntity<>(new DataDto<>(service.getAll()), HttpStatus.OK);
     }
-
+    @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
     @GetMapping("getActiveCourses")
     public ResponseEntity<DataDto<List<CourseDto>>> getActiveCourses() {
         return new ResponseEntity<>(new DataDto<>(service.getActiveCourses()), HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
     @GetMapping("getNonActiveCourses")
     public ResponseEntity<DataDto<List<CourseDto>>> getNonActiveCourses() {
         return new ResponseEntity<>(new DataDto<>(service.getNonActiveCourses()), HttpStatus.OK);
+    }
+
+    @GetMapping("getMyCourses")
+    public ResponseEntity<DataDto<List<CourseDto>>> getMyCourses() {
+        return new ResponseEntity<>(new DataDto<>(service.getMyCourses()), HttpStatus.OK);
+    }
+    @GetMapping("getMyActiveCourses")
+    public ResponseEntity<DataDto<List<CourseDto>>> getMyActiveCourses() {
+        return new ResponseEntity<>(new DataDto<>(service.getMyActiveCourses()), HttpStatus.OK);
+    }
+
+    @GetMapping("getMyNonActiveCourses")
+    public ResponseEntity<DataDto<List<CourseDto>>> getMyNonActiveCourses() {
+        return new ResponseEntity<>(new DataDto<>(service.getMyNonActiveCourses()), HttpStatus.OK);
     }
 
     @PutMapping("activated/{id}")
@@ -50,7 +66,7 @@ public class CourseController extends AbstractController<CourseService> {
     @PutMapping("nonActivated/{id}")
     public ResponseEntity<DataDto<String>> nonActivatedCourse(@PathVariable String id) {
         service.nonActivated(id);
-        return new ResponseEntity<>(new DataDto<>("activated"), HttpStatus.OK);
+        return new ResponseEntity<>(new DataDto<>("non activated"), HttpStatus.OK);
     }
 
     @PostMapping("create")
