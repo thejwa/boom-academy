@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
                         .error(
                                 new AppErrorDto(exception.getMessage(),
                                         webRequest,
-                                        HttpStatus.FORBIDDEN,exception.getDeveloperMessage()))
+                                        HttpStatus.FORBIDDEN, exception.getDeveloperMessage()))
                         .build(), HttpStatus.OK);
     }
 
@@ -52,5 +52,18 @@ public class GlobalExceptionHandler {
                                 exception.getDeveloperMessage())).build(), HttpStatus.OK
         );
 
+    }
+
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<DataDto> handleRuntimeException(RuntimeException exception, WebRequest request) {
+        return new ResponseEntity<>(
+                DataDto.builder()
+                        .success(false)
+                        .error(
+                                new AppErrorDto(exception.getMessage(),
+                                        request,
+                                        HttpStatus.FORBIDDEN,
+                                        exception.getMessage()))
+                        .build(), HttpStatus.OK);
     }
 }
