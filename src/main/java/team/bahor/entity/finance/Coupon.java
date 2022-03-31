@@ -30,11 +30,11 @@ public class Coupon extends Auditable {
 
     private LocalDate dueDate;
 
-    private Integer limitSize;
+    private int limitSize;
 
-    private Double discountAmount;
+    private double discountAmount;
 
-    private Double discountPercentage;
+    private double discountPercentage;
 
 }
 
