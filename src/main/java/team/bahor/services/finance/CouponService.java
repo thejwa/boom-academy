@@ -1,5 +1,6 @@
 package team.bahor.services.finance;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.finance.CouponCreateDto;
 import team.bahor.dto.finance.CouponDto;
@@ -20,7 +21,7 @@ public class CouponService extends AbstractService<CouponRepository, CouponMappe
         CouponCreateDto,
         CouponUpdateDto,
         String> {
-    protected CouponService(CouponMapper mapper, CouponValidator validator, CouponRepository repository) {
+    protected CouponService(@Qualifier("couponMapperImpl") CouponMapper mapper, CouponValidator validator, CouponRepository repository) {
         super(mapper, validator, repository);
     }
 

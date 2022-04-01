@@ -1,5 +1,6 @@
 package team.bahor.services.tag;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.tag.TagCreateDto;
 import team.bahor.dto.tag.TagDto;
@@ -17,7 +18,7 @@ public class TagServiceImp extends AbstractService<
         TagsMapper,
         TagsValidator> implements TagService {
 
-    protected TagServiceImp(TagsMapper mapper, TagsValidator validator, TagsRepository repository) {
+    protected TagServiceImp(@Qualifier("tagsMapperImpl") TagsMapper mapper, TagsValidator validator, TagsRepository repository) {
         super(mapper, validator, repository);
     }
 
