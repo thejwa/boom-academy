@@ -27,8 +27,8 @@ public class CourseRating extends Auditable {
     @Column(nullable = false)
     private String userId;
 
-    @Column(nullable = false)
-    private byte rating;
+    @Column(nullable = false, columnDefinition = "float4 default 0")
+    private float rating;
 
     private String body; // -> course haqida fikr qoldirmoqchi bo'lsa body'da berib yuboriladi
 }

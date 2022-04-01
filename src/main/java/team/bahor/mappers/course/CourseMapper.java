@@ -1,7 +1,7 @@
 package team.bahor.mappers.course;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
@@ -10,7 +10,8 @@ import team.bahor.mappers.base.AbstractMapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Component
+@Mapper(componentModel = "spring",  nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CourseMapper extends AbstractMapper<
         Course,
         CourseDto,
@@ -29,4 +30,6 @@ public interface CourseMapper extends AbstractMapper<
 
     @Override
     Course fromUpdateDto(CourseUpdateDto updateDto);
+
+    Course fromUpdateDto(CourseUpdateDto updateDto, @MappingTarget Course course);
 }

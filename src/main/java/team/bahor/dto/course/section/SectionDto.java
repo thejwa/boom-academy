@@ -1,9 +1,13 @@
 package team.bahor.dto.course.section;
 
+import lombok.Getter;
+import lombok.Setter;
 import team.bahor.dto.GenericDto;
 
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
 public class SectionDto extends GenericDto {
 
     @NotNull

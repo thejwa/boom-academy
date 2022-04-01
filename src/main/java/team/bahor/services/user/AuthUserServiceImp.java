@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.auth.AuthUserDto;
 import team.bahor.dto.auth.SessionDto;
@@ -58,6 +59,7 @@ public class AuthUserServiceImp extends AbstractService<
     private final ServerProperties serverProperties;
     private final ObjectMapper objectMapper;
     private final UserActivationCodeRepository userActivationCodeRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
@@ -66,12 +68,13 @@ public class AuthUserServiceImp extends AbstractService<
                               AuthUserRepository repository,
                               JavaMailSender javaMailSender,
                               ServerProperties serverProperties,
-                              ObjectMapper objectMapper, UserActivationCodeRepository userActivationCodeRepository) {
+                              ObjectMapper objectMapper, UserActivationCodeRepository userActivationCodeRepository, PasswordEncoder passwordEncoder) {
         super(mapper, validator, repository);
         this.javaMailSender = javaMailSender;
         this.serverProperties = serverProperties;
         this.objectMapper = objectMapper;
         this.userActivationCodeRepository = userActivationCodeRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public ResponseEntity<DataDto<SessionDto>> getToken(AuthUserDto dto) {
@@ -172,14 +175,15 @@ public class AuthUserServiceImp extends AbstractService<
     @Override
     public String create(UserCreateDto createDto) {
 
-        AuthUser authUser = repository.existsByEmailOrUsername(createDto.getEmail(), createDto.getUsername());
+        AuthUser authUser = repository.findByEmailOrUsername(createDto.getEmail(), createDto.getUsername());
 
         if (Objects.nonNull(authUser))
             throw new AuthUserEmailAlreadyTakenExeption("Bad request !!!");
 
         String random = UUID.randomUUID().toString();
         authUser = mapper.fromCreateDto(createDto);
-        authUser.setId(UUID.randomUUID().toString());
+        authUser.setPassword(passwordEncoder.encode(createDto.getPassword()));
+        authUser.setId(random);
         authUser.setRole(Role.USER);
         authUser.setStatus((short) 110);
         authUser.setBalance(0.0);
