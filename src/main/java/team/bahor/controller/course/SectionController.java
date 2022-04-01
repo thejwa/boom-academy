@@ -9,15 +9,15 @@ import team.bahor.dto.course.section.SectionCreateDto;
 import team.bahor.dto.course.section.SectionDto;
 import team.bahor.dto.course.section.SectionPositionUpdateDto;
 import team.bahor.dto.course.section.SectionUpdateDto;
-import team.bahor.services.course.section.SectionServiceImp;
+import team.bahor.services.course.section.SectionServiceImpl;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/section")
-public class SectionController extends AbstractController<SectionServiceImp> {
+public class SectionController extends AbstractController<SectionServiceImpl> {
 
-    public SectionController(SectionServiceImp service) {
+    public SectionController(SectionServiceImpl service) {
         super(service);
     }
 
