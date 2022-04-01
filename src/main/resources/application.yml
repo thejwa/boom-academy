@@ -36,11 +36,11 @@ api:
     contact-url: https://boom.uz, https://boom-academy.uz
 
 storage:
-  location:
+  location: C:/Users/HP/Desktop/boom-academy/resource
 
 course:
   activeStatus: 0
-  nonActiveStatus: -1
+  nonActiveStatus: 210
 
 
 service:
