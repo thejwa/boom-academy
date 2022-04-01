@@ -39,7 +39,7 @@ storage:
   location: C:/Users/HP/Desktop/boom-academy/resource
 
 course:
-  activeStatus: 200
+  activeStatus: 0
   nonActiveStatus: 210
 
 

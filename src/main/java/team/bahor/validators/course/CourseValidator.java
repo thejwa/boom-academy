@@ -6,6 +6,7 @@ import team.bahor.dto.course.CourseUpdateDto;
 import team.bahor.entity.courses.Course;
 import team.bahor.enums.CourseCategory;
 import team.bahor.enums.Role;
+import team.bahor.exeptions.NotAllowedException;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.exeptions.course.CategoryNotAvailableException;
 import team.bahor.exeptions.course.CourseForbiddenException;
@@ -52,5 +53,11 @@ public class CourseValidator extends AbstractValidator<
         if (dto.getPrice() < 0 || dto.getDuration() < 0)
             throw new CourseForbiddenException("Not possible to enter a negative number");
 
+    }
+
+    @Override
+    public void validPermission(String... roles) {
+        if (!Utils.sessionHasAnyRole(roles))
+            throw new NotAllowedException("You have not this permission");
     }
 }

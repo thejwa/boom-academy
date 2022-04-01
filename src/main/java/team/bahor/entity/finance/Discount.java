@@ -23,9 +23,11 @@ public class Discount extends Auditable {
     @Column(nullable = false)
     private String courseId;
 
-    private Double percentage;
+    private double percentage;
 
-    private Double amount;
+    private double amount;
 
-    private LocalDateTime dueDate;
+    private LocalDateTime dueDate; // -> expiry date of discount
+
+    private int limitSize;
 }

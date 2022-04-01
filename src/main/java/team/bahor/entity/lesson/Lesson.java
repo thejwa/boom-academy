@@ -3,6 +3,7 @@ package team.bahor.entity.lesson;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import team.bahor.entity.base.Auditable;
 
 import javax.persistence.Column;
@@ -38,4 +39,8 @@ public class Lesson extends Auditable {
 
     @Column(name = "created_by", nullable = false)
     private String createdBy;
+
+    @Column(name = "is_open_to_public", columnDefinition = "NUMERIC default 0")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean openToPublic;
 }

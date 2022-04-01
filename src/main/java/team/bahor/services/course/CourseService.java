@@ -8,6 +8,7 @@ import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.CourseUpdateDto;
 import team.bahor.entity.courses.Course;
 import team.bahor.enums.CourseCategory;
+import team.bahor.enums.Role;
 import team.bahor.mappers.course.CourseMapper;
 import team.bahor.properties.CourseProperties;
 import team.bahor.repositories.course.CourseRepository;
@@ -105,12 +106,27 @@ public class CourseService extends AbstractService<
     }
 
     public List<CourseDto> getNonActiveCourses() {
-
+        validator.validPermission(Role.MANAGER.name(), Role.SUPER_ADMIN.name(), Role.ADMIN.name());
         validator.validateKey(null);
         List<Course> courses = repository.findAllByStatusAndDeletedFalse(properties.getNonActiveStatus());
 
         return mapper.toDto(courses);
 
+    }
+
+    public List<CourseDto> getMyCourses() {
+        List<Course> courses = repository.findAllByCreatedByAndDeletedFalse(Utils.getSessionId());
+        return mapper.toDto(courses);
+    }
+
+    public List<CourseDto> getMyActiveCourses() {
+        List<Course> courses = repository.findAllByCreatedByAndStatusAndDeletedFalse(Utils.getSessionId(), properties.getActiveStatus());
+        return mapper.toDto(courses);
+    }
+
+    public List<CourseDto> getMyNonActiveCourses() {
+        List<Course> courses = repository.findAllByCreatedByAndStatusAndDeletedFalse(Utils.getSessionId(), properties.getNonActiveStatus());
+        return mapper.toDto(courses);
     }
 
 

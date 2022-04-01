@@ -13,7 +13,6 @@ import team.bahor.properties.OpenApiProperty;
 import team.bahor.properties.ServerProperties;
 import team.bahor.repositories.auth.AuthUserRepository;
 
-import javax.transaction.Transactional;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -35,7 +34,8 @@ public class BoomAcademyApplication {
         SpringApplication.run(BoomAcademyApplication.class, args);
     }
 
-  //  @Bean
+
+    @Bean
     CommandLineRunner runner() {
         return (args) -> {
             authUserRepository.deleteAll();
