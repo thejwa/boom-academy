@@ -13,12 +13,12 @@ import team.bahor.validators.tag.TagsValidator;
 import java.util.List;
 
 @Service
-public class TagServiceImp extends AbstractService<
+public class TagsServiceImp extends AbstractService<
         TagsRepository,
         TagsMapper,
-        TagsValidator> implements TagService {
+        TagsValidator> implements TagsService {
 
-    protected TagServiceImp(@Qualifier("tagsMapperImpl") TagsMapper mapper, TagsValidator validator, TagsRepository repository) {
+    protected TagsServiceImp(@Qualifier("tagsMapperImpl") TagsMapper mapper, TagsValidator validator, TagsRepository repository) {
         super(mapper, validator, repository);
     }
 

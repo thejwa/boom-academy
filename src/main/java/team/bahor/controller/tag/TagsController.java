@@ -2,23 +2,20 @@ package team.bahor.controller.tag;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import team.bahor.controller.AbstractController;
 import team.bahor.dto.responce.DataDto;
 import team.bahor.dto.tag.TagCreateDto;
 import team.bahor.dto.tag.TagDto;
-import team.bahor.services.tag.TagServiceImp;
+import team.bahor.services.tag.TagsServiceImp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/tag")
-public class TagsController extends AbstractController<TagServiceImp> {
+public class TagsController extends AbstractController<TagsServiceImp> {
 
-    public TagsController(TagServiceImp service) {
+    public TagsController(TagsServiceImp service) {
         super(service);
     }
 
