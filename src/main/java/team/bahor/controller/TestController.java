@@ -27,6 +27,7 @@ public class TestController {
         return new ResponseEntity<>(new DataDto<>(Utils.getSessionId()), HttpStatus.OK);
     }
 
+
     @GetMapping("test/auth")
     public ResponseEntity<ExamCreateDtoEnd> test(){
         ExamCreateDtoEnd examCreateDtoEnd=new ExamCreateDtoEnd();

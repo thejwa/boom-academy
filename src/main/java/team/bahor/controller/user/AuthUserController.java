@@ -19,6 +19,8 @@ import java.io.IOException;
 @RestController
 public class AuthUserController extends AbstractController<AuthUserServiceImp> {
 
+
+
     public AuthUserController(AuthUserServiceImp service) {
         super(service);
     }
@@ -53,11 +55,12 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @RequestMapping(value = PATH + "/auth/blocked/{id}", method = RequestMethod.GET)
     public ResponseEntity<Void> blocked(@PathVariable String id) {
         service.blocked(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
 }

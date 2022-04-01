@@ -8,8 +8,6 @@ public abstract class AbstractController<S extends BaseGenericService> {
     protected final String VERSION = "/v1";
     protected final String PATH = API + VERSION;
 
-
-
     public AbstractController(S service) {
         this.service = service;
     }

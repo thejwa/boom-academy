@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    password: 19801980
+    password: 123
     username: postgres
     url: jdbc:postgresql://localhost:5432/boom_academy?currentSchema=main
   jpa:
@@ -39,6 +39,11 @@ api:
 
 storage:
   location: C:/Users/HP/Desktop/boom-academy/resource
+
+course:
+  activeStatus: 0
+  nonActiveStatus: 210
+
 
 service:
   prop:

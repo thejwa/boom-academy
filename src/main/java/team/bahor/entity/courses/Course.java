@@ -3,6 +3,7 @@ package team.bahor.entity.courses;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import team.bahor.entity.base.Auditable;
 import team.bahor.enums.CourseCategory;
 
@@ -30,8 +31,10 @@ public class Course extends Auditable {
     @Column(nullable = false)
     private Double price;
 
-    private Integer rating;
+    @Column(nullable = false, columnDefinition = "float4 default 0")
+    private float rating;
 
+    @Column(nullable = false, columnDefinition = "int8 default 0")
     private Integer ratingCount;
 
     @Column(nullable = false)

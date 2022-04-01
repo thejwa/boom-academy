@@ -49,4 +49,6 @@ public class AppErrorDto {
         this.path = path;
     }
 
+    public AppErrorDto(int scUnauthorized, String message) {
+    }
 }

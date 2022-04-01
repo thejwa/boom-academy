@@ -25,5 +25,4 @@ class BoomAcademyApplicationTests {
         System.out.println("s = " + s);
     }
 
-
 }
