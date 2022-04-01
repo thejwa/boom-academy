@@ -1,6 +1,7 @@
 package team.bahor.services.course;
 
 import org.checkerframework.checker.units.qual.C;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
@@ -32,7 +33,7 @@ public class CourseService extends AbstractService<
 
     private final CourseProperties properties;
 
-    protected CourseService(CourseMapper mapper, CourseValidator validator, CourseRepository repository, CourseProperties properties) {
+    protected CourseService(@Qualifier("courseMapperImpl") CourseMapper mapper, CourseValidator validator, CourseRepository repository, CourseProperties properties) {
         super(mapper, validator, repository);
         this.properties = properties;
     }
@@ -47,7 +48,8 @@ public class CourseService extends AbstractService<
         course.setId(UUID.randomUUID().toString().replace("-", ""));
         course.setCreatedBy(Utils.getSessionId());
         course.setStatus(properties.getNonActiveStatus());
-
+        course.setRatingCount(0);
+        course.setRating(0);
         course = repository.save(course);
         return course.getId();
 

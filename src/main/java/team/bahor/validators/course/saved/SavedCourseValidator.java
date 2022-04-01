@@ -5,10 +5,14 @@ import org.springframework.stereotype.Component;
 import team.bahor.dto.course.saved.SavedCourseCreateDto;
 import team.bahor.dto.course.saved.SavedCourseUpdateDto;
 import team.bahor.exeptions.ValidationException;
+import team.bahor.exeptions.course.saved.SavedCourseNotFoundException;
+import team.bahor.exeptions.course.saved.SavedForbiddenException;
 import team.bahor.repositories.auth.AuthUserRepository;
 import team.bahor.repositories.course.SavedCourseRepository;
 import team.bahor.utils.Utils;
 import team.bahor.validators.base.AbstractValidator;
+
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +23,10 @@ public class SavedCourseValidator extends AbstractValidator<SavedCourseCreateDto
 
     @Override
     public void validateKey(String id) throws ValidationException {
+        if(Objects.isNull(authUserRepository.findByIdAuthorizated(Utils.getSessionId())))
+            throw new SavedForbiddenException("NOT ALLOWED");
+        if(Objects.isNull(savedCourseRepository.findByIdNoDelete(id)))
+            throw new SavedCourseNotFoundException("Not Found");
 
     }
 
@@ -29,7 +37,7 @@ public class SavedCourseValidator extends AbstractValidator<SavedCourseCreateDto
 
 
     public boolean validOnCreated(SavedCourseCreateDto savedCourseCreateDto) throws ValidationException {
-        return savedCourseRepository.existsByCourseIdAndUserId(savedCourseCreateDto.getUserId(), savedCourseCreateDto.getCourseId());
+        return Objects.nonNull(savedCourseRepository.findByCourseIdAndUserId(savedCourseCreateDto.getUserId(), savedCourseCreateDto.getCourseId()));
     }
 
     @Override
@@ -37,8 +45,8 @@ public class SavedCourseValidator extends AbstractValidator<SavedCourseCreateDto
 
     }
 
-    public void validOnCreatedUser(String userId){
-        if (userId.equals(Utils.getSessionId()) || authUserRepository.existsByIdAuthorizated(Utils.getSessionId()))
-            throw new RuntimeException("Zzzzzzzzz");
+    public void  validOnCreatedUser(String userId){
+        if (!userId.equals(Utils.getSessionId()) || Objects.isNull(authUserRepository.findByIdAuthorizated(Utils.getSessionId())))
+            throw new SavedForbiddenException("NOT ALLOWED");
     }
 }

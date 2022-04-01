@@ -5,7 +5,7 @@ import team.bahor.entity.user.Principal;
 
 public class Utils {
     public static String getSessionId() {
-        return ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        return ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId().replace("\"", "");
     }
 
     public static boolean sessionHasRole(String role) {

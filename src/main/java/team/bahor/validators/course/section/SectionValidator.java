@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import team.bahor.dto.course.section.SectionCreateDto;
 import team.bahor.dto.course.section.SectionUpdateDto;
+import team.bahor.entity.courses.Course;
 import team.bahor.entity.courses.Section;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.exeptions.course.section.SectionForbiddenException;
@@ -14,6 +15,7 @@ import team.bahor.repositories.course.SectionRepository;
 import team.bahor.utils.Utils;
 import team.bahor.validators.base.AbstractValidator;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -34,13 +36,14 @@ public class SectionValidator
 
     @Override
     public void validOnCreate(SectionCreateDto dto) {
-        if (!courseRepository.existsByIdAndCreatedBy(dto.getCourseId(), dto.getCreatedBy()))
+        Optional<Course> byIdAndCreatedBy = courseRepository.findByIdAndCreatedBy(dto.getCourseId(), dto.getCreatedBy());
+        if (byIdAndCreatedBy.isEmpty())
             throw new SectionForbiddenException("Not allowed");
     }
 
 
     public void validOnAuthorizated() {
-        if (!authUserRepository.existsByIdAuthorizated(Utils.getSessionId()))
+        if (Objects.isNull(authUserRepository.findByIdAuthorizated(Utils.getSessionId())))
             throw new SectionForbiddenException("Not allowed");
     }
 
@@ -52,9 +55,10 @@ public class SectionValidator
     }
 
 
-    public void validOptionalSection(Optional<Section> optionalSection) {
+    public short validOptionalSection(Optional<Section> optionalSection) {
         if (optionalSection.isEmpty())
             throw new SectionNotFoundException("Section not found");
+        return optionalSection.get().getPosition();
     }
 
 }

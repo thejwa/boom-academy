@@ -1,7 +1,6 @@
 package team.bahor.services.course.rating;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.course.rating.CourseRatingCreateDto;
 import team.bahor.dto.course.rating.CourseRatingDto;
@@ -18,6 +17,7 @@ import team.bahor.validators.course.rating.CourseRatingValidator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CourseRatingServiceImp extends AbstractService<
@@ -38,16 +38,19 @@ public class CourseRatingServiceImp extends AbstractService<
         validator.validOnCreate(createDto);
         Optional<CourseRating> byCourseIdAndUserId = repository.findByCourseIdAndUserId(createDto.getCourseId(), createDto.getUserId());
 
-        float addRating = 0;
-        CourseRating courseRating = null;
+        float addRating;
+        float b = createDto.getRating();
+        CourseRating courseRating;
         if (byCourseIdAndUserId.isEmpty()) {
             courseRating = mapper.fromCreateDto(createDto);
-            addRating = createDto.getRating();
-            update(createDto.getCourseId(), addRating, false);
-        } else {
-            courseRating = mapper.fromUpdateDto(createDto, byCourseIdAndUserId.get());
-            addRating = byCourseIdAndUserId.get().getRating() - createDto.getRating();
+            addRating = b;
             update(createDto.getCourseId(), addRating, true);
+            courseRating.setId(UUID.randomUUID().toString());
+        } else {
+            float a = byCourseIdAndUserId.get().getRating();
+            courseRating = mapper.fromUpdateDto(createDto, byCourseIdAndUserId.get());
+            addRating = b - a;
+            update(createDto.getCourseId(), addRating, false);
         }
         repository.save(courseRating);
 
@@ -57,19 +60,17 @@ public class CourseRatingServiceImp extends AbstractService<
     @Override
     public void update(CourseRatingUpdateDto updateDto) {
         validator.validOnUpdate(updateDto);
-        Optional<CourseRating> byCourseIdAndUserId = repository.findByCourseIdAndUserId(updateDto.getCourseId(), updateDto.getUserId());
-
+        Optional<CourseRating> byCourseIdAndUserId = repository.findByCourseIdAndUserId(updateDto.getId());
+        float a = byCourseIdAndUserId.get().getRating();
         CourseRating courseRating = mapper.fromUpdateDto(updateDto, byCourseIdAndUserId.get());
-        float addRating = byCourseIdAndUserId.get().getRating() - updateDto.getRating();
+        float addRating = updateDto.getRating() - a;
 
-        update(updateDto.getCourseId(), addRating, true);
+        update(courseRating.getCourseId(), addRating, false);
         repository.save(courseRating);
     }
 
-    @Async
     public void update(String courseId, float rating, boolean created) {
         Course course = validator.validateKeyCourse(courseId);
-        boolean a = "a".equals("b");
         int ratingCount = course.getRatingCount();
         float rating1 = course.getRating() * ratingCount;
 

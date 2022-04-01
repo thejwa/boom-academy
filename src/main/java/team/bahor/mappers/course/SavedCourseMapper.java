@@ -19,7 +19,6 @@ public interface SavedCourseMapper extends AbstractMapper<
         SavedCourseCreateDto,
         SavedCourseUpdateDto> {
 
-    //TODO shu mapper ishlamay qolish mn
     @Override
     SavedCourseDto toDto(SavedCourse entity);
 

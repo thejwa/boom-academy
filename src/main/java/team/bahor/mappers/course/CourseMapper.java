@@ -11,7 +11,7 @@ import team.bahor.mappers.base.AbstractMapper;
 import java.util.List;
 
 @Component
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",  nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CourseMapper extends AbstractMapper<
         Course,
         CourseDto,
@@ -31,6 +31,5 @@ public interface CourseMapper extends AbstractMapper<
     @Override
     Course fromUpdateDto(CourseUpdateDto updateDto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Course fromUpdateDto(CourseUpdateDto updateDto, @MappingTarget Course course);
 }

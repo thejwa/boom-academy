@@ -4,13 +4,13 @@ import org.springframework.data.jpa.repository.Query;
 import team.bahor.entity.courses.Course;
 import team.bahor.repositories.base.AbstractRepository;
 
-import java.util.Optional;
-
 import java.util.List;
+import java.util.Optional;
 
 public interface CourseRepository extends AbstractRepository<Course, String> {
 
-    boolean existsByIdAndCreatedBy(String id, String createdBy);
+    @Query(value = "select * from boom_academy.main.courses where id = ?1 and  created_by = ?2 and is_deleted = 0 and status = 0", nativeQuery = true)
+    Optional<Course> findByIdAndCreatedBy(String id, String createdBy);
 
     @Query(value = "select * from boom_academy.main.courses where id = ?1 and status = 0 and is_deleted = 0", nativeQuery = true)
     Optional<Course> activeThisCourse(String id);

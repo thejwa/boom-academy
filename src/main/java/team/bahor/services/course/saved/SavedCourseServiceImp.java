@@ -1,6 +1,9 @@
 package team.bahor.services.course.saved;
 
-import org.springframework.scheduling.annotation.Async;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.course.saved.SavedCourseCreateDto;
 import team.bahor.dto.course.saved.SavedCourseDto;
@@ -12,6 +15,7 @@ import team.bahor.services.base.AbstractService;
 import team.bahor.validators.course.saved.SavedCourseValidator;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SavedCourseServiceImp extends AbstractService<
@@ -19,23 +23,31 @@ public class SavedCourseServiceImp extends AbstractService<
         SavedCourseMapper,
         SavedCourseValidator> implements SavedCourseService {
 
-    protected SavedCourseServiceImp(SavedCourseMapper mapper, SavedCourseValidator validator, SavedCourseRepository repository) {
+    protected SavedCourseServiceImp(@Qualifier("savedCourseMapperImpl") SavedCourseMapper mapper, SavedCourseValidator validator, SavedCourseRepository repository) {
         super(mapper, validator, repository);
     }
 
     @Override
     public String create(SavedCourseCreateDto createDto) {
-        if (validator.validOnCreated(createDto)){
+        if (validator.validOnCreated(createDto)) {
             delete(createDto.getUserId(), createDto.getCourseId());
             return "Deleted";
         }
+
         SavedCourse savedCourse = mapper.fromCreateDto(createDto);
+        savedCourse.setId(UUID.randomUUID().toString());
         repository.save(savedCourse);
         return "Saved";
     }
 
     @Override
     public SavedCourseDto get(String id) {
+        validator.validateKey(id);
+        try {
+            return new ObjectMapper().readValue(repository.getByCourseSavedDto(id), SavedCourseDto.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -45,7 +57,13 @@ public class SavedCourseServiceImp extends AbstractService<
     }
 
     public List<SavedCourseDto> getAllUserSavedCourse(String userId) {
-        return null;
+        validator.validOnCreatedUser(userId);
+        try {
+            return new ObjectMapper().readValue(repository.getByCoursesAllSavedDto(userId), new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 
     @Override
@@ -54,10 +72,10 @@ public class SavedCourseServiceImp extends AbstractService<
 
     @Override
     public void delete(String id) {
-
+        validator.validateKey(id);
+        repository.deleteByIdNoHard(id);
     }
 
-    @Async
     public void delete(String userId, String courseId) {
         validator.validOnCreatedUser(userId);
         repository.deleteThisUserSavedCourse(userId, courseId);

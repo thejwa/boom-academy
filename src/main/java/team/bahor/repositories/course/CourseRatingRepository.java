@@ -14,7 +14,7 @@ public interface CourseRatingRepository extends JpaRepository<CourseRating, Stri
 
     @Transactional
     @Modifying
-    @Query(value = "update boom_academy.main.course_rating set is_deleted = 1 where id = ?1 and user_id = ?2", nativeQuery = true)
+    @Query(value = "update boom_academy.main.course_rating set is_deleted = 1, updated_at = now() where id = ?1 and user_id = ?2", nativeQuery = true)
     void courseDeleteByCourseRating(String s, String id);
 
     @Query(value = "select * from boom_academy.main.course_rating where id = ?1 and  user_id = ?2 and  is_deleted = 0", nativeQuery = true)
@@ -28,6 +28,9 @@ public interface CourseRatingRepository extends JpaRepository<CourseRating, Stri
 
     @Query(value = "select * from boom_academy.main.course_rating where course_id = ?1 and user_id = ?2 and  is_deleted = 0",nativeQuery = true)
     Optional<CourseRating> findByCourseIdAndUserId(String cId, String uId);
+
+    @Query(value = "select * from boom_academy.main.course_rating where id = ?1 and  is_deleted = 0",nativeQuery = true)
+    Optional<CourseRating> findByCourseIdAndUserId(String id);
 
     @Query(value = "select from boom_academy.main.course_rating where course_id = ?1 and is_deleted = 0", nativeQuery = true)
     List<CourseRating> findAllByCourseId(String cId);
