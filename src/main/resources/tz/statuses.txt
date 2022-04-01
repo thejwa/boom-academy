@@ -9,6 +9,11 @@
 200 - none active
 210 - active
 
-exam-status
+#exam-status
 300 - exam hali toliq yaratilmagani anglatidi
 301 - message jonatilganini bildiradi
+302 - block
+303 - exam tugallanganligini bildiradi
+
+#exam-question
+400 - blocked

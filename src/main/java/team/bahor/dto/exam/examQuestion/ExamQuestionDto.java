@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import team.bahor.dto.GenericDto;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionCreateDto;
+import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionDto;
 import team.bahor.enums.types.QuestionType;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ public class ExamQuestionDto extends GenericDto {
 
     private QuestionType type;
 
-    private Short mark;
+    private Integer mark;
 
-    private List<AnswerToExamQuestionCreateDto> answers=new ArrayList<>();
+    private List<AnswerToExamQuestionDto> answers = new ArrayList<>();
 }

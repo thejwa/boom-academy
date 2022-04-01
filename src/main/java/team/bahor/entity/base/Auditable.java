@@ -36,5 +36,5 @@ public class Auditable implements BaseGenericEntity {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean deleted;
 
-    private Short status;
+    private short status;
 }

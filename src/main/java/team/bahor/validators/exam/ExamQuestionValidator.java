@@ -32,4 +32,12 @@ public class ExamQuestionValidator extends AbstractValidator<
     public void validOnUpdate(ExamQuestionUpdateDto cd) throws ValidationException {
 
     }
+
+    public void block(String id) {
+
+    }
+
+    public void getAll(String id) {
+
+    }
 }

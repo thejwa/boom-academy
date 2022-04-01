@@ -19,4 +19,6 @@ public interface AnswerToExamQuestionRepository extends JpaRepository<AnswerToEx
     AnswerToExamQuestion getByIdAndDeletedIsFalse(String id);
 
     List<AnswerToExamQuestion> getByDeletedFalse();
+
+    List<AnswerToExamQuestion> getByExamQuestionIdAndDeletedFalse(String id);
 }

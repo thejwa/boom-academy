@@ -5,25 +5,30 @@ import org.springframework.stereotype.Service;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionCreateDto;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionDto;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionUpdateDto;
+import team.bahor.entity.exam.AnswerToExamQuestion;
 import team.bahor.mappers.exam.AnswerToExamQuestionMapper;
 import team.bahor.repositories.exam.AnswerToExamQuestionRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.validators.exam.AnswerToExamQuestionValidator;
 
 import java.util.List;
+import java.util.UUID;
+
 @Service
 public class AnswerToExamQuestionServiceImpl extends AbstractService<
         AnswerToExamQuestionRepository,
         AnswerToExamQuestionMapper,
         AnswerToExamQuestionValidator
-        > implements AnswerToExamQuestionService{
+        > implements AnswerToExamQuestionService {
     public AnswerToExamQuestionServiceImpl(@Qualifier("answerToExamQuestionMapperImpl") AnswerToExamQuestionMapper mapper, AnswerToExamQuestionValidator validator, AnswerToExamQuestionRepository repository) {
         super(mapper, validator, repository);
     }
 
     @Override
     public String create(AnswerToExamQuestionCreateDto createDto) {
-        return repository.save(mapper.fromCreateDto(createDto)).getId();
+        AnswerToExamQuestion answerToExamQuestion = mapper.fromCreateDto(createDto);
+        answerToExamQuestion.setId(UUID.randomUUID().toString());
+        return repository.save(answerToExamQuestion).getId();
     }
 
     @Override
@@ -46,5 +51,13 @@ public class AnswerToExamQuestionServiceImpl extends AbstractService<
     public List<AnswerToExamQuestionDto> getAll() {
         //todo validator
         return mapper.toDto(repository.getByDeletedFalse());
+    }
+
+    public List<AnswerToExamQuestionDto> getAll(String id) {
+        //todo validator
+        repository.getByExamQuestionIdAndDeletedFalse(id).forEach(answerToExamQuestion -> {
+            answerToExamQuestion.setCorrect(false);
+        });
+        return mapper.toDto(repository.getByExamQuestionIdAndDeletedFalse(id));
     }
 }

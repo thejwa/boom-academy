@@ -17,8 +17,12 @@ public interface ExamQuestionMapper extends AbstractMapper<
         ExamQuestionCreateDto,
         ExamQuestionUpdateDto
         > {
-    @Override
-    @Mapping(target = "answers",ignore = true)
-    @Mapping(target = "type",ignore = true)
+    //    @Override
+//    @Mapping(target = "answers",ignore = true)
+//    @Mapping(target = "type",ignore = true)
     ExamQuestionDto toDto(ExamQuestion entity);
+
+    @Override
+    @Mapping(target = "type", ignore = true)
+    ExamQuestion fromCreateDto(ExamQuestionCreateDto createDto);
 }

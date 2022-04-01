@@ -15,6 +15,6 @@ public class ExamQuestionGenerationDto extends GenericDto {
 
     private Integer count;
 
-    private Integer mark;
+    private String mark;
 
 }

@@ -1,6 +1,7 @@
 package team.bahor.config.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 
@@ -29,6 +30,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/sw",
             "/api-docs/**"
     };
+
     private final AuthUserServiceImp userService;
     private final PasswordEncoder passwordEncoder;
 
@@ -51,6 +53,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
