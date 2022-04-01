@@ -1,7 +1,5 @@
 package team.bahor.services.course;
 
-import org.checkerframework.checker.units.qual.C;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.course.CourseCreateDto;
 import team.bahor.dto.course.CourseDto;
@@ -49,7 +47,6 @@ public class CourseService extends AbstractService<
         course.setId(UUID.randomUUID().toString().replace("-", ""));
         course.setCreatedBy(Utils.getSessionId());
         course.setStatus(properties.getNonActiveStatus());
-
         course = repository.save(course);
         return course.getId();
 

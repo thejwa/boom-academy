@@ -11,4 +11,5 @@ import team.bahor.mappers.base.AbstractMapper;
 @Component
 @Mapper(componentModel = "spring")
 public interface AuthUserMapper extends AbstractMapper<AuthUser, UserDto, UserCreateDto, UserUpdateDto> {
+
 }

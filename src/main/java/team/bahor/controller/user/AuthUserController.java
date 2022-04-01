@@ -37,7 +37,6 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         //Todo checked this method
     }
 
-
     @RequestMapping(value = PATH + "/auth/token", method = RequestMethod.POST)
     public ResponseEntity<DataDto<SessionDto>> token(@RequestBody AuthUserDto dto) {
         return service.getToken(dto);
@@ -54,11 +53,12 @@ public class AuthUserController extends AbstractController<AuthUserServiceImp> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @RequestMapping(value = PATH + "/auth/blocked/{id}", method = RequestMethod.GET)
     public ResponseEntity<Void> blocked(@PathVariable String id) {
         service.blocked(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
 }

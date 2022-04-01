@@ -183,7 +183,7 @@ public class AuthUserServiceImp extends AbstractService<
         String random = UUID.randomUUID().toString();
         authUser = mapper.fromCreateDto(createDto);
         authUser.setPassword(passwordEncoder.encode(createDto.getPassword()));
-        authUser.setId(UUID.randomUUID().toString());
+        authUser.setId(random);
         authUser.setRole(Role.USER);
         authUser.setStatus((short) 110);
         authUser.setBalance(0.0);

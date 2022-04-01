@@ -80,5 +80,6 @@ public class CourseController extends AbstractController<CourseService> {
         service.delete(id);
         return new ResponseEntity<>(new DataDto<>("deleted"), HttpStatus.OK);
     }
+
 }
 

@@ -13,4 +13,5 @@ public class FileStorageProperties {
     
     private String location;
 
+
 }

@@ -20,7 +20,6 @@ public enum CourseCategory {
     HEALTH,
     EDUCATIONAL_AND_ACADEMIC_DISCIPLINES;
 
-
     public static List<CourseCategory> getAll() {
 
         return Arrays.stream(CourseCategory.values()).toList();
