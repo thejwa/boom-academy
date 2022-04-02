@@ -1,6 +1,7 @@
 package team.bahor.mappers.tag;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.stereotype.Component;
 import team.bahor.dto.tag.TagCreateDto;
@@ -26,4 +27,7 @@ public interface TagsMapper extends AbstractMapper<Tags, TagDto, TagCreateDto, T
 
     @Override
     Tags fromUpdateDto(TagUpdateDto updateDto);
+
+    Tags fromUpdateDto(TagUpdateDto updateDto, @MappingTarget Tags tags);
+
 }

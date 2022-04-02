@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SavedCourseServiceImp extends AbstractService<
+public class SavedCourseServiceImpl extends AbstractService<
         SavedCourseRepository,
         SavedCourseMapper,
         SavedCourseValidator> implements SavedCourseService {
 
-    protected SavedCourseServiceImp(@Qualifier("savedCourseMapperImpl") SavedCourseMapper mapper, SavedCourseValidator validator, SavedCourseRepository repository) {
+    protected SavedCourseServiceImpl(@Qualifier("savedCourseMapperImpl") SavedCourseMapper mapper, SavedCourseValidator validator, SavedCourseRepository repository) {
         super(mapper, validator, repository);
     }
 

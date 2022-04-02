@@ -1,5 +1,6 @@
 package team.bahor.services.base;
 
+import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.course.saved.SavedCourseDto;
 import team.bahor.mappers.base.BaseGenericMapper;
 import team.bahor.repositories.base.BaseGenericRepository;

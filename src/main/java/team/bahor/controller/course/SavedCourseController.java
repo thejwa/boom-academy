@@ -7,15 +7,15 @@ import team.bahor.controller.AbstractController;
 import team.bahor.dto.course.saved.SavedCourseCreateDto;
 import team.bahor.dto.course.saved.SavedCourseDto;
 import team.bahor.dto.responce.DataDto;
-import team.bahor.services.course.saved.SavedCourseServiceImp;
+import team.bahor.services.course.saved.SavedCourseServiceImpl;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/saved-course")
-public class SavedCourseController extends AbstractController<SavedCourseServiceImp> {
+public class SavedCourseController extends AbstractController<SavedCourseServiceImpl> {
 
-    public SavedCourseController(SavedCourseServiceImp service) {
+    public SavedCourseController(SavedCourseServiceImpl service) {
         super(service);
     }
 

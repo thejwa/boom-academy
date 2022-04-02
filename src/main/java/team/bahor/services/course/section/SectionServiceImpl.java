@@ -18,12 +18,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class SectionServiceImp extends AbstractService<
+public class SectionServiceImpl extends AbstractService<
         SectionRepository,
         SectionMapper,
         SectionValidator> implements SectionService {
 
-    protected SectionServiceImp(@Qualifier("sectionMapperImpl") SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
+    protected SectionServiceImpl(@Qualifier("sectionMapperImpl") SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
         super(mapper, validator, repository);
     }
 
