@@ -1,15 +1,10 @@
 package team.bahor.repositories.exam;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
-import org.springframework.data.repository.query.Param;
 import team.bahor.dto.exam.exam.ExamDto;
-import team.bahor.dto.exam.exam.FinishDto;
 import team.bahor.entity.exam.Exam;
-import team.bahor.entity.exam.ExamQuestion;
 import team.bahor.repositories.base.BaseGenericRepository;
 
 import javax.transaction.Transactional;
@@ -58,4 +53,15 @@ public interface ExamRepository extends JpaRepository<Exam, String>, BaseGeneric
     @Query(value = "select main.finish_exam( ?1 )", nativeQuery = true)
     String finish(String examUserId);
 
+    @Query(value = "select  exists(select * from main.exam where is_deleted = 0 and course_id = ?1 )", nativeQuery = true)
+    boolean isMakeExam(String courseId);
+
+    @Query(value = "select exists(select  * from main.courses c where c.created_by = ?1 and id = ?2)", nativeQuery = true)
+    boolean isCanCreateBegin(String sessionId, String courseId);
+
+    @Query(value = "select exists(select e.id from main.exam e inner join main.courses c on e.course_id = c.id where e.id = ?2 and c.created_by = ?1)", nativeQuery = true)
+    boolean isCanCreateEnd(String sessionId, String examId);
+
+    @Query(value = "select exists(select * from  main.courses where id = ?1 and is_deleted = 0)", nativeQuery = true)
+    boolean isThereCourse(String courseId);
 }

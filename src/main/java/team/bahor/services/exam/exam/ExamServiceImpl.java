@@ -2,6 +2,7 @@ package team.bahor.services.exam.exam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.exam.exam.*;
 import team.bahor.dto.exam.examQuestion.ExamQuestionDto;
@@ -17,7 +18,6 @@ import team.bahor.repositories.exam.ExamQuestionUserRepository;
 import team.bahor.repositories.exam.ExamRepository;
 import team.bahor.repositories.exam.ExamUserRepository;
 import team.bahor.services.base.AbstractService;
-import team.bahor.services.course.CourseService;
 import team.bahor.services.exam.examQuestion.ExamQuestionServiceImpl;
 import team.bahor.services.exam.examQuestionGeneration.ExamQuestionGenerationServiceImpl;
 import team.bahor.utils.Utils;
@@ -34,25 +34,22 @@ public class ExamServiceImpl extends AbstractService<
         ExamValidator
         > implements ExamService {
 
-    private final CourseService courseService;
+
     private final ExamQuestionGenerationServiceImpl examQuestionGenerationService;
     private final ExamQuestionUserRepository examQuestionUserRepository;
     private final ExamQuestionServiceImpl examQuestionService;
     private final ExamUserRepository examUserRepository;
 
-    public ExamServiceImpl(ExamMapper mapper, ExamValidator validator, ExamRepository repository, CourseService courseService, ExamQuestionGenerationServiceImpl examQuestionGenerationService, ExamQuestionUserRepository examQuestionUserRepository, ExamQuestionServiceImpl examQuestionService, ExamUserRepository examUserRepository) {
+    public ExamServiceImpl(ExamMapper mapper, @Lazy ExamValidator validator, ExamRepository repository, ExamQuestionGenerationServiceImpl examQuestionGenerationService, ExamQuestionUserRepository examQuestionUserRepository, ExamQuestionServiceImpl examQuestionService, ExamUserRepository examUserRepository) {
         super(mapper, validator, repository);
-        this.courseService = courseService;
         this.examQuestionGenerationService = examQuestionGenerationService;
         this.examQuestionUserRepository = examQuestionUserRepository;
         this.examQuestionService = examQuestionService;
         this.examUserRepository = examUserRepository;
     }
 
-
     @Override
     public String create(ExamCreateDtoBegin createDto) {
-
         validator.validOnCreate(createDto);
         Exam exam = mapper.fromCreateDto(createDto);
         exam.setStatus((short) 300);
@@ -97,6 +94,7 @@ public class ExamServiceImpl extends AbstractService<
     }
 
     public String create(ExamCreateDtoEnd dto) {
+        validator.createEnd(dto);
         ExamDto examDto = this.get(dto.getId());
         examDto.setDuration(dto.getDuration());
         AtomicInteger questionCount = new AtomicInteger();
@@ -141,6 +139,7 @@ public class ExamServiceImpl extends AbstractService<
                                     examQuestionUser.setExamQuestionId(examQuestionId);
                                     examQuestionUserRepository.save(examQuestionUser);
                                 }));
+        System.out.println("Utils.getSessionId() = " + Utils.getSessionId());
         return examUserId;
     }
 
@@ -202,6 +201,22 @@ public class ExamServiceImpl extends AbstractService<
         } catch (JsonProcessingException e) {
             throw new FinishDtoException("Finish Dto Exception");
         }
+    }
+
+    public boolean isMakeExam(String courseId) {
+        return repository.isMakeExam(courseId);
+    }
+
+    public boolean isCanCreateBegin(String sessionId, String couseId) {
+        return repository.isCanCreateBegin(sessionId,couseId);
+    }
+
+    public boolean isCanCreateEnd(String sessionId, String id) {
+        return repository.isCanCreateEnd(sessionId,id);
+    }
+
+    public boolean isThereCourse(String courseId) {
+        return repository.isThereCourse(courseId);
     }
 }
 

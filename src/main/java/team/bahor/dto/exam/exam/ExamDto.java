@@ -24,5 +24,5 @@ public class ExamDto extends GenericDto {
     private String description;
 
     private Map<String, Integer> questionCounts;
-
+//todo shu yerga question list qoyib qolgan joylarni togirla
 }

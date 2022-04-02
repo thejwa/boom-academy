@@ -1,1 +1,9 @@
-exam create qilayotganda u user shu kurs ni yaratgan va yaratilgan exam exam bolmasligi kerak
+exam create begin
+    1.create qilayotgan user shu kurs ni yaratganmi tekshiradi
+    2.shunday kurs mavjudmi shunga tekshiradi
+    3.oldin shu coursega exam create qilganmi yoqmi shunga tekshiradi
+
+exam create end
+    1.shu shunday qilish role bormi shuni tekshiramiz  faqat course yaratgan odam qila oladi
+    2.savol soni kopligiga tekshiradi
+    3.nullga tekshirish

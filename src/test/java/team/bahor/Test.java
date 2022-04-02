@@ -17,6 +17,7 @@ import team.bahor.services.exam.exam.ExamServiceImpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Test {
@@ -36,7 +37,7 @@ public class Test {
     @SneakyThrows
     public void test2() {
         ExamCreateDtoEnd examCreateDtoEnd = new ExamCreateDtoEnd();
-        examCreateDtoEnd.setId("cf874f95-0c48-44d4-b643-68553ada04cb");
+        examCreateDtoEnd.setId("f8d99a6d-2fde-42c0-a385-94158e319373");
         examCreateDtoEnd.setDuration(120000L);
         HashMap<String, Integer> objectObjectHashMap = new HashMap<>();
         objectObjectHashMap.put(Integer.toString(2), 3);
@@ -139,6 +140,18 @@ public class Test {
         System.out.println("finishDto.getCourseTitle() = " + finishDto.getCourseTitle());
         System.out.println("finishDto.getExamId() = " + finishDto.getExamId());
 
+    }
+    @org.junit.jupiter.api.Test
+    public void test9(){
+        Map<String,Integer> map = new HashMap<>();
+        map.put("1",3);
+        map.put("6",2);
+        map.put("3",5);
+        map.forEach((k,v)->{
+            System.out.println(k+" + "+v);
+        });
+
+        Map<String,Integer> map1 = new HashMap<>(map);
     }
 
 }
