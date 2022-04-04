@@ -26,8 +26,8 @@ public class TagsController extends AbstractController<TagsServiceImpl> {
         return new ResponseEntity<>(new DataDto<>(message), HttpStatus.OK);
     }
 
-    @PostMapping("/search-courses")
-    public ResponseEntity<DataDto<List<CourseDto>>> create(@RequestBody String name) {
+    @GetMapping("/search-courses/{name}")
+    public ResponseEntity<DataDto<List<CourseDto>>> create(@PathVariable String name) {
         List<CourseDto> courseDtoList = service.searchCourse(name);
         return new ResponseEntity<>(new DataDto<>(courseDtoList), HttpStatus.OK);
     }
