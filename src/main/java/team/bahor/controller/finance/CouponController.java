@@ -1,34 +1,30 @@
 package team.bahor.controller.finance;
 
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 import team.bahor.controller.AbstractController;
 import team.bahor.dto.finance.CouponCreateDto;
 import team.bahor.dto.finance.CouponDto;
 import team.bahor.dto.finance.CouponUpdateDto;
-import team.bahor.dto.responce.AppErrorDto;
 import team.bahor.dto.responce.DataDto;
 import team.bahor.services.finance.CouponServiceImp;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/coupon/")
+@RequestMapping("/{id}/coupon/")
 public class CouponController extends AbstractController<CouponServiceImp> {
+
+
     public CouponController(CouponServiceImp service) {
         super(service);
     }
 
-    @PostMapping("create")
-    public ResponseEntity<DataDto<String>> create(@Valid @RequestBody CouponCreateDto dto, BindingResult result, WebRequest request) {
-        if (result.hasErrors()) {
-            //TODO hibernate validation erorrlarini chiroyli formatda handle qilish kerak
-            return new ResponseEntity<>(new DataDto<>(new AppErrorDto("error", "hibernate validation error, path:" + CouponCreateDto.class.getName())), HttpStatus.OK);
+    @PostMapping("create/{cou}")
+    public ResponseEntity<DataDto<String>> create(@Valid @RequestBody CouponCreateDto dto) {
 
-        }
         return new ResponseEntity<>(new DataDto<>(service.create(dto)), HttpStatus.OK);
 
     }
@@ -50,6 +46,7 @@ public class CouponController extends AbstractController<CouponServiceImp> {
         service.delete(id);
         return new ResponseEntity<>(new DataDto<>("deleted"), HttpStatus.OK);
     }
+
 
 
 }

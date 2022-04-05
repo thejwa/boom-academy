@@ -14,7 +14,7 @@ public class CouponCreateDto implements BaseGenericDto {
 
     private String courseId;
 
-    @Size(max = 6, min = 6)
+    @Size(max = 12, min = 12)
     private String code;
 
     @Range(min = 1)
