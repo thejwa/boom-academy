@@ -10,6 +10,8 @@ import team.bahor.entity.exam.ExamQuestionGeneration;
 import team.bahor.mappers.base.AbstractMapper;
 import team.bahor.mappers.base.BaseGenericMapper;
 
+import java.util.List;
+
 @Component
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ExamQuestionGenerationMapper extends AbstractMapper<
@@ -18,4 +20,15 @@ public interface ExamQuestionGenerationMapper extends AbstractMapper<
         ExamQuestionGenerationCreateDto,
         ExamQuestionGenerationUpdateDto
         > {
+    @Override
+    List<ExamQuestionGenerationDto> toDto(List<ExamQuestionGeneration> entities);
+
+    @Override
+    ExamQuestionGeneration fromCreateDto(ExamQuestionGenerationCreateDto createDto);
+
+    @Override
+    ExamQuestionGeneration fromUpdateDto(ExamQuestionGenerationUpdateDto updateDto);
+
+    @Override
+    ExamQuestionGenerationDto toDto(ExamQuestionGeneration entity);
 }

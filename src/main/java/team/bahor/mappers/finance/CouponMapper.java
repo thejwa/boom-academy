@@ -1,7 +1,6 @@
 package team.bahor.mappers.finance;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.stereotype.Component;
 import team.bahor.dto.finance.CouponCreateDto;
 import team.bahor.dto.finance.CouponDto;
@@ -12,8 +11,14 @@ import team.bahor.mappers.base.AbstractMapper;
 import java.util.List;
 
 @Component
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface CouponMapper extends AbstractMapper<Coupon, CouponDto, CouponCreateDto, CouponUpdateDto> {
+@Mapper(componentModel = "spring")
+public interface CouponMapper extends AbstractMapper<
+        Coupon,
+        CouponDto,
+        CouponCreateDto,
+        CouponUpdateDto> {
+
+
     @Override
     CouponDto toDto(Coupon entity);
 

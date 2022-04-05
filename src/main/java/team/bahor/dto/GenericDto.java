@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 //@Builder
-public abstract class GenericDto implements BaseGenericDto {
+public abstract class   GenericDto implements BaseGenericDto {
     private String id;
 }

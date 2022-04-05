@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import team.bahor.dto.responce.AppErrorDto;
 import team.bahor.dto.responce.DataDto;
@@ -12,6 +13,7 @@ import team.bahor.exeptions.NotAllowedException;
 import team.bahor.exeptions.course.CategoryNotAvailableException;
 import team.bahor.exeptions.fileStore.FileStorageException;
 
+@RestController
 @ControllerAdvice("team.bahor")
 public class GlobalExceptionHandler {
 

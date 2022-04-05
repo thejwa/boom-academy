@@ -18,7 +18,7 @@ public class ExamQuestionCreateDto implements BaseGenericDto {
 
     private String type;
 
-    private Short mark;
+    private Integer mark;
 
     private List<AnswerToExamQuestionCreateDto> answers=new ArrayList<>();
 }

@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class LessonServiceImpl extends AbstractService<LessonRepository, LessonMapper, LessonValidator> {
+
     protected LessonServiceImpl(LessonMapper mapper, LessonValidator validator, LessonRepository repository, FileStorageService fileStorageService) {
         super(mapper, validator, repository);
         this.fileStorageService = fileStorageService;

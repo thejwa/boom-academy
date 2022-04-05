@@ -28,5 +28,6 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         mapper.writeValue(response.getOutputStream(), new AppErrorDto(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage()));
+
     }
 }
