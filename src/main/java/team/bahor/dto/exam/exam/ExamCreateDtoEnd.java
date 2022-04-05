@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class    ExamCreateDtoEnd extends GenericDto {
+public class   ExamCreateDtoEnd extends GenericDto {
     @NotNull
     private Long duration; //milliseconds
     @NotNull

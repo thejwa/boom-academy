@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class ExamQuestionGenerationCreateDto implements BaseGenericDto {
-
     private String examId;
 
     private Integer count;

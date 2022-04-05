@@ -1,6 +1,7 @@
 package team.bahor.entity.user;
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 import team.bahor.entity.base.Auditable;
 import team.bahor.enums.Role;
 
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Where(clause = "is_deleted = 0")
 public class AuthUser extends Auditable {
 
     private String fullName;

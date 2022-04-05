@@ -27,9 +27,9 @@ public class ExamUser extends Auditable {
     @Column(nullable = false)
     private String examId;
 
-    private Integer mark;
+    private int mark;
 
-    private Double percentage;
+    private double percentage;
 
     private LocalDateTime finishingTime;
 }

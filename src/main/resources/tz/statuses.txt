@@ -11,4 +11,11 @@
 
 #exam-status
 300 - exam hali toliq yaratilmagani anglatidi
-301 - message jonatilganini bildiradi
+301 - manager message jonatilganini bildiradi
+302 - block
+
+#exam-user-status
+303 - exam tugallanganligini bildiradi
+
+#exam-question-satus
+400 - blocked

@@ -5,10 +5,15 @@ import lombok.Setter;
 import team.bahor.dto.GenericDto;
 
 import java.util.Map;
+
 @Getter
 @Setter
 public class ExamDto extends GenericDto {
     private String courseId;
+
+    private String courseTitle;
+
+    private String title;
 
     private Long duration; //milliseconds
 
@@ -16,9 +21,8 @@ public class ExamDto extends GenericDto {
 
     private Integer maxMark;
 
-    private String title;
-
     private String description;
 
     private Map<String, Integer> questionCounts;
+//todo shu yerga question list qoyib qolgan joylarni togirla
 }
