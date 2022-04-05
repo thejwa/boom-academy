@@ -41,22 +41,26 @@ public class CourseRatingValidator extends AbstractValidator<CourseRatingCreateD
 
     @Override
     public void validOnCreate(CourseRatingCreateDto courseRatingCreateDto) throws ValidationException {
-        if (courseRatingCreateDto.getRating() >= 0 && 5 >= courseRatingCreateDto.getRating())
+        if (0 >= courseRatingCreateDto.getRating() || courseRatingCreateDto.getRating() > 5)
             throw new CourseRatingInvalidException("Rating Data Invalid !");
-
         if (Objects.isNull(courseUserRepository.findByCourseIdAndUserIdAndStatus(courseRatingCreateDto.getCourseId(), courseRatingCreateDto.getUserId())))
             throw new CourseRatingUserMarkException("This User Is Not Allowed To Rate The Course");
     }
 
     @Override
     public void validOnUpdate(CourseRatingUpdateDto cd) throws ValidationException {
-        if (cd.getRating() >= 0 && 5 >= cd.getRating())
+        if (cd.getRating() <= 0 || 5 < cd.getRating())
             throw new CourseRatingInvalidException("Rating Data Invalid !");
 
-        if (!cd.getUserId().equals(Utils.getSessionId()) && Objects.isNull(courseUserRepository.findByCourseIdAndUserIdAndStatus(cd.getCourseId(), cd.getUserId())))
+        Optional<CourseRating> courseRating = courseRatingRepository.courseById(cd.getId());
+        if (courseRating.isEmpty())
+            throw new CourseRatingNotFoundException("Not Found !");
+
+        if (!courseRating.get().getUserId().equals(Utils.getSessionId()) || Objects.isNull(courseUserRepository.findByCourseIdAndUserIdAndStatus(courseRating.get().getCourseId(), courseRating.get().getUserId())))
             throw new CourseRatingUserMarkException("This User Is Not Allowed To Rate The Course");
 
     }
+
 
     public Course validateKeyCourse(String id) {
         Optional<Course> courseOptional = courseRepository.activeThisCourse(id);
@@ -71,4 +75,5 @@ public class CourseRatingValidator extends AbstractValidator<CourseRatingCreateD
             throw new SectionForbiddenException("Not allowed");
 
     }
+
 }

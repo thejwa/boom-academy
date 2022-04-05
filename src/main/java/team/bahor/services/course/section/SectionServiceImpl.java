@@ -15,14 +15,15 @@ import team.bahor.validators.course.section.SectionValidator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
-public class SectionServiceImp extends AbstractService<
+public class SectionServiceImpl extends AbstractService<
         SectionRepository,
         SectionMapper,
         SectionValidator> implements SectionService {
 
-    protected SectionServiceImp(@Qualifier("sectionMapperImpl") SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
+    protected SectionServiceImpl(@Qualifier("sectionMapperImpl") SectionMapper mapper, SectionValidator validator, SectionRepository repository) {
         super(mapper, validator, repository);
     }
 
@@ -33,11 +34,11 @@ public class SectionServiceImp extends AbstractService<
         Section section = mapper.fromCreateDto(createDto);
 
         short length = repository.countSectionByCourseId(section.getCourseId());
-        if (length > section.getPosition())
+        if (length > section.getPosition() && section.getPosition() > 0)
             repository.updatePositionSection(section.getCourseId(), section.getPosition(), Utils.getSessionId());
         else
             section.setPosition((short) (length + 1));
-
+        section.setId(UUID.randomUUID().toString());
         repository.save(section);
         return "Saved section !";
     }
@@ -64,7 +65,7 @@ public class SectionServiceImp extends AbstractService<
     }
 
 
-    @Override
+    @Override //Todo nimagadir mapper nori ishlavoti
     public void update(SectionUpdateDto updateDto) {
         Optional<Section> optionalSection = repository.findByNoDeletedSection(updateDto.getId(), Utils.getSessionId());
         validator.validOptionalSection(optionalSection);
@@ -81,23 +82,22 @@ public class SectionServiceImp extends AbstractService<
 
     public void updatePosition(SectionPositionUpdateDto dto) {
         Optional<Section> optionalSection = repository.findByNoDeletedSection(dto.getId(), Utils.getSessionId());
-        validator.validOptionalSection(optionalSection);
+        short def = validator.validOptionalSection(optionalSection);
 
         Section section = mapper.fromUpdateDto(dto, optionalSection.get());
 
-        short def = optionalSection.get().getPosition();
-        short leng = repository.countSectionByCourseId(section.getCourseId());
+        short length = repository.countSectionByCourseId(section.getCourseId());
         short position = section.getPosition();
-
-        if (leng > position && position > def)
+        // l = 7, np = 6, d = 2;
+        if (length > position && position < def) {
             repository.updatePositionRightSection(section.getCourseId(), position, def, Utils.getSessionId());
-        else if (leng > position && position < def)
+            repository.updatePositionSection(section.getId(), Utils.getSessionId(), position);
+        } else if (length > position && position > def) {
             repository.updatePositionLeftSection(section.getCourseId(), position, def, Utils.getSessionId());
-        else
-            section.setPosition((short) (leng + 1));
-
-        repository.save(section);
-
+            repository.updatePositionSection(section.getCourseId(), Utils.getSessionId(), position);
+        } else
+            repository.updatePositionSection(section.getId(), Utils.getSessionId(), (short) (length+1));
     }
+
 
 }

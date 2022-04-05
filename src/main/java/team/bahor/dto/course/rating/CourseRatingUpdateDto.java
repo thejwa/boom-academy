@@ -9,11 +9,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class CourseRatingUpdateDto extends GenericDto {
-    @NotNull
-    private String courseId;
-
-    @NotNull
-    private String userId;
 
     @NotNull
     private float rating;

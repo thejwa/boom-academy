@@ -54,4 +54,6 @@ public class AppErrorDto {
         this.message = message;
         this.developerMessage = developerMessage;
     }
+    public AppErrorDto(int scUnauthorized, String message) {
+    }
 }

@@ -34,6 +34,7 @@ public class Course extends Auditable {
     @Column(nullable = false, columnDefinition = "float4 default 0")
     private float rating;
 
+    @Column(nullable = false, columnDefinition = "int8 default 0")
     private Integer ratingCount;
 
     @Column(nullable = false)
