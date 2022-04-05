@@ -49,4 +49,9 @@ public class AppErrorDto {
         this.path = path;
     }
 
+    public AppErrorDto(String message, String developerMessage) {
+        this.timestamp = Timestamp.valueOf(LocalDateTime.now());
+        this.message = message;
+        this.developerMessage = developerMessage;
+    }
 }
