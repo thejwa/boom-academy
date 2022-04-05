@@ -7,6 +7,7 @@ import team.bahor.dto.exam.examQuestion.ExamQuestionDto;
 import team.bahor.dto.exam.examQuestion.ExamQuestionUpdateDto;
 import team.bahor.entity.exam.ExamQuestion;
 import team.bahor.enums.types.QuestionType;
+import team.bahor.exeptions.exam.BadCredentialsUpdateException;
 import team.bahor.mappers.exam.ExamQuestionMapper;
 import team.bahor.repositories.exam.ExamQuestionRepository;
 import team.bahor.services.base.AbstractService;
@@ -50,7 +51,11 @@ public class ExamQuestionServiceImpl extends AbstractService<
 
     @Override
     public void update(ExamQuestionUpdateDto updateDto) {
-
+        ExamQuestion examQuestion = repository.findById(updateDto.getId()).orElseThrow(() -> {
+            throw new BadCredentialsUpdateException("not found question");
+        });
+        ExamQuestion examQuestion1 = mapper.fromUpdateDto(updateDto, examQuestion);
+        repository.save(examQuestion1);
     }
 
     @Override
@@ -98,5 +103,13 @@ public class ExamQuestionServiceImpl extends AbstractService<
         ExamQuestionDto examQuestionDto = mapper.toDto(repository.getByExamUserIdAndOrder(examUserId, nextOrder));
         examQuestionDto.setAnswers(answerToExamQuestionService.getAll(examQuestionDto.getId()));
         return examQuestionDto;
+    }
+
+    public boolean isTeacher(String examId, String sessionId) {
+        return repository.isTeacher(examId, sessionId);
+    }
+
+    public boolean existsById(String id) {
+        return repository.existsById(id);
     }
 }

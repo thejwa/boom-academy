@@ -22,7 +22,6 @@ public interface ExamRepository extends JpaRepository<Exam, String>, BaseGeneric
     @Query(value = "update Exam set duration = :#{#examDto.duration},maxMark = :#{#examDto.maxMark},questionCount = :#{#examDto.questionCount},status = 301 where id= :#{#examDto.id}")
     void update(ExamDto examDto);
 
-
     @Transactional
     @Modifying
     @Query(value = "update Exam eq set eq.deleted = true where eq.id = ?1")
@@ -31,25 +30,17 @@ public interface ExamRepository extends JpaRepository<Exam, String>, BaseGeneric
     @Query("select e from Exam e where e.id = ?1 and e.deleted = false")
     Exam getByIdAndDeletedIsFalse(String id);
 
-    List<Exam> getByDeletedFalse();
-
     @Transactional
     @Modifying
     @Query(value = "update Exam eq set eq.status = 302 where  eq.id = ?1")
     void block(String id);
 
-
     @Query(value = "select e.duration from boom_academy.main.exam e where e.is_deleted = 0 and e.id = ?1", nativeQuery = true)
     Long getByIdForDuration(String examId);
-
-//    @Query(value = "select e.title from boom_academy.main.exam  e where e.is_deleted = 0 and e.id = ?1", nativeQuery = true)
-//    String getByIdForTitle(String examId);
 
     @Query(value = "select e.* from boom_academy.main.exam e inner join boom_academy.main.exam_user eu on e.id = eu.exam_id where eu.id = ?1", nativeQuery = true)
     Exam getByExamUserId(String examUserId);
 
-
-    //    @Procedure(procedureName = "boom_academy.main.finish")
     @Query(value = "select main.finish_exam( ?1 )", nativeQuery = true)
     String finish(String examUserId);
 
@@ -60,8 +51,29 @@ public interface ExamRepository extends JpaRepository<Exam, String>, BaseGeneric
     boolean isCanCreateBegin(String sessionId, String courseId);
 
     @Query(value = "select exists(select e.id from main.exam e inner join main.courses c on e.course_id = c.id where e.id = ?2 and c.created_by = ?1)", nativeQuery = true)
-    boolean isCanCreateEnd(String sessionId, String examId);
+    boolean isTeacher(String sessionId, String examId);
 
     @Query(value = "select exists(select * from  main.courses where id = ?1 and is_deleted = 0)", nativeQuery = true)
     boolean isThereCourse(String courseId);
+
+    @Query(value = "select exists(select * from main.exam where is_deleted = 0 and id = ?1)",nativeQuery = true)
+    boolean isThereExam(String examId);
+
+    @Query(value = "select exists(select * from main.exam where is_deleted = 0 and id = ?1 and status = 0)",nativeQuery = true)
+    boolean isThereExamAndNotBlockAndActive(String examId);
+
+    @Query(value = "select exists(select * from main.course_user cu where cu.is_deleted = 0 and cu.user_id = ?1 and cu.status = 0)",nativeQuery = true)
+    boolean isStudentOfCourse(String sessionId);
+
+    @Query(value = "select exists(select * from main.course_user cu where cu.user_id = ?1 and cu.is_completed = 1)",nativeQuery = true)
+    boolean isCompleted(String sessionId);
+
+    @Query(value = "select exists(select  * from  main.exam_user where is_deleted = 0 and status = 0 and id = ?1)",nativeQuery = true)
+    boolean isThereExamUser(String examUserId);
+
+    @Query(value = "select (current_timestamp + interval '5 hour') > finishing_time from main.exam_user eu where eu.id = ?1",nativeQuery = true)
+    boolean hasTime(String examUserId);
+
+    @Query(value = "select max(equ.order_question) from main.exam_question_user equ where equ.exam_user_id = ?1",nativeQuery = true)
+    Integer maxOrder(String examUserId);
 }

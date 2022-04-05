@@ -3,14 +3,16 @@ package team.bahor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.SneakyThrows;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import team.bahor.config.encryption.PasswordEncoderConfigurer;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionCreateDto;
-import team.bahor.dto.exam.exam.ExamCreateDtoBegin;
-import team.bahor.dto.exam.exam.ExamCreateDtoEnd;
-import team.bahor.dto.exam.exam.ExamSolveDto;
-import team.bahor.dto.exam.exam.FinishDto;
+import team.bahor.dto.exam.exam.*;
 import team.bahor.dto.exam.examQuestion.ExamQuestionCreateDto;
+import team.bahor.entity.exam.ExamQuestion;
+import team.bahor.repositories.exam.ExamQuestionRepository;
 import team.bahor.repositories.exam.ExamRepository;
 import team.bahor.services.exam.exam.ExamServiceImpl;
 
@@ -20,24 +22,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Test {
-    @org.junit.jupiter.api.Test
+@SpringBootTest
+public class ExamQuestionTest {
+
+    @Autowired
+    private ExamQuestionRepository repository;
+
+    @Test
     @SneakyThrows
     public void test1() {
         ExamCreateDtoBegin dtoBegin = new ExamCreateDtoBegin();
         dtoBegin.setDescription("exam create qildim");
         dtoBegin.setTitle("matematika");
-        dtoBegin.setCourseId("dfdfdfdfdfd");
+        dtoBegin.setCourseId("3333333333333333333333333333");
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.INDENT_OUTPUT);
         System.out.println("objectMapper.writeValueAsString(dtoBegin) = " + objectMapper.writeValueAsString(dtoBegin));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     @SneakyThrows
     public void test2() {
         ExamCreateDtoEnd examCreateDtoEnd = new ExamCreateDtoEnd();
-        examCreateDtoEnd.setId("f8d99a6d-2fde-42c0-a385-94158e319373");
+        examCreateDtoEnd.setId("a9e3403d-d3c9-4202-9b68-1cfbc6a0644c");
         examCreateDtoEnd.setDuration(120000L);
         HashMap<String, Integer> objectObjectHashMap = new HashMap<>();
         objectObjectHashMap.put(Integer.toString(2), 3);
@@ -48,7 +55,7 @@ public class Test {
         System.out.println("objectMapper.writeValueAsString(examCreateDtoEnd) = " + objectMapper.writeValueAsString(examCreateDtoEnd));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void test3() {
         PasswordEncoderConfigurer passwordEncoderConfigurer = new PasswordEncoderConfigurer();
         System.out.println("passwordEncoderConfigurer.passwordEncoder().encode(\"123\") = " + passwordEncoderConfigurer.passwordEncoder().encode("123"));
@@ -56,17 +63,17 @@ public class Test {
 
 
     @SneakyThrows
-    @org.junit.jupiter.api.Test
+    @Test
     public void examQuestionCreateDto() {
         ExamQuestionCreateDto examQuestionCreateDto = new ExamQuestionCreateDto();
-        examQuestionCreateDto.setExamId("cf874f95-0c48-44d4-b643-68553ada04cb");
-        examQuestionCreateDto.setTitle("100*100");
+        examQuestionCreateDto.setExamId("a9e3403d-d3c9-4202-9b68-1cfbc6a0644c");
+        examQuestionCreateDto.setTitle("100*10");
         examQuestionCreateDto.setType("TEST");
         examQuestionCreateDto.setMark(3);
         List<AnswerToExamQuestionCreateDto> answers = new ArrayList<>();
 
         AnswerToExamQuestionCreateDto answerToExamQuestionCreateDto1 = new AnswerToExamQuestionCreateDto();
-        answerToExamQuestionCreateDto1.setTitle("10000");
+        answerToExamQuestionCreateDto1.setTitle("1000");
         answerToExamQuestionCreateDto1.setCorrect(true);
         answers.add(answerToExamQuestionCreateDto1);
 
@@ -93,20 +100,20 @@ public class Test {
         System.out.println(s);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void test4() {
         AtomicInteger atomicInteger = new AtomicInteger(1);
         System.out.println("atomicInteger.getAndIncrement() = " + atomicInteger.getAndIncrement());
         System.out.println("atomicInteger.getAndIncrement() = " + atomicInteger.getAndIncrement());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void test5() {
 //        ExamQuestionRepository
     }
 
     @SneakyThrows
-    @org.junit.jupiter.api.Test
+    @Test
     public void test6() {
         ExamSolveDto examSolveDto = new ExamSolveDto();
         examSolveDto.setExamUserId("725b806e-bf74-449b-a1a8-e76e563dfbf1");
@@ -116,13 +123,13 @@ public class Test {
     }
 
     @SneakyThrows
-    @org.junit.jupiter.api.Test
+    @Test
     public void test7() {
         ExamSolveDto examSolveDto = new ExamSolveDto();
-        examSolveDto.setExamUserId("00f4bf6a-787d-4f3e-93f2-55ac5c2c4bd2");
+        examSolveDto.setExamUserId("d77ab65b-ba30-4364-91bf-ccd41538606c");
         examSolveDto.setOrder(1);
-        examSolveDto.setNextOrder(6);
-        examSolveDto.setMarkedAnswerId("0064c5f4-150c-411d-a024-88034e723470");
+        examSolveDto.setNextOrder(2);
+        examSolveDto.setMarkedAnswerId("c69a37b0-a08e-4b8b-abd4-e70a6999c36f");
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.INDENT_OUTPUT);
         System.out.println("objectMapper.writeValueAsString(objectMapper) = " + objectMapper.writeValueAsString(examSolveDto));
@@ -130,7 +137,7 @@ public class Test {
      */
 
     @SneakyThrows
-    @org.junit.jupiter.api.Test
+    @Test
     public void test8() {
         String dtos = "{\"course_id\":\"1111111111111111111111111111\",\"course_title\":\"Matematika\",\"exam_id\":\"cf874f95-0c48-44d4-b643-68553ada04cb\",\"exam_title\":\"matematika\",\"question_count\":3,\"max_mark\":5,\"percentage\":100,\"exam_question_dtos\":[{\"type\":\"TEST\",\"mark\":2,\"user_mark_answer_title\":\"6\",\"title\":\"3*2\",\"correctly_solved\":1,\"answers\":[{\"exam_question_id\":\"db679a77-2ced-4bdc-a4a2-50e7826b2475\",\"title\":\"6\",\"correct\":1},{\"exam_question_id\":\"db679a77-2ced-4bdc-a4a2-50e7826b2475\",\"title\":\"13\",\"correct\":0},{\"exam_question_id\":\"db679a77-2ced-4bdc-a4a2-50e7826b2475\",\"title\":\"16\",\"correct\":0},{\"exam_question_id\":\"db679a77-2ced-4bdc-a4a2-50e7826b2475\",\"title\":\"35\",\"correct\":0}]},{\"type\":\"TEST\",\"mark\":3,\"user_mark_answer_title\":\"12\",\"title\":\"3*4\",\"correctly_solved\":1,\"answers\":[{\"exam_question_id\":\"482f3593-b2bd-4bd5-beac-3079e7f374c0\",\"title\":\"12\",\"correct\":1},{\"exam_question_id\":\"482f3593-b2bd-4bd5-beac-3079e7f374c0\",\"title\":\"13\",\"correct\":0},{\"exam_question_id\":\"482f3593-b2bd-4bd5-beac-3079e7f374c0\",\"title\":\"16\",\"correct\":0},{\"exam_question_id\":\"482f3593-b2bd-4bd5-beac-3079e7f374c0\",\"title\":\"35\",\"correct\":0}]}]}";
         ObjectMapper objectMapper = new ObjectMapper();
@@ -141,17 +148,25 @@ public class Test {
         System.out.println("finishDto.getExamId() = " + finishDto.getExamId());
 
     }
-    @org.junit.jupiter.api.Test
+    @Test
+    @SneakyThrows
     public void test9(){
-        Map<String,Integer> map = new HashMap<>();
-        map.put("1",3);
-        map.put("6",2);
-        map.put("3",5);
-        map.forEach((k,v)->{
-            System.out.println(k+" + "+v);
-        });
-
-        Map<String,Integer> map1 = new HashMap<>(map);
+        ExamUpdateDto examUpdateDto= new ExamUpdateDto();
+        examUpdateDto.setId("cf874f95-0c48-44d4-b643-68553ada04cb");
+        examUpdateDto.setDescription("update boldi");
+        examUpdateDto.setDuration(500000L);
+        System.out.println("new ObjectMapper().writeValueAsString(examUpdateDto) = " + new ObjectMapper().writeValueAsString(examUpdateDto));
     }
+
+    @Test
+    @SneakyThrows
+    void testGetById(){
+        ExamQuestion byId = repository.getById("482f3593-b2bd-4bd5-beac-3079e7f374c2");
+        System.out.println();
+        System.out.println("byId.getId() = " + byId.getId());
+
+    }
+
+
 
 }

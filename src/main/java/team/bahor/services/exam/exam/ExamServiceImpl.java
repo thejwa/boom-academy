@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 import team.bahor.dto.exam.exam.*;
 import team.bahor.dto.exam.examQuestion.ExamQuestionDto;
 import team.bahor.dto.exam.examQuestionGeneration.ExamQuestionGenerationCreateDto;
+import team.bahor.dto.exam.examQuestionGeneration.ExamQuestionGenerationUpdateDto;
 import team.bahor.entity.exam.Exam;
 import team.bahor.entity.exam.ExamQuestionUser;
 import team.bahor.entity.exam.ExamUser;
 import team.bahor.exeptions.exam.FinishDtoException;
+import team.bahor.exeptions.exam.FinishTimeException;
 import team.bahor.exeptions.exam.NotFoundExamException;
-import team.bahor.exeptions.exam.SolveBadCredentialException;
 import team.bahor.mappers.exam.ExamMapper;
 import team.bahor.repositories.exam.ExamQuestionUserRepository;
 import team.bahor.repositories.exam.ExamRepository;
@@ -23,6 +24,7 @@ import team.bahor.services.exam.examQuestionGeneration.ExamQuestionGenerationSer
 import team.bahor.utils.Utils;
 import team.bahor.validators.exam.ExamValidator;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -64,6 +66,22 @@ public class ExamServiceImpl extends AbstractService<
 
     @Override
     public void update(ExamUpdateDto updateDto) {
+        validator.validOnUpdate(updateDto);
+        AtomicInteger questionCount = new AtomicInteger();
+        AtomicInteger mark = new AtomicInteger();
+        if (Objects.nonNull(updateDto.getQuestionCounts())) {
+            updateDto.getQuestionCounts().forEach((k, v) -> {
+                questionCount.addAndGet(Integer.parseInt(k));
+                mark.addAndGet(Integer.parseInt(k) * v);
+                examQuestionGenerationService.update(updateDto.getId(), k, v);
+            });
+        }
+
+//        Exam exam = repository.findById(updateDto.getId()).get();
+        Exam exam = repository.getByIdAndDeletedIsFalse(updateDto.getId());
+//        Exam exam = repository.getById(updateDto.getId());
+        Exam exam1 = mapper.fromUpdateDto(updateDto, exam);
+        repository.save(exam1);
 
     }
 
@@ -116,8 +134,8 @@ public class ExamServiceImpl extends AbstractService<
     }
 
     public String createExamUser(String examId) {
+        validator.createExamUser(examId);
         AtomicInteger count = new AtomicInteger(1);
-        System.out.println("(repository.getByIdForDuration(examId) / 1000) = " + (repository.getByIdForDuration(examId)));
         Exam exam = repository.getByIdAndDeletedIsFalse(examId);
         LocalDateTime finishingTime = LocalDateTime.now().plusSeconds(exam.getDuration() / 1000);
         ExamUser examUser = new ExamUser();
@@ -127,6 +145,7 @@ public class ExamServiceImpl extends AbstractService<
         examUser.setUserId(Utils.getSessionId());
         examUser.setFinishingTime(finishingTime);
         examUser.setMark(exam.getMaxMark());
+        examUser.setPercentage(0D);
         examUserRepository.save(examUser);
         examQuestionGenerationService.getAllByExamId(examId).parallelStream()
                 .forEach(examQuestionGenerationDto ->
@@ -139,12 +158,12 @@ public class ExamServiceImpl extends AbstractService<
                                     examQuestionUser.setExamQuestionId(examQuestionId);
                                     examQuestionUserRepository.save(examQuestionUser);
                                 }));
-        System.out.println("Utils.getSessionId() = " + Utils.getSessionId());
         return examUserId;
     }
 
 
     public InformationForCreateExamUser informationForCreateExamUser(String examId) {
+        validator.informationForCreateExamUser(examId);
         InformationForCreateExamUser informationForCreateExamUser = new InformationForCreateExamUser();
         informationForCreateExamUser.setExamId(examId);
         informationForCreateExamUser.setQuestionCounts(examQuestionService.informationForCreateExamUser(examId));
@@ -154,34 +173,36 @@ public class ExamServiceImpl extends AbstractService<
     }
 
     public ExamSolveDto solve(ExamSolveDto exam) {
-        try {
-            ExamSolveDto examSolveDto = new ExamSolveDto();
-            Exam examByExamUserId = repository.getByExamUserId(exam.getExamUserId());
-            ExamUser examUser = examUserRepository.getById(exam.getExamUserId());
-            if (examUser.getFinishingTime().isAfter(LocalDateTime.now())) {
-                this.finish(exam.getExamUserId());
-            }
-            if (Objects.isNull(exam.getNextOrder())) {
-                exam.setNextOrder(1);
+        validator.solve(exam);
 
-            }
-            //todo thread pool yaratsang shuni methodni berib yubor
-            if (Objects.nonNull(exam.getOrder())) {
-                this.saveExamSolveDto(exam);
-            }
-            examQuestionDto(exam, examSolveDto, examByExamUserId);
-            return examSolveDto;
-        } catch (Exception ex) {
-            throw new SolveBadCredentialException("Javob jonatishdingiz");
+        if (examUserRepository.findByExamUserIdForFinishingTime(exam.getExamUserId()).before(Timestamp.valueOf(LocalDateTime.now()))) {
+            throw new FinishTimeException("Vaqt tugadi finishni bosing");
         }
+
+        ExamSolveDto examSolveDto = new ExamSolveDto();
+        Exam examByExamUserId = repository.getByExamUserId(exam.getExamUserId());
+
+        if (Objects.isNull(exam.getNextOrder())) {
+            exam.setNextOrder(1);
+        }
+
+        //todo thread pool yaratsang shuni methodni berib yubor
+        if (Objects.nonNull(exam.getOrder()) && Objects.nonNull(exam.getMarkedAnswerId())) {
+            this.saveExamSolveDto(exam);
+        }
+
+        examQuestionDto(exam, examSolveDto, examByExamUserId);
+        return examSolveDto;
+//        try {
+//
+//        } catch (Exception ex) {
+//            throw new SolveBadCredentialException("Notogri Javob jonatishdingiz");
+//        }
 
     }
 
     private void examQuestionDto(ExamSolveDto exam, ExamSolveDto examSolveDto, Exam examByExamUserId) {
         ExamQuestionDto examQuestionDto = examQuestionService.getByExamUserIdAndOrder(exam.getExamUserId(), exam.getNextOrder());
-        if (Objects.isNull(examQuestionDto.getExamId())) {
-            examQuestionDto = examQuestionService.getByExamUserIdAndOrder(exam.getExamUserId(), 1);
-        }
         examSolveDto.setExamUserId(exam.getExamUserId());
         //todo exam title qolib ketdi
         examSolveDto.setExamTitle(examByExamUserId.getTitle());
@@ -195,6 +216,7 @@ public class ExamServiceImpl extends AbstractService<
     }
 
     public FinishDto finish(String examUserId) {
+        validator.finish(examUserId);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(repository.finish(examUserId), FinishDto.class);
@@ -208,15 +230,44 @@ public class ExamServiceImpl extends AbstractService<
     }
 
     public boolean isCanCreateBegin(String sessionId, String couseId) {
-        return repository.isCanCreateBegin(sessionId,couseId);
+        return repository.isCanCreateBegin(sessionId, couseId);
     }
 
-    public boolean isCanCreateEnd(String sessionId, String id) {
-        return repository.isCanCreateEnd(sessionId,id);
+    public boolean isTeacher(String sessionId, String id) {
+        return repository.isTeacher(sessionId, id);
     }
 
     public boolean isThereCourse(String courseId) {
         return repository.isThereCourse(courseId);
+    }
+
+    public boolean isThereExam(String id) {
+        return repository.isThereExam(id);
+
+    }
+
+    public boolean isThereExamAndNotBlockAndActive(String examId) {
+        return repository.isThereExamAndNotBlockAndActive(examId);
+    }
+
+    public boolean isStudentOfCourse(String sessionId) {
+        return repository.isStudentOfCourse(sessionId);
+    }
+
+    public boolean isCompleted(String sessionId) {
+        return repository.isCompleted(sessionId);
+    }
+
+    public boolean isThereExamUser(String examUserId) {
+        return repository.isThereExamUser(examUserId);
+    }
+
+    public boolean hasTime(String examUserId) {
+        return repository.hasTime(examUserId);
+    }
+
+    public Integer maxOrder(String examUserId) {
+        return repository.maxOrder(examUserId);
     }
 }
 

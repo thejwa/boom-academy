@@ -41,7 +41,7 @@ public class ExamQuestionGenerationServiceImpl extends AbstractService<
 
     @Override
     public void update(ExamQuestionGenerationUpdateDto updateDto) {
-
+//        repository.update(updateDto);
     }
 
     @Override
@@ -58,4 +58,7 @@ public class ExamQuestionGenerationServiceImpl extends AbstractService<
         return mapper.toDto(repository.findAllByDeletedFalseAndExamId(id));
     }
 
+    public void update(String id, String k, Integer v) {
+        repository.update(id,k,v);
+    }
 }

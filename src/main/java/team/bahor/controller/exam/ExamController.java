@@ -3,6 +3,7 @@ package team.bahor.controller.exam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import team.bahor.controller.AbstractController;
 import team.bahor.dto.exam.exam.*;
@@ -29,24 +30,27 @@ public class ExamController extends AbstractController<ExamServiceImpl> {
         return new ResponseEntity<>(new DataDto<>(service.create(dto)), HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
     @RequestMapping(value = PATH + "/exam/delete/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> deleted(@PathVariable String id) {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
     @RequestMapping(value = PATH + "/exam/get/{id}", method = RequestMethod.GET)
     public ResponseEntity<DataDto<ExamDto>> get(@PathVariable String id) {
         return new ResponseEntity<>(new DataDto<>(service.get(id)), HttpStatus.OK);
     }
 
+    @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
     @RequestMapping(value = PATH + "/exam/block/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> block(@PathVariable String id) {
         service.block(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
     @RequestMapping(value = PATH + "/exam/getAll", method = RequestMethod.GET)
     public ResponseEntity<DataDto<List<ExamDto>>> getAll() {
         return new ResponseEntity<>(new DataDto<>(service.getAll()), HttpStatus.OK);
@@ -62,7 +66,7 @@ public class ExamController extends AbstractController<ExamServiceImpl> {
     }
 
     @RequestMapping(value = PATH + "/exam/informationForCreateExamUser/{id}", method = RequestMethod.GET)
-    public ResponseEntity<DataDto<InformationForCreateExamUser>> createExamUserPage(@PathVariable String id) {
+    public ResponseEntity<DataDto<InformationForCreateExamUser>> informationForCreateExamUser(@PathVariable String id) {
         /*
          * bu yerda id examId
          * */
@@ -79,6 +83,11 @@ public class ExamController extends AbstractController<ExamServiceImpl> {
         return new ResponseEntity<>(new DataDto<>(service.finish(examUserId)), HttpStatus.OK);
     }
 
+    @RequestMapping(value = PATH+"exam/update",method = RequestMethod.POST)
+    public ResponseEntity<Void> update(@RequestBody ExamUpdateDto dto) {
+        service.update(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 }
