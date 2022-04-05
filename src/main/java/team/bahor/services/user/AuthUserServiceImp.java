@@ -235,8 +235,8 @@ public class AuthUserServiceImp extends AbstractService<
 //            return "No Activation";
 
 
-    //Todo ishlatish kerak shuni togolar
-    @Async
+    //Todo ishlatish kerak shuni togolar asincron iloji bolsa
+   // @Async
     public boolean sendEmail(String sendingEmail, String key) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();

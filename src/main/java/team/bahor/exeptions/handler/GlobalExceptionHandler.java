@@ -2,6 +2,7 @@ package team.bahor.exeptions.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,20 @@ public class GlobalExceptionHandler {
                         .build(), HttpStatus.OK);
     }
 
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<DataDto<AppErrorDto>> handleException(CategoryNotAvailableException exception, WebRequest request) {
+        return new ResponseEntity<>(
+                DataDto.<AppErrorDto>builder()
+                        .success(false)
+                        .error(new AppErrorDto(
+                                exception.getMessage(),
+                                request,
+                                HttpStatus.BAD_REQUEST,
+                                exception.getDeveloperMessage())).build(), HttpStatus.OK
+        );
+
+    }
+
     @ExceptionHandler(value = CategoryNotAvailableException.class)
     public ResponseEntity<DataDto<AppErrorDto>> handleCategoryNotAvailableException(CategoryNotAvailableException exception, WebRequest request) {
         return new ResponseEntity<>(
@@ -43,7 +58,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = NotAllowedException.class)
-    public ResponseEntity<DataDto<AppErrorDto>> handleNotAllowedException(NotAllowedException exception,WebRequest request){
+    public ResponseEntity<DataDto<AppErrorDto>> handleNotAllowedException(NotAllowedException exception, WebRequest request) {
         return new ResponseEntity<>(
                 DataDto.<AppErrorDto>builder()
                         .success(false)
@@ -68,4 +83,5 @@ public class GlobalExceptionHandler {
                                         exception.getMessage()))
                         .build(), HttpStatus.OK);
     }
+
 }
