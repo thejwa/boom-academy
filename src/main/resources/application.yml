@@ -1,9 +1,10 @@
 server:
   port: 8080
+  forward-headers-strategy: framework
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    password: 123
+    password: 19801980
     username: postgres
     url: jdbc:postgresql://localhost:5432/boom_academy?currentSchema=main
   jpa:
@@ -31,9 +32,9 @@ api:
     version: 1.0
     license-url: nimadir
     license-name: nimadir
-    contact-name: boom.uz, boom-academy.uz
+    contact-name: boom-academy.uz
     contact-email: boomAcademy@gmail.com
-    contact-url: https://boom.uz, https://boom-academy.uz
+    contact-url: https://boom-academy.uz
 
 storage:
   location: C:/Users/HP/Desktop/boom-academy/resource

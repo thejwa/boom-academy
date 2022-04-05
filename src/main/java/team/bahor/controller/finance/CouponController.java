@@ -11,14 +11,14 @@ import team.bahor.dto.finance.CouponDto;
 import team.bahor.dto.finance.CouponUpdateDto;
 import team.bahor.dto.responce.AppErrorDto;
 import team.bahor.dto.responce.DataDto;
-import team.bahor.services.finance.CouponService;
+import team.bahor.services.finance.CouponServiceImp;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/coupon/")
-public class CouponController extends AbstractController<CouponService> {
-    public CouponController(CouponService service) {
+public class CouponController extends AbstractController<CouponServiceImp> {
+    public CouponController(CouponServiceImp service) {
         super(service);
     }
 

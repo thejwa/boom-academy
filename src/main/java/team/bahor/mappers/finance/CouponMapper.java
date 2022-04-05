@@ -10,6 +10,7 @@ import team.bahor.mappers.base.AbstractMapper;
 
 import java.util.List;
 
+@Component
 @Mapper(componentModel = "spring")
 public interface CouponMapper extends AbstractMapper<
         Coupon,

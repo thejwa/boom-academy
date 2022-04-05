@@ -20,8 +20,10 @@ public class CouponCreateDto implements BaseGenericDto {
     @Range(min = 1)
     private int limitSize;
 
+    @Range(min = 0)
     private double discountAmount;
 
+    @Range(min = 0, max = 100)
     private double discountPercentage;
 
     private LocalDate dueDate;
