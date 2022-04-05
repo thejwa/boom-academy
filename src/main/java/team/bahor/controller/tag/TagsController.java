@@ -51,12 +51,4 @@ public class TagsController extends AbstractController<TagsServiceImpl> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-//    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-//    public ResponseEntity<ApiResult<ErrorData>> handleException(MethodArgumentNotValidException ex) {
-//        List<ErrorData> errors = new ArrayList<>();
-//        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-//        fieldErrors.forEach(fieldError -> errors.add(new ErrorData(fieldError.getDefaultMessage(), fieldError.getField(), RestConstants.REQUIRED)));
-//        return new ResponseEntity<>(ApiResult.errorResponse(errors), HttpStatus.BAD_REQUEST);
-//    }
 }
