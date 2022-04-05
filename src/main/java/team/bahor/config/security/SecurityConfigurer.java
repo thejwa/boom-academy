@@ -1,9 +1,11 @@
 package team.bahor.config.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +17,11 @@ import team.bahor.config.security.filters.CustomAuthorizationFilter;
 import team.bahor.services.user.AuthUserServiceImp;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        jsr250Enabled = true,
+        securedEnabled = true,
+        prePostEnabled = true
+)
 @RequiredArgsConstructor
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     public final static String[] WHITE_LIST = {
@@ -28,6 +35,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             "/sw",
             "/api-docs/**"
     };
+
     private final AuthUserServiceImp userService;
     private final PasswordEncoder passwordEncoder;
 

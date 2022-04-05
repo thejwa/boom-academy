@@ -19,4 +19,16 @@ public interface AnswerToExamQuestionRepository extends JpaRepository<AnswerToEx
     AnswerToExamQuestion getByIdAndDeletedIsFalse(String id);
 
     List<AnswerToExamQuestion> getByDeletedFalse();
+
+    List<AnswerToExamQuestion> getByExamQuestionIdAndDeletedFalse(String id);
+
+    @Query(value = "select exists(select *\n" +
+            "              from main.exam_question eq\n" +
+            "                       inner join main.answer_to_exam_question ateq on eq.id = ateq.exam_question_id\n" +
+            "                       inner join main.exam e on eq.exam_id = e.id\n" +
+            "                       inner join main.courses c on c.id = e.course_id\n" +
+            "              where c.created_by = ?2\n" +
+            "                and ateq.id = ?1)", nativeQuery = true)
+    boolean isTeacher(String questionId, String sessionId);
+
 }

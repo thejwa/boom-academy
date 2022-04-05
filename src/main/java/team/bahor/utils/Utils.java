@@ -2,10 +2,12 @@ package team.bahor.utils;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import team.bahor.entity.user.Principal;
+import team.bahor.repositories.auth.AuthUserRepository;
 
 public class Utils {
+
     public static String getSessionId() {
-        return ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId().replace("\"", "");
+        return ((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId().replace("/","");
     }
 
     public static boolean sessionHasRole(String role) {

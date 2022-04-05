@@ -18,6 +18,7 @@ import javax.persistence.*;
         @Index(name = "exam_question_mark_index", columnList = "mark"),
 })
 public class ExamQuestion extends Auditable {
+
     @Column(nullable = false)
     private String examId;
 
@@ -28,5 +29,5 @@ public class ExamQuestion extends Auditable {
     private QuestionType type;
 
     @Column(nullable = false)
-    private Short mark;
+    private Integer mark;
 }
