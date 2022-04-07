@@ -19,12 +19,12 @@ public interface SavedCourseRepository extends JpaRepository<SavedCourse, String
     @Query(value = "select * from boom_academy.main.saved_courses where id = ?1  and is_deleted = 0", nativeQuery = true)
     SavedCourse findByIdNoDelete(String id);
 
-    @Transactional
+
     @Modifying
     @Query(value = "update boom_academy.main.saved_courses set is_deleted = 1, updated_at = now()+ '5 hours' where user_id = ?1 and course_id = ?2", nativeQuery = true)
     void deleteThisUserSavedCourse(String userId, String courseId);
 
-    @Transactional
+
     @Modifying
     @Query(value = "update boom_academy.main.saved_courses set is_deleted = 1, updated_at = now()+ '5 hours' where id = ?1", nativeQuery = true)
     void deleteByIdNoHard(String id);

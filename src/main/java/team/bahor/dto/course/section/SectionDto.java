@@ -10,22 +10,22 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class SectionDto extends GenericDto {
 
-    @NotNull
+    @NotNull(message ="courseId is null")
     private String courseId;
 
-    @NotNull
+    @NotNull(message ="title is null")
     private String title;
 
-    @NotNull
+    @NotNull(message ="description is null")
     private String description;
 
-    @NotNull
+    @NotNull(message ="position is null")
     private Short position;
 
-    @NotNull
+    @NotNull(message ="createdBy is null")
     private String createdBy;
 
-    @NotNull
+    @NotNull(message ="status is null")
     private Short status;
 
 }
