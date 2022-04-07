@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.bahor.controller.AbstractController;
-import team.bahor.dto.course.CourseUserDto;
 import team.bahor.dto.course.purchase.CoursePurchaseCreateDto;
 import team.bahor.dto.course.purchase.CoursePurchaseDto;
 import team.bahor.dto.responce.DataDto;
@@ -38,11 +37,6 @@ public class CoursePurchaseController extends AbstractController<CoursePurchaseS
         return new ResponseEntity<>(new DataDto<>(courseDtoList), HttpStatus.OK);
     }
 
-    @GetMapping("/get-all-users/{courseId}")
-    public ResponseEntity<DataDto<List<CourseUserDto>>> getCourseUsers(@PathVariable String courseId) {
-        List<CourseUserDto> courseUsersDtoList = service.getCourseUsers(courseId);
-        return new ResponseEntity<>(new DataDto<>(courseUsersDtoList), HttpStatus.OK);
-    }
 
     /*
      * > Kurslarni  qay taribda sotib olish trelloda
