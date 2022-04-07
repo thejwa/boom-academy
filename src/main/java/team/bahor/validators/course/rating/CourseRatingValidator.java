@@ -62,7 +62,7 @@ public class CourseRatingValidator extends AbstractValidator<CourseRatingCreateD
     }
 
 
-    public Course validateKeyCourse(String id) {
+    public Course validateKeyCourse(String id) throws ValidationException{
         Optional<Course> courseOptional = courseRepository.activeThisCourse(id);
         if (courseOptional.isEmpty())
             throw new CourseNotFoundException("Course Not Found !");
@@ -70,7 +70,7 @@ public class CourseRatingValidator extends AbstractValidator<CourseRatingCreateD
         return courseOptional.get();
     }
 
-    public void findByIdAuthorizated() {
+    public void findByIdAuthorizated() throws ValidationException{
         if (Objects.isNull(authUserRepository.findByIdAuthorizated(Utils.getSessionId())))
             throw new SectionForbiddenException("Not allowed");
 

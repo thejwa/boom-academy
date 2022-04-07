@@ -35,14 +35,14 @@ public class SectionValidator
     }
 
     @Override
-    public void validOnCreate(SectionCreateDto dto) {
+    public void validOnCreate(SectionCreateDto dto) throws ValidationException{
         Optional<Course> byIdAndCreatedBy = courseRepository.findByIdAndCreatedBy(dto.getCourseId(), dto.getCreatedBy());
         if (byIdAndCreatedBy.isEmpty())
             throw new SectionForbiddenException("Not allowed");
     }
 
 
-    public void validOnAuthorizated() {
+    public void validOnAuthorizated() throws ValidationException{
         if (Objects.isNull(authUserRepository.findByIdAuthorizated(Utils.getSessionId())))
             throw new SectionForbiddenException("Not allowed");
     }
@@ -55,7 +55,7 @@ public class SectionValidator
     }
 
 
-    public short validOptionalSection(Optional<Section> optionalSection) {
+    public short validOptionalSection(Optional<Section> optionalSection) throws ValidationException{
         if (optionalSection.isEmpty())
             throw new SectionNotFoundException("Section not found");
         return optionalSection.get().getPosition();

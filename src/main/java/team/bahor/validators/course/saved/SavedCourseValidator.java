@@ -45,7 +45,7 @@ public class SavedCourseValidator extends AbstractValidator<SavedCourseCreateDto
 
     }
 
-    public void  validOnCreatedUser(String userId){
+    public void  validOnCreatedUser(String userId) throws ValidationException{
         if (!userId.equals(Utils.getSessionId()) || Objects.isNull(authUserRepository.findByIdAuthorizated(Utils.getSessionId())))
             throw new SavedForbiddenException("NOT ALLOWED");
     }

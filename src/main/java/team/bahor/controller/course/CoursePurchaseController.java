@@ -9,6 +9,7 @@ import team.bahor.dto.course.purchase.CoursePurchaseDto;
 import team.bahor.dto.responce.DataDto;
 import team.bahor.services.course.purchase.CoursePurchaseServiceImpl;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,8 +20,8 @@ public class CoursePurchaseController extends AbstractController<CoursePurchaseS
     }
 
 
-    @PostMapping("/create")
-    public ResponseEntity<DataDto<String>> create(@RequestBody CoursePurchaseCreateDto dto) {
+    @PostMapping("/buy")
+    public ResponseEntity<DataDto<String>> create(@Valid @RequestBody CoursePurchaseCreateDto dto) {
         String message = service.create(dto);
         return new ResponseEntity<>(new DataDto<>(message), HttpStatus.OK);
     }

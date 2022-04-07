@@ -34,4 +34,7 @@ public interface CourseRepository extends AbstractRepository<Course, String> {
 
     Optional<Course> findByIdAndCreatedByAndDeletedFalse(String id, String createdBy);
 
+    @Query(value = "select price from boom_academy.main.courses where id = ?1 and is_deleted = 0 and status = 0", nativeQuery = true)
+    double getCourseAmount(String courseId);
+
 }

@@ -38,7 +38,7 @@ public class CourseValidator extends AbstractValidator<
     }
 
     @Override
-    public void validOnCreate(CourseCreateDto courseCreateDto) {
+    public void validOnCreate(CourseCreateDto courseCreateDto) throws ValidationException{
 
         if (!CourseCategory.getAll().contains(CourseCategory.valueOf(courseCreateDto.getCategory())))
             throw new CategoryNotAvailableException("Not available");
@@ -56,7 +56,7 @@ public class CourseValidator extends AbstractValidator<
     }
 
     @Override
-    public void validPermission(String... roles) {
+    public void validPermission(String... roles) throws ValidationException{
         if (!Utils.sessionHasAnyRole(roles))
             throw new NotAllowedException("You have not this permission");
     }
