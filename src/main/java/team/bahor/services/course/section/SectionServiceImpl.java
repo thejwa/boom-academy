@@ -13,10 +13,12 @@ import team.bahor.services.base.AbstractService;
 import team.bahor.utils.Utils;
 import team.bahor.validators.course.section.SectionValidator;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Transactional
 @Service
 public class SectionServiceImpl extends AbstractService<
         SectionRepository,
@@ -96,7 +98,7 @@ public class SectionServiceImpl extends AbstractService<
             repository.updatePositionLeftSection(section.getCourseId(), position, def, Utils.getSessionId());
             repository.updatePositionSection(section.getCourseId(), Utils.getSessionId(), position);
         } else
-            repository.updatePositionSection(section.getId(), Utils.getSessionId(), (short) (length+1));
+            repository.updatePositionSection(section.getId(), Utils.getSessionId(), (short) (length + 1));
     }
 
 

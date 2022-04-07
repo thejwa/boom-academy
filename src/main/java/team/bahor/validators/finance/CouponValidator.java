@@ -1,7 +1,6 @@
 package team.bahor.validators.finance;
 
 import org.springframework.stereotype.Component;
-import org.testng.annotations.Test;
 import team.bahor.dto.finance.CouponCreateDto;
 import team.bahor.dto.finance.CouponUpdateDto;
 import team.bahor.entity.courses.Course;
@@ -10,10 +9,7 @@ import team.bahor.exeptions.ValidationException;
 import team.bahor.repositories.course.CourseRepository;
 import team.bahor.validators.base.AbstractValidator;
 
-import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Optional;
 
 @Component
