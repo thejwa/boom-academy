@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import team.bahor.dto.file.FileStorageCreateDto;
 import team.bahor.dto.file.FileStorageDto;
 import team.bahor.dto.file.FileStorageUpdateDto;
 import team.bahor.entity.file.FileStorage;
@@ -16,7 +15,7 @@ import team.bahor.mappers.file.FileStorageMapper;
 import team.bahor.properties.FileStorageProperties;
 import team.bahor.repositories.file.FileStorageRepository;
 import team.bahor.services.base.AbstractService;
-import team.bahor.services.base.GenericCrudService;
+import team.bahor.utils.Utils;
 import team.bahor.validators.file.FileStorageValidator;
 
 import java.io.IOException;
@@ -35,12 +34,7 @@ import java.util.stream.Stream;
 public class FileStorageService extends AbstractService<
         FileStorageRepository,
         FileStorageMapper,
-        FileStorageValidator>
-        implements GenericCrudService<
-        FileStorageDto,
-        FileStorageCreateDto,
-        FileStorageUpdateDto,
-        String> {
+        FileStorageValidator> {
 
     private final Path rootLocation;
 
@@ -49,46 +43,37 @@ public class FileStorageService extends AbstractService<
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
-    @Override
-    public String create(FileStorageCreateDto createDto) {
+    public String create(MultipartFile file, String lessonId) {
 
-        FileStorage fileStorage = mapper.fromCreateDto(createDto);
-        fileStorage = uploadAnyFile(createDto.getFile(), fileStorage);
-        fileStorage.setId(UUID.randomUUID().toString().replace("-", ""));
+        validator.checkFile(file);
+        FileStorage fileStorage = uploadAnyFile(file, new FileStorage());
+        fileStorage.setId(UUID.randomUUID().toString());
+        fileStorage.setLessonId(lessonId);
+        fileStorage.setCreatedBy(Utils.getSessionId());
+
         repository.save(fileStorage);
 
         return fileStorage.getId();
     }
 
-    @Override
-    public void delete(String id) {
-        Optional<FileStorage> fileStorageOptional = repository.findByIdAndDeletedFalse(id);
+    public void delete(String generatedName) {
+
+        validator.checkRole(generatedName);
+        Optional<FileStorage> fileStorageOptional = repository.findByGeneratedNameAndDeletedFalse(generatedName);
         if (fileStorageOptional.isPresent()) {
             FileStorage fileStorage = fileStorageOptional.get();
             fileStorage.setDeleted(true);
             repository.save(fileStorage);
         }
+
     }
 
-    @Override
     public void update(FileStorageUpdateDto updateDto) {
 
     }
 
-    @Override
-    public FileStorageDto get(String id) {
-
-        Optional<FileStorage> fileStorageOptional = repository.findByIdAndDeletedFalse(id);
-        if (fileStorageOptional.isPresent()) {
-            FileStorage fileStorage = fileStorageOptional.get();
-            return mapper.toDto(fileStorage);
-        } else {
-            throw new StorageFileNotFoundException("file not found");
-        }
-    }
-
-    public FileStorageDto getAsResource(String id) {
-        Optional<FileStorage> fileStorageOptional = repository.findByIdAndDeletedFalse(id);
+    public FileStorageDto get(String generatedName) {
+        Optional<FileStorage> fileStorageOptional = repository.findByGeneratedNameAndDeletedFalse(generatedName);
         Resource resource = fileStorageOptional.map(fileStorage -> loadAsResource(fileStorage.getGeneratedName())).orElse(null);
         FileStorageDto fileStorageDto = mapper.toDto(fileStorageOptional.get());
         fileStorageDto.setFile(resource);
@@ -112,18 +97,16 @@ public class FileStorageService extends AbstractService<
         }
     }
 
-
-    @Override
-    public List<FileStorageDto> getAll() {
+    public List<FileStorageDto> getAll(String lessonId) {
         List<FileStorage> fileStorages = repository.findAll();
         return mapper.toDto(fileStorages);
     }
 
     public String uploadVideoFile(MultipartFile multipartFile, String lessonId) {
 
-        validator.checkVideoFile(multipartFile);
+        validator.checkVideoFile(multipartFile, lessonId);
         FileStorage fileStorage = uploadAnyFile(multipartFile, new FileStorage());
-        fileStorage.setId(UUID.randomUUID().toString().replace("-", ""));
+        fileStorage.setId(UUID.randomUUID().toString());
         fileStorage.setLessonId(lessonId);
         repository.save(fileStorage);
 
@@ -142,10 +125,11 @@ public class FileStorageService extends AbstractService<
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         fileStorage.setGeneratedName(generatedName);
         fileStorage.setOriginalName(file.getOriginalFilename());
-        fileStorage.setType(file.getContentType());
+        String[] type = file.getContentType().split("/");
+        fileStorage.setType(type[0]);
+
         fileStorage.setPath(path.toString());
 
         return fileStorage;

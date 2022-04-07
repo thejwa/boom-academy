@@ -1,6 +1,5 @@
 package team.bahor.services.finance;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import team.bahor.dto.finance.CouponCreateDto;
 import team.bahor.dto.finance.CouponDto;
@@ -19,7 +18,7 @@ import java.util.UUID;
 
 public class CouponServiceImp extends AbstractService<CouponRepository, CouponMapper, CouponValidator>
         implements CouponService {
-    protected CouponServiceImp(@Qualifier("couponMapperImpl") CouponMapper mapper, CouponValidator validator, CouponRepository repository) {
+    protected CouponServiceImp(CouponMapper mapper, CouponValidator validator, CouponRepository repository) {
         super(mapper, validator, repository);
     }
 
@@ -28,7 +27,7 @@ public class CouponServiceImp extends AbstractService<CouponRepository, CouponMa
 
         validator.validOnCreate(createDto);
         Coupon coupon = mapper.fromCreateDto(createDto);
-        coupon.setId(UUID.randomUUID().toString().replace("-", ""));
+        coupon.setId(UUID.randomUUID().toString());
         return repository.save(coupon).getId();
 
     }
@@ -36,10 +35,17 @@ public class CouponServiceImp extends AbstractService<CouponRepository, CouponMa
     @Override
     public void delete(String id) {
 
+        Optional<Coupon> couponOptional = repository.findByIdAndDeletedFalse(id);
+        Coupon coupon = couponOptional.get();
+        coupon.setDeleted(true);
+        repository.save(coupon);
+
     }
 
     @Override
     public void update(CouponUpdateDto updateDto) {
+
+        validator.validOnUpdate(updateDto);
 
     }
 

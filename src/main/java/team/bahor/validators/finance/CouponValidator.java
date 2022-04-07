@@ -4,9 +4,11 @@ import org.springframework.stereotype.Component;
 import team.bahor.dto.finance.CouponCreateDto;
 import team.bahor.dto.finance.CouponUpdateDto;
 import team.bahor.entity.courses.Course;
+import team.bahor.enums.Role;
 import team.bahor.exeptions.NotAllowedException;
 import team.bahor.exeptions.ValidationException;
 import team.bahor.repositories.course.CourseRepository;
+import team.bahor.utils.Utils;
 import team.bahor.validators.base.AbstractValidator;
 
 import java.time.LocalDate;
@@ -29,10 +31,15 @@ public class CouponValidator extends AbstractValidator<CouponCreateDto, CouponUp
 
     @Override
     public void validOnCreate(CouponCreateDto dto) throws ValidationException {
-        Optional<Course> courseOptional = courseRepository.findById(dto.getCourseId());
+        Optional<Course> courseOptional = courseRepository.findByIdAndCreatedByAndDeletedFalse(dto.getCourseId(), Utils.getSessionId());
+        if (courseOptional.isEmpty()) {
 
-        if (courseOptional.isEmpty())
-            throw new NotAllowedException("bad request");
+            if (Utils.sessionHasAnyRole(Role.MANAGER.name(), Role.SUPER_ADMIN.name())) {
+                courseOptional = courseRepository.findByIdAndDeletedFalse(dto.getCourseId());
+            } else
+                throw new NotAllowedException("bad request");
+
+        }
 
         Course course = courseOptional.get();
 
