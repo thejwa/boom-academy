@@ -1,6 +1,7 @@
 package team.bahor.services.course.purchase;
 
 import org.springframework.stereotype.Service;
+import team.bahor.dto.course.CourseUserDto;
 import team.bahor.dto.course.purchase.CoursePurchaseCreateDto;
 import team.bahor.dto.course.purchase.CoursePurchaseDto;
 import team.bahor.dto.course.purchase.CoursePurchaseUpdateDto;
@@ -47,4 +48,12 @@ public class CoursePurchaseServiceImpl extends AbstractService<
     public List<CoursePurchaseDto> getAll() {
         return null;
     }
+    public List<CoursePurchaseDto> getAll(String userId) {
+        return null;
+    }
+
+    public List<CourseUserDto> getCourseUsers(String courseId){
+        return null;
+    }
+
 }
