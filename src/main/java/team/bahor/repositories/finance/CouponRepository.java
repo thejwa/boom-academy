@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface CouponRepository extends AbstractRepository<Coupon, String> {
+    Optional<Coupon> findByIdAndDeletedFalse(String id);
     @Query(value = "select * from boom_academy.main.coupon " +
             "where code = ?1 and is_deleted = 0 and limit_size > 0 and due_date < now()", nativeQuery = true)
     Optional<Coupon> getCouponAmount(String couponCode);

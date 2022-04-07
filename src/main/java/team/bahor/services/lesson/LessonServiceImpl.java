@@ -29,6 +29,8 @@ public class LessonServiceImpl extends AbstractService<LessonRepository, LessonM
         Lesson lesson = mapper.fromCreateDto(dto);
 
         lesson.setId(UUID.randomUUID().toString());
+        String videoPath = fileStorageService.uploadVideoFile(file, lesson.getSectionId());
+        lesson.setVideoUrl(videoPath);
         lesson.setCreatedBy(Utils.getSessionId());
         lesson.setPosition(getPosition(dto));
 

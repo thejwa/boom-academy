@@ -11,7 +11,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/boom_academy?currentSchema=main
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -39,7 +39,7 @@ api:
     contact-url: https://boom-academy.uz
 
 storage:
-  location: C:/Users/HP/Desktop/boom-academy/resource
+  location: /Users/macbookair/Documents/FileStorage/resource
 
 course:
   activeStatus: 0

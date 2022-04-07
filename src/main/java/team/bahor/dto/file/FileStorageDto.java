@@ -17,6 +17,10 @@ public class FileStorageDto extends GenericDto {
 
     String originalName;
 
+    String generatedName;
+
+    Resource resource;
+
     String type;
 
 }

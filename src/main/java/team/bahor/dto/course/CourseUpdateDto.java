@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 @Setter
 public class CourseUpdateDto extends GenericDto {
 
-    @Pattern(regexp = "\\w")
+    @NotBlank
     private String name;
 
     private String description;

@@ -25,6 +25,8 @@ public class FileStorage extends Auditable {
     @Column(nullable = false)
     String generatedName;
 
+    String createdBy;
+
     String type;
 
 }
