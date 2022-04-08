@@ -34,7 +34,8 @@ public interface AuthUserRepository extends JpaRepository<AuthUser, String>, Bas
     @Query(value = "select * from boom_academy.main.auth_users where id = ?1 and status = 0 and is_deleted = 0", nativeQuery = true)
     AuthUser findByIdAuthorizated(String sessionId);
 
-    double validUserBalance(double nativePrice);
+    @Query(value = "select * from boom_academy.main.auth_users where id = ?2 and balance >= ?1 and status = 0 and is_deleted = 0", nativeQuery = true)
+    Double validUserBalance(Double nativePrice, String sessionId);
 
     @Modifying
     @Query(value = "update boom_academy.main.auth_users set balance = ?1, updated_at = now() where id = ?2 and status = 0 and is_deleted = 0", nativeQuery = true)

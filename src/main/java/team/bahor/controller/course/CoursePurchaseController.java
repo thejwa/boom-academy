@@ -26,11 +26,11 @@ public class CoursePurchaseController extends AbstractController<CoursePurchaseS
         return new ResponseEntity<>(new DataDto<>(message), HttpStatus.OK);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<DataDto<CoursePurchaseDto>> get(@PathVariable String id) {
-        CoursePurchaseDto savedCourseDto = service.get(id);
-        return new ResponseEntity<>(new DataDto<>(savedCourseDto), HttpStatus.OK);
-    }
+//    @GetMapping("/get/{id}")
+//    public ResponseEntity<DataDto<CoursePurchaseDto>> get(@PathVariable String id) {
+//        CoursePurchaseDto savedCourseDto = service.get(id);
+//        return new ResponseEntity<>(new DataDto<>(savedCourseDto), HttpStatus.OK);
+//    }
 
     @GetMapping("/get-all/{userId}")
     public ResponseEntity<DataDto<List<CoursePurchaseDto>>> getAll(@PathVariable String userId) {

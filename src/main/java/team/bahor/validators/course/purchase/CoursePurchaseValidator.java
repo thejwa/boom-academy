@@ -76,7 +76,7 @@ public class CoursePurchaseValidator extends AbstractValidator<
 
     public double validUserBalance(double nativePrice) throws ValidationException {
         double balance = -1;
-        balance = authUserRepository.validUserBalance(nativePrice);
+        balance = authUserRepository.validUserBalance(nativePrice, Utils.getSessionId());
         if (balance < 0)
             throw new AuthUserBalanceNoValidException("There is not enough money in your account !");
         return balance;
