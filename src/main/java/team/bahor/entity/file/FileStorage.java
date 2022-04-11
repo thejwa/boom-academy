@@ -26,5 +26,4 @@ public class FileStorage extends Auditable {
     String generatedName;
 
     String type;
-
 }

@@ -1,5 +1,6 @@
 package team.bahor.controller.exam;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,15 +10,25 @@ import team.bahor.controller.AbstractController;
 import team.bahor.dto.exam.exam.*;
 import team.bahor.dto.responce.DataDto;
 import team.bahor.services.exam.exam.ExamServiceImpl;
+import team.bahor.services.exam.exam.ExportPdfService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 public class ExamController extends AbstractController<ExamServiceImpl> {
-    @Autowired
-    public ExamController(ExamServiceImpl service) {
+    public ExamController(ExamServiceImpl service, ExportPdfService exportPdfService) {
         super(service);
+        this.exportPdfService = exportPdfService;
     }
+
+    private final ExportPdfService exportPdfService;
+
 
     @RequestMapping(value = {PATH + "/exam/createBegin"}, method = RequestMethod.POST)
     public ResponseEntity<DataDto<String>> create(@RequestBody ExamCreateDtoBegin dtoBegin) {
@@ -83,10 +94,20 @@ public class ExamController extends AbstractController<ExamServiceImpl> {
         return new ResponseEntity<>(new DataDto<>(service.finish(examUserId)), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH+"exam/update",method = RequestMethod.POST)
+    @RequestMapping(value = PATH + "exam/update", method = RequestMethod.POST)
     public ResponseEntity<Void> update(@RequestBody ExamUpdateDto dto) {
         service.update(dto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/certificate/{id}", method = RequestMethod.GET)
+    public void downloadReceipt(HttpServletResponse response, @PathVariable String id) throws IOException {
+        Map<String, Object> data = service.createData(id);
+        ByteArrayInputStream byteArrayInputStream = exportPdfService.exportPdfCertificate("certificate1", data);
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=receipt.pdf");
+        IOUtils.copy(byteArrayInputStream, response.getOutputStream());
+        //todo exception togirla
     }
 
 
