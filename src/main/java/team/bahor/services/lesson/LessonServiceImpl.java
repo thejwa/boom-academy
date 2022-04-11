@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class LessonServiceImpl extends AbstractService<LessonRepository, LessonMapper, LessonValidator> {
+
     protected LessonServiceImpl(LessonMapper mapper, LessonValidator validator, LessonRepository repository, FileStorageService fileStorageService) {
         super(mapper, validator, repository);
         this.fileStorageService = fileStorageService;
@@ -28,6 +29,8 @@ public class LessonServiceImpl extends AbstractService<LessonRepository, LessonM
         Lesson lesson = mapper.fromCreateDto(dto);
 
         lesson.setId(UUID.randomUUID().toString());
+        String videoPath = fileStorageService.uploadVideoFile(file, lesson.getSectionId());
+        lesson.setVideoUrl(videoPath);
         lesson.setCreatedBy(Utils.getSessionId());
         lesson.setPosition(getPosition(dto));
 

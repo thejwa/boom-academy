@@ -8,14 +8,14 @@ import team.bahor.dto.course.rating.CourseRatingCreateDto;
 import team.bahor.dto.course.rating.CourseRatingDto;
 import team.bahor.dto.course.rating.CourseRatingUpdateDto;
 import team.bahor.dto.responce.DataDto;
-import team.bahor.services.course.rating.CourseRatingServiceImp;
+import team.bahor.services.course.rating.CourseRatingServiceImpl;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/course-rating")
-public class CourseRatingController extends AbstractController<CourseRatingServiceImp> {
-    public CourseRatingController(CourseRatingServiceImp service) {
+public class CourseRatingController extends AbstractController<CourseRatingServiceImpl> {
+    public CourseRatingController(CourseRatingServiceImpl service) {
         super(service);
     }
 

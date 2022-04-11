@@ -4,18 +4,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.bahor.controller.AbstractController;
+import team.bahor.dto.course.CourseDto;
 import team.bahor.dto.responce.DataDto;
 import team.bahor.dto.tag.TagCreateDto;
 import team.bahor.dto.tag.TagDto;
-import team.bahor.services.tag.TagsServiceImp;
+import team.bahor.services.tag.TagsServiceImpl;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/tag")
-public class TagsController extends AbstractController<TagsServiceImp> {
+public class TagsController extends AbstractController<TagsServiceImpl> {
 
-    public TagsController(TagsServiceImp service) {
+    public TagsController(TagsServiceImpl service) {
         super(service);
     }
 
@@ -25,6 +26,13 @@ public class TagsController extends AbstractController<TagsServiceImp> {
         return new ResponseEntity<>(new DataDto<>(message), HttpStatus.OK);
     }
 
+    @GetMapping("/search-courses/{name}")
+    public ResponseEntity<DataDto<List<CourseDto>>> create(@PathVariable String name) {
+        List<CourseDto> courseDtoList = service.searchCourse(name);
+        return new ResponseEntity<>(new DataDto<>(courseDtoList), HttpStatus.OK);
+    }
+
+
     @GetMapping("/get/{id}")
     public ResponseEntity<DataDto<TagDto>> get(@PathVariable String id) {
         TagDto savedCourseDto = service.get(id);
@@ -33,7 +41,7 @@ public class TagsController extends AbstractController<TagsServiceImp> {
 
     @GetMapping("/get-all/{courseId}")
     public ResponseEntity<DataDto<List<TagDto>>> getAll(@PathVariable String courseId) {
-        List<TagDto> courseDtoList = service.getAllTag(courseId);
+        List<TagDto> courseDtoList = service.getAll(courseId);
         return new ResponseEntity<>(new DataDto<>(courseDtoList), HttpStatus.OK);
     }
 
@@ -43,11 +51,4 @@ public class TagsController extends AbstractController<TagsServiceImp> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-//    public ResponseEntity<ApiResult<ErrorData>> handleException(MethodArgumentNotValidException ex) {
-//        List<ErrorData> errors = new ArrayList<>();
-//        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-//        fieldErrors.forEach(fieldError -> errors.add(new ErrorData(fieldError.getDefaultMessage(), fieldError.getField(), RestConstants.REQUIRED)));
-//        return new ResponseEntity<>(ApiResult.errorResponse(errors), HttpStatus.BAD_REQUEST);
-//    }
 }

@@ -31,7 +31,7 @@ public class CourseController extends AbstractController<CourseService> {
     public ResponseEntity<DataDto<List<CourseDto>>> getAll() {
         return new ResponseEntity<>(new DataDto<>(service.getAll()), HttpStatus.OK);
     }
-    @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
+
     @GetMapping("getActiveCourses")
     public ResponseEntity<DataDto<List<CourseDto>>> getActiveCourses() {
         return new ResponseEntity<>(new DataDto<>(service.getActiveCourses()), HttpStatus.OK);
@@ -47,6 +47,7 @@ public class CourseController extends AbstractController<CourseService> {
     public ResponseEntity<DataDto<List<CourseDto>>> getMyCourses() {
         return new ResponseEntity<>(new DataDto<>(service.getMyCourses()), HttpStatus.OK);
     }
+
     @GetMapping("getMyActiveCourses")
     public ResponseEntity<DataDto<List<CourseDto>>> getMyActiveCourses() {
         return new ResponseEntity<>(new DataDto<>(service.getMyActiveCourses()), HttpStatus.OK);

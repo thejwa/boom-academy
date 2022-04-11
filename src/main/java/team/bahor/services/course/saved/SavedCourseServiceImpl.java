@@ -14,16 +14,18 @@ import team.bahor.repositories.course.SavedCourseRepository;
 import team.bahor.services.base.AbstractService;
 import team.bahor.validators.course.saved.SavedCourseValidator;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+@Transactional
 @Service
-public class SavedCourseServiceImp extends AbstractService<
+public class SavedCourseServiceImpl extends AbstractService<
         SavedCourseRepository,
         SavedCourseMapper,
         SavedCourseValidator> implements SavedCourseService {
 
-    protected SavedCourseServiceImp(@Qualifier("savedCourseMapperImpl") SavedCourseMapper mapper, SavedCourseValidator validator, SavedCourseRepository repository) {
+    protected SavedCourseServiceImpl(@Qualifier("savedCourseMapperImpl") SavedCourseMapper mapper, SavedCourseValidator validator, SavedCourseRepository repository) {
         super(mapper, validator, repository);
     }
 

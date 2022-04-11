@@ -15,19 +15,21 @@ import team.bahor.services.base.AbstractService;
 import team.bahor.utils.Utils;
 import team.bahor.validators.course.rating.CourseRatingValidator;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Transactional
 @Service
-public class CourseRatingServiceImp extends AbstractService<
+public class CourseRatingServiceImpl extends AbstractService<
         CourseRatingRepository,
         CourseRatingMapper,
         CourseRatingValidator> implements CourseRatingService {
 
     private final CourseRepository courseRepository;
 
-    protected CourseRatingServiceImp(@Qualifier("courseRatingMapperImpl") CourseRatingMapper mapper, CourseRatingValidator validator, CourseRatingRepository repository, CourseRepository courseRepository) {
+    protected CourseRatingServiceImpl(@Qualifier("courseRatingMapperImpl") CourseRatingMapper mapper, CourseRatingValidator validator, CourseRatingRepository repository, CourseRepository courseRepository) {
         super(mapper, validator, repository);
         this.courseRepository = courseRepository;
     }

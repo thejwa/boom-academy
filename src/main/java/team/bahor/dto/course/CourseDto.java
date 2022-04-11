@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class    CourseDto extends GenericDto {
+public class CourseDto extends GenericDto {
 
     @Pattern(regexp = "\\w")
     private String name;

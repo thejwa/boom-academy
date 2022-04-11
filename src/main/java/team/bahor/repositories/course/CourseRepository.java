@@ -15,8 +15,12 @@ public interface CourseRepository extends AbstractRepository<Course, String> {
     @Query(value = "select * from boom_academy.main.courses where id = ?1 and status = 0 and is_deleted = 0", nativeQuery = true)
     Optional<Course> activeThisCourse(String id);
 
+    //Todo return "TEACHER RATING"
     @Query(value = "select sum(rating)/count(*) from boom_academy.main.courses where created_by = ?1 and is_deleted = 0", nativeQuery = true)
     float courseRatingActive(String id);
+
+    @Query(value = "select created_by from boom_academy.main.courses where id = ?1 and is_deleted = 0", nativeQuery = true)
+    String createdThisCourse(String courseId);
 
     List<Course> findAllByDeletedFalse();
 
@@ -29,5 +33,8 @@ public interface CourseRepository extends AbstractRepository<Course, String> {
     Optional<Course> findByIdAndDeletedFalse(String id);
 
     Optional<Course> findByIdAndCreatedByAndDeletedFalse(String id, String createdBy);
+
+    @Query(value = "select price from boom_academy.main.courses where id = ?1 and is_deleted = 0 and status = 0", nativeQuery = true)
+    double getCourseAmount(String courseId);
 
 }
