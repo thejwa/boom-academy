@@ -24,4 +24,5 @@ public class LessonController extends AbstractController<LessonServiceImpl> {
         return new ResponseEntity<>(new DataDto<>(service.create(dto, file)), HttpStatus.OK);
     }
 
+
 }
