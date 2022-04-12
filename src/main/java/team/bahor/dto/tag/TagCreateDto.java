@@ -9,9 +9,9 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class TagCreateDto implements BaseGenericDto {
-    @NotBlank
+    @NotBlank(message = "name is null")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "courseId is null")
     private String courseId;
 }

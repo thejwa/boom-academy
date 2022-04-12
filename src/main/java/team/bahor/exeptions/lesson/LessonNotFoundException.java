@@ -1,11 +1,11 @@
-package team.bahor.exeptions.user;
+package team.bahor.exeptions.lesson;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class AuthUserNotFoundExeption extends RuntimeException {
-    public AuthUserNotFoundExeption(String message) {
+public class LessonNotFoundException extends RuntimeException {
+    public LessonNotFoundException(String message) {
         super(message);
     }
 }

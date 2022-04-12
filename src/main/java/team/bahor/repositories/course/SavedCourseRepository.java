@@ -3,12 +3,8 @@ package team.bahor.repositories.course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import team.bahor.dto.course.saved.SavedCourseDto;
-import team.bahor.entity.courses.Course;
 import team.bahor.entity.courses.SavedCourse;
 import team.bahor.repositories.base.BaseGenericRepository;
-
-import javax.transaction.Transactional;
 
 public interface SavedCourseRepository extends JpaRepository<SavedCourse, String>, BaseGenericRepository {
 
@@ -21,12 +17,12 @@ public interface SavedCourseRepository extends JpaRepository<SavedCourse, String
 
 
     @Modifying
-    @Query(value = "update boom_academy.main.saved_courses set is_deleted = 1, updated_at = now()+ '5 hours' where user_id = ?1 and course_id = ?2", nativeQuery = true)
+    @Query(value = "update boom_academy.main.saved_courses set is_deleted = 1, updated_at = now() where user_id = ?1 and course_id = ?2", nativeQuery = true)
     void deleteThisUserSavedCourse(String userId, String courseId);
 
 
     @Modifying
-    @Query(value = "update boom_academy.main.saved_courses set is_deleted = 1, updated_at = now()+ '5 hours' where id = ?1", nativeQuery = true)
+    @Query(value = "update boom_academy.main.saved_courses set is_deleted = 1, updated_at = now() where id = ?1 and is_deleted = 0", nativeQuery = true)
     void deleteByIdNoHard(String id);
 
     @Query(value = "select boom_academy.main.saved_course( ?1 )", nativeQuery = true)

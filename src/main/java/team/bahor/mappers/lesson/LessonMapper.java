@@ -9,9 +9,25 @@ import team.bahor.dto.lesson.LessonUpdateDto;
 import team.bahor.entity.lesson.Lesson;
 import team.bahor.mappers.base.AbstractMapper;
 
+import java.util.List;
+
 @Component
 @Mapper(componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface LessonMapper
-        extends AbstractMapper<Lesson, LessonDto, LessonCreateDto, LessonUpdateDto> {
+public interface LessonMapper extends AbstractMapper<
+        Lesson,
+        LessonDto,
+        LessonCreateDto,
+        LessonUpdateDto> {
+    @Override
+    LessonDto toDto(Lesson entity);
+
+    @Override
+    List<LessonDto> toDto(List<Lesson> entities);
+
+    @Override
+    Lesson fromCreateDto(LessonCreateDto createDto);
+
+    @Override
+    Lesson fromUpdateDto(LessonUpdateDto updateDto);
 }
