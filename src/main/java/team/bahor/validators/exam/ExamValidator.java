@@ -145,7 +145,6 @@ public class ExamValidator extends AbstractValidator<ExamCreateDtoBegin, ExamUpd
         if (!examService.isCompleted(utils.getSessionId())) {
             throw new IsCanThisExam("siz bu exam tugatmagansiz");
         }
-
         //todo user bir marta imtihon topshirsin
     }
 

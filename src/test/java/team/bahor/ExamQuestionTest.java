@@ -1,5 +1,6 @@
 package team.bahor;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.SneakyThrows;
@@ -10,6 +11,7 @@ import team.bahor.config.encryption.PasswordEncoderConfigurer;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionCreateDto;
 import team.bahor.dto.exam.exam.*;
 import team.bahor.dto.exam.examQuestion.ExamQuestionCreateDto;
+import team.bahor.dto.search.ResultOfSearch;
 import team.bahor.entity.exam.ExamQuestion;
 import team.bahor.repositories.exam.ExamQuestionRepository;
 
@@ -163,6 +165,17 @@ public class ExamQuestionTest {
         Certificate certificate = objectMapper.readValue(string, Certificate.class);
         System.out.println("certificate = " + certificate);
 
+    }
+
+    @Test
+    @SneakyThrows
+    void test10() {
+        String string = "[{\"id\":\"1111111111111111111111111\",\"name\":\"matematika\"},{\"id\":\"44444444444444444444444444\",\"name\":\"matematika\"}]";
+        List<ResultOfSearch> result = new ObjectMapper().readValue(string, new TypeReference<List<ResultOfSearch>>() {
+        });
+        result.forEach(resultOfSearch -> {
+            System.out.println(resultOfSearch.getId());
+        });
     }
 
 

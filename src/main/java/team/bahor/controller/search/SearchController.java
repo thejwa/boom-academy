@@ -3,6 +3,7 @@ package team.bahor.controller.search;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.bahor.controller.AbstractController;
@@ -18,7 +19,7 @@ public class SearchController extends AbstractController<SearchService> {
         super(service);
     }
 
-    @RequestMapping(value = PATH + "/search")
+    @RequestMapping(value = PATH + "/search", method = RequestMethod.GET)
     public ResponseEntity<DataDto<List<ResultOfSearch>>> search(@RequestParam String search) {
         return new ResponseEntity<>(new DataDto<>(service.search(search)), HttpStatus.OK);
     }
