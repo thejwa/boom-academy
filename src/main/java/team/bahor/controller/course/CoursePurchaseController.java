@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/course-purchase")
-public class CoursePurchaseController extends AbstractController<CoursePurchaseServiceImpl> {
+public class  CoursePurchaseController extends AbstractController<CoursePurchaseServiceImpl> {
     public CoursePurchaseController(CoursePurchaseServiceImpl service) {
         super(service);
     }

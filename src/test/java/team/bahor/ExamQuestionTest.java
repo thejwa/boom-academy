@@ -1,28 +1,26 @@
 package team.bahor;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import team.bahor.config.encryption.PasswordEncoderConfigurer;
 import team.bahor.dto.exam.answerToExamQuestion.AnswerToExamQuestionCreateDto;
 import team.bahor.dto.exam.exam.*;
 import team.bahor.dto.exam.examQuestion.ExamQuestionCreateDto;
+import team.bahor.dto.search.ResultOfSearch;
 import team.bahor.entity.exam.ExamQuestion;
 import team.bahor.repositories.exam.ExamQuestionRepository;
-import team.bahor.repositories.exam.ExamRepository;
-import team.bahor.services.exam.exam.ExamServiceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SpringBootTest
+//@SpringBootTest
 public class ExamQuestionTest {
 
     @Autowired
@@ -148,10 +146,11 @@ public class ExamQuestionTest {
         System.out.println("finishDto.getExamId() = " + finishDto.getExamId());
 
     }
+
     @Test
     @SneakyThrows
-    public void test9(){
-        ExamUpdateDto examUpdateDto= new ExamUpdateDto();
+    public void test9() {
+        ExamUpdateDto examUpdateDto = new ExamUpdateDto();
         examUpdateDto.setId("cf874f95-0c48-44d4-b643-68553ada04cb");
         examUpdateDto.setDescription("update boldi");
         examUpdateDto.setDuration(500000L);
@@ -160,13 +159,24 @@ public class ExamQuestionTest {
 
     @Test
     @SneakyThrows
-    void testGetById(){
-        ExamQuestion byId = repository.getById("482f3593-b2bd-4bd5-beac-3079e7f374c2");
-        System.out.println();
-        System.out.println("byId.getId() = " + byId.getId());
+    void testGetById() {
+        String string = "{\"full_name\":\"Abdullatipov Abdulloh\",\"course_name\":\"fizika\",\"percentage\":33.33333333333333}";
+        ObjectMapper objectMapper = new ObjectMapper();
+        Certificate certificate = objectMapper.readValue(string, Certificate.class);
+        System.out.println("certificate = " + certificate);
 
     }
 
+    @Test
+    @SneakyThrows
+    void test10() {
+        String string = "[{\"id\":\"1111111111111111111111111\",\"name\":\"matematika\"},{\"id\":\"44444444444444444444444444\",\"name\":\"matematika\"}]";
+        List<ResultOfSearch> result = new ObjectMapper().readValue(string, new TypeReference<List<ResultOfSearch>>() {
+        });
+        result.forEach(resultOfSearch -> {
+            System.out.println(resultOfSearch.getId());
+        });
+    }
 
 
 }
