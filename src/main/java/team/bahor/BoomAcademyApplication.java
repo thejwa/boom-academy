@@ -35,7 +35,7 @@ public class BoomAcademyApplication {
     }
 
 
-    @Bean
+//    @Bean
     CommandLineRunner runner() {
         return (args) -> {
             authUserRepository.deleteAll();
