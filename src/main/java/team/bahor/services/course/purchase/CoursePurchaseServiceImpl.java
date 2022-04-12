@@ -70,7 +70,6 @@ public class CoursePurchaseServiceImpl extends AbstractService<
         purchaseHistory.setDiscount(discountAmount);
         purchaseHistory.setPaymentAmount(nativeCourseAmount);
         repository.save(purchaseHistory);
-
         authUserRepository.changeUserBalance(userBalance - nativeCourseAmount, Utils.getSessionId());
 
         return "Saved";

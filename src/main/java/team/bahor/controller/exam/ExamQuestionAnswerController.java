@@ -41,7 +41,6 @@ public class ExamQuestionAnswerController extends AbstractController<AnswerToExa
     }
 
 
-    //todo shuni oqtuvchi ham koradigan qilib anation yarat
     @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
     @RequestMapping(value = PATH + "/examQuestionAnswer/getAll/{id}", method = RequestMethod.GET)
     public ResponseEntity<DataDto<List<AnswerToExamQuestionDto>>> getAll(@PathVariable String id) {
@@ -49,7 +48,6 @@ public class ExamQuestionAnswerController extends AbstractController<AnswerToExa
     }
 
     @PreAuthorize(value = "hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER')")
-    //todo shuni oqtuvchi ham koradigan qilib anation yarat
     @RequestMapping(value = PATH + "/examQuestionAnswer/update", method = RequestMethod.POST)
     public ResponseEntity<Void> update(@RequestBody AnswerToExamQuestionUpdateDto updateDto) {
         service.update(updateDto);

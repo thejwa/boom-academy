@@ -3,6 +3,7 @@ package team.bahor.repositories.exam;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import team.bahor.dto.exam.exam.Certificate;
 import team.bahor.dto.exam.exam.ExamDto;
 import team.bahor.entity.exam.Exam;
 import team.bahor.repositories.base.BaseGenericRepository;
@@ -76,4 +77,18 @@ public interface ExamRepository extends JpaRepository<Exam, String>, BaseGeneric
 
     @Query(value = "select max(equ.order_question) from boom_academy.main.exam_question_user equ where equ.exam_user_id = ?1", nativeQuery = true)
     Integer maxOrder(String examUserId);
+
+    @Query(value = "select cast((select row_to_json(\"table\")  from (select au.full_name, c.name as course_name, eu.percentage from main.courses c inner join main.exam e on c.id = e.course_id inner join main.exam_user eu on e.id = eu.exam_id inner join main.auth_users au on au.id = eu.user_id where au.id = ?1 and c.id = ?2) \"table\") as text)", nativeQuery = true)
+    String createData(String sessionId, String courseId);
+
+    @Query(value = "select cast((select array_to_json(array_agg(row_to_json(\"table\"))) from (select t.id,t.name from main.tags t where t.is_deleted = 0 and t.name ilike ?1 union select c.id,c.name from  main.courses c where c.is_deleted = 0 and c.status = 0 and c.name ilike ?1) \"table\") as text)\n", nativeQuery = true)
+    String search(String search);
+
+    @Query(value = "select cast((select array_to_json(array_agg(row_to_json(\"table\")))\n" +
+            "             from (select mc.name as course_name, count(*), sum(cph.payment_amount)\n" +
+            "                   from main.course_purchase_history cph\n" +
+            "                            inner join main.courses mc on cph.course_id = mc.id\n" +
+            "                   group by mc.name) \"table\"\n" +
+            ") as text)", nativeQuery = true)
+    String accountant();
 }

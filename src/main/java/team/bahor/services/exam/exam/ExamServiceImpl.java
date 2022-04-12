@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
 import team.bahor.dto.exam.exam.*;
 import team.bahor.dto.exam.examQuestion.ExamQuestionDto;
 import team.bahor.dto.exam.examQuestionGeneration.ExamQuestionGenerationCreateDto;
-import team.bahor.dto.exam.examQuestionGeneration.ExamQuestionGenerationUpdateDto;
 import team.bahor.entity.exam.Exam;
 import team.bahor.entity.exam.ExamQuestionUser;
 import team.bahor.entity.exam.ExamUser;
@@ -22,6 +22,7 @@ import team.bahor.services.base.AbstractService;
 import team.bahor.services.exam.examQuestion.ExamQuestionServiceImpl;
 import team.bahor.services.exam.examQuestionGeneration.ExamQuestionGenerationServiceImpl;
 import team.bahor.utils.Utils;
+import team.bahor.utils.UtilsForSessionUser;
 import team.bahor.validators.exam.ExamValidator;
 
 import java.sql.Timestamp;
@@ -41,13 +42,15 @@ public class ExamServiceImpl extends AbstractService<
     private final ExamQuestionUserRepository examQuestionUserRepository;
     private final ExamQuestionServiceImpl examQuestionService;
     private final ExamUserRepository examUserRepository;
+    private final UtilsForSessionUser utils;
 
-    public ExamServiceImpl(ExamMapper mapper, @Lazy ExamValidator validator, ExamRepository repository, ExamQuestionGenerationServiceImpl examQuestionGenerationService, ExamQuestionUserRepository examQuestionUserRepository, ExamQuestionServiceImpl examQuestionService, ExamUserRepository examUserRepository) {
+    public ExamServiceImpl(ExamMapper mapper, @Lazy ExamValidator validator, ExamRepository repository, ExamQuestionGenerationServiceImpl examQuestionGenerationService, ExamQuestionUserRepository examQuestionUserRepository, ExamQuestionServiceImpl examQuestionService, ExamUserRepository examUserRepository, UtilsForSessionUser utils) {
         super(mapper, validator, repository);
         this.examQuestionGenerationService = examQuestionGenerationService;
         this.examQuestionUserRepository = examQuestionUserRepository;
         this.examQuestionService = examQuestionService;
         this.examUserRepository = examUserRepository;
+        this.utils = utils;
     }
 
     @Override
@@ -243,7 +246,6 @@ public class ExamServiceImpl extends AbstractService<
 
     public boolean isThereExam(String id) {
         return repository.isThereExam(id);
-
     }
 
     public boolean isThereExamAndNotBlockAndActive(String examId) {
@@ -268,6 +270,20 @@ public class ExamServiceImpl extends AbstractService<
 
     public Integer maxOrder(String examUserId) {
         return repository.maxOrder(examUserId);
+    }
+
+    public Map<String, Object> createData(String courseId) {
+        try {
+            Map<String, Object> result = new HashMap<>();
+            Certificate certificate = new ObjectMapper().readValue(repository.createData(utils.getSessionId(), courseId), Certificate.class);
+            String data = repository.createData(utils.getSessionId(), courseId);
+            System.out.println(data);
+            result.put("certificate", certificate);
+            return result;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 
