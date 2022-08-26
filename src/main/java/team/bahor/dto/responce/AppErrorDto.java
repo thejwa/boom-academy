@@ -26,7 +26,10 @@ public class AppErrorDto {
 
 
     public AppErrorDto(String message, WebRequest webRequest, HttpStatus httpStatus, String developerMessage) {
-        this(message, ((ServletWebRequest) webRequest).getRequest().getRequestURI(), httpStatus, developerMessage);
+        this(message,
+                ((ServletWebRequest) webRequest).getRequest().getRequestURI(),
+                httpStatus,
+                developerMessage);
     }
 
     public AppErrorDto(String message, String path, HttpStatus httpStatus, String developerMessage) {

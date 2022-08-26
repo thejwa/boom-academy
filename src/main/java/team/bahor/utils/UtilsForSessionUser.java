@@ -16,10 +16,13 @@ public class UtilsForSessionUser {
     }
 
     public String getSessionId() {
-        return authUserRepository.findByUsernameAndDeletedFalse(((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()).get().getId();
+        return authUserRepository
+                .findByUsernameAndDeletedFalse(((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername())
+                .get()
+                .getId();
     }
 
-    public boolean hasRole(String role){
+    public boolean hasRole(String role) {
         return authUserRepository.findByUsernameAndDeletedFalse(((Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername()).get().getRole().name().equalsIgnoreCase(role);
     }
 }

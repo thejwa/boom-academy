@@ -31,7 +31,15 @@ public class  CoursePurchaseController extends AbstractController<CoursePurchase
 //        CoursePurchaseDto savedCourseDto = service.get(id);
 //        return new ResponseEntity<>(new DataDto<>(savedCourseDto), HttpStatus.OK);
 //    }
-
+    /**
+     * <i>> Kurslarni  qay taribda sotib olish trelloda</i><br>
+     * <b> > Endi sotib olinga kurslar haqida : </b><br>
+     *  - Agar user shaxsiy kabinentidan mening kurslarimni tanlasa u sotib olgan hamma kurslar olib kelinadi<br>
+     *  - Agar Course avtori kursni haqida malumot kormoqchin bolsa yani course ni sotib olgan odamlarni kora olish
+     *    imkoni boladi <br>
+     *  - Agar user bitta kursining ustidan bossa osha kurs dalnilari olib kelinadi yani lessonlar va boshqalar<br>
+     *  - (Delete va Update haqida keyn gaplashiladi)
+     */
     @GetMapping("/get-all/{userId}")
     public ResponseEntity<DataDto<List<CoursePurchaseDto>>> getAll(@PathVariable String userId) {
         List<CoursePurchaseDto> courseDtoList = service.getAll(userId);
@@ -39,13 +47,5 @@ public class  CoursePurchaseController extends AbstractController<CoursePurchase
     }
 
 
-    /*
-     * > Kurslarni  qay taribda sotib olish trelloda
-     * > Endi sotib olinga kurslar haqida :
-     *  - Agar user shaxsiy kabinentidan mening kurslarimni tanlasa u sotib olgan hamma kurslar olib kelinadi
-     *  - Agar Course avtori kursni haqida malumot kormoqchin bolsa yani course ni sotib olgan odamlarni kora olish
-     *    imkoni boladi
-     *  - Agar user bitta kursining ustidan bossa osha kurs dalnilari olib kelinadi yani lessonlar va boshqalar
-     *  - (Delete va Update haqida keyn gaplashiladi)
-     */
+    
 }
